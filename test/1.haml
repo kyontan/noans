@@ -1,0 +1,26 @@
+.form#register
+	.titleD<
+		%span.titleS 新規登録
+	%form{ :method => "post", :action => "./api.rb?mode=register", :name => "registerform"}
+		%label 名前
+		%input{ :type => "text", :name => "name" }><
+		%br.clearfix
+
+		%label 学籍番号
+		%input{ :type => "text", :name => "studentID" }><
+		%br.clearfix
+
+		%label メールアドレス(任意)
+		%input{ :type => "text", :name => "mail" }><
+		%br.clearfix
+
+		%label ID(半角英数字)
+		%input{ :type => "text", :name => "user" }><
+		%br.clearfix
+
+		%label パスワード
+		%input#pass{ :type => "password", :name => "pass" }><
+
+		%input.button.blue{ :type => "submit" }
+		/ %input.button.blue{ :type => "submit", onclick => "return convert_newac()"}
+		%br.clearfix

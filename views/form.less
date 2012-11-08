@@ -1,0 +1,49 @@
+/* ----------- フォーム ----------- */
+form {
+	padding: 10px;
+}
+
+.form {
+	margin: 15px 5px;
+	padding: 3px 5px;	
+
+	border: #cec 2px solid;
+	border-radius: 8px;
+}
+
+label {
+	//display: block;
+	display: inline-block;
+
+	float: left;
+	width: 100px;
+}
+
+input[type=submit], input[type=button] {
+	float: right;
+}
+
+.clear {
+  clear: both;
+}
+
+#login, #register {
+	
+	input[type=text], input[type=password], input[type=email] {
+	
+		//float: left;
+		width: 200px;
+		padding: 1px 3px;
+		font-size: 125%;
+		height: 24px;
+		
+		border-radius: 5px;
+		
+		&:focus {
+		  border: 2px solid #7fbfff;
+		}
+		&:hover {
+		  border: 2px solid #e0efff;
+		}
+	}
+}
