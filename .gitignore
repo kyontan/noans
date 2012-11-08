@@ -1,0 +1,5 @@
+views/ruby19.core
+public/__sinatra__
+.sass-cache
+logs/*
+
