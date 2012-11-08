@@ -1,0 +1,130 @@
+@charset "utf-8";
+@import "normalize.css";
+/* 基準:16px
+10px:63%     11px:69%       12px:75%
+13px:81.5%    14px:88%      15px:94%
+16px:100%     17px:106.3%  18px:112.5%
+19px:119%     20px:125%     21px:131.3%
+22px:137.5%   23px:144%    24px:150%
+25px:156.3%   26px:162.5%
+*/
+
+* {
+	font-family: 'Hiragino Kaku Gothic Pro', Meiryo, 'MS PGothic', sans-serif;
+	color: #333;
+	font-size: 16px;
+}
+* html { font-size: 100%; } // for IE6
+*:first-child+html { font-size: 100%; } // for IE7
+
+@width: 630px;
+
+body {
+	background-image: url(./akari.png);
+	position: relative;
+	background-repeat: no-repeat;
+	background-position: right bottom;
+	background-attachment: fixed;
+	background-size: auto 320px;
+	
+	margin: 15px auto 10px auto;
+	padding-bottom: 15px;
+
+	width: @width;
+	
+	border: 5px solid #c8efdc;
+	border-radius: 8px;
+}
+
+/* ----------- 定形 ----------- */
+a { color:#007b43;	}
+ul, ol { margin: 0; }
+/*
+del { text-decoration: line-through; }
+i { font-style: italic; }
+b	{	font-weight: bold; }
+*/
+.clearfix:after {
+	content: "";
+	display: block;
+	clear: both;
+}
+
+/* ----------- ヘッダー ----------- */
+header {
+	background-color: #29905e;
+	border-radius: 4px;
+	
+	padding: 8px 15px;
+	margin-bottom: 8px;
+	
+	* {
+		color: #fcfaf5;
+	}
+	
+	#right {
+		position: absolute;
+		right: 8px;
+		top: 2px;
+		text-align: right;
+		}
+}
+
+#title { font-size: 150%; }
+#title a {
+	font-size: 100%;
+	text-decoration: none;
+}
+
+#logout {
+	font-size: 81.5%;
+	color: #CCC;
+}
+
+/* ----------- 枠 ----------- */
+.center {
+	margin: 0 auto;
+	width: 400px;
+}
+
+// 枠の見出し(仮)
+.titleD {
+	margin: -17px auto auto 10px;
+
+	.titleS {
+		font-size: 106.7%;
+		padding: 0 7px;
+
+		background: white;
+		width: auto;
+	}
+}
+
+/* -----------フッター ----------- */
+hr {
+    border: 0;
+    height: 0;
+    border-top: 1px dashed rgba(0, 0, 0, 0.1);
+    //border-top: 1px solid rgba(0, 0, 0, 0.1);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+footer {
+	height: 15px;
+	border-top: 1px dashed #CCC;
+
+	* {
+		font-size: 81.5%;
+		padding: 8px 2px 2px 8px;
+
+		position: absolute;
+		bottom: 2px;
+	}
+	
+	#author {
+		text-align: right;
+		right: 0;
+	}
+}
+
+@import "css_buttons.less";

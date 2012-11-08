@@ -1,0 +1,121 @@
+@charset "utf-8";
+
+* {
+	font-family: 'Hiragino Kaku Gothic Pro',Meiryo,'MS PGothic',sans-serif;
+	color:#333;
+}
+
+body {
+	background-image: url("./akari.png");
+	position: absolute;
+	background-repeat: no-repeat;
+	background-position: right bottom;
+	background-attachment: fixed;
+	background-size: auto 320px;
+	
+	margin: 0;
+	padding: 5px 10px;
+	width: 100%;
+}
+
+/* --------ヘッダー-------- */
+header {
+	background-color: #32540A;
+	
+	padding: 8px;
+
+}
+header * {
+	color: white;
+}
+
+header div#right {
+	float: right;
+}
+
+#title {
+	font-size: 24px;
+	
+}
+
+#username {
+	float:right;
+	
+}
+
+#logout {
+
+}
+
+#title_logo {
+	width: 32px;
+	position: relative;
+	vertical-align: -9px;
+}
+
+.del { text-decoration: line-through; }
+.italic { font-style: italic; }
+.bold	{	font-weight: bold; }
+
+.title {
+	font-family: 'Nunito', 'Hiragino Kaku Gothic Pro',Meiryo,'MS PGothic',sans-serif;
+	font-size: 24px;
+}
+
+.subject {
+	font-size:20px;
+	font-weight: bold;
+	color:#000000;
+	display: inline;
+}	
+
+.point {
+	font-size: 19px;
+	font-weight: bold;
+	display: inline
+}
+
+.content {
+	font-size:20px;
+	color:#000000;
+	display: inline;
+}	
+
+a { color:#007b43;	}
+
+ul, ol {
+	margin: 0;
+}
+
+#posts { font-size:88%; }
+
+#anime_ad {
+	float:left;
+	margin:3px 3px 0 3px;
+}
+
+#form_karitext textarea {
+	width: 400px;
+	height:210px;
+	resize:none;
+}
+
+#form_postmes {
+	
+	
+}
+
+#form_postmes [type=text] {
+	width: 400px;
+	
+}
+
+#form_register {
+	display: none;
+	
+}
+
+#form_login {
+	/* display: none; */
+	
+}
