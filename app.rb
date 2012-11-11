@@ -1,23 +1,28 @@
 #-*- coding : utf-8 -*-
+
 #$LOAD_PATH.unshift(File.dirname(__FILE__))
+$LOAD_PATH.push(File.dirname(__FILE__))
 
-require 'sinatra'
-require './auth.rb'
+require "bundler/setup"
+require "sinatra"
+require 'sinatra/formkeeper'
+require 'RhymeAuth'
 require 'cgi'
-
-#enable :sessions
-use Rack::Session::Cookie,
-	:key => 'rack.session',
-	:domain => 'test.monora.me',
-	#:path => '/',
-	:expire_after => 60*60*24*7,
-	:secret => 'fueefuee'
 
 require 'mongoid'
 require './mongoidScheme.rb'
 
 require 'redis'
-	require 'logger'
+require 'logger'
+
+#enable :sessions
+use Rack::Session::Cookie,
+	:key => 'rack.session',
+	:domain => 'test.monora.me',
+	:path => '/',
+	:expire_after => 60*60*24*7,
+	:secret => 'fueefuee'
+
 
 configure do
 	logger = Logger.new("logs/access.log", "daily")
@@ -25,27 +30,16 @@ configure do
 		alias :write :'<<' unless respond_to?(:write)
 	}
 	use Rack::CommonLogger, logger
+
 end
 
-#logger = Logger.new('logs/app.log')
-
-#load './func.rb'
 before do
 	@redis = Redis.new
 	#Haml::Template.options[:attr_wrapper] = '"'
 	set :haml, :attr_wrapper => '"'
 	set :haml, :format			 => :html5
 	@specific_object = nil
-
-	#require 'sass'
-	#set :sass, :style => :expanded
 end
-
-#status = Hash::new
-#session_load
-
-#status["login"] = @session["login"]
-#status["mode"] = CGI.escapeHTML(@cgi["mode"])
 
 get '/' do
 	@specific_object = :index
@@ -59,25 +53,41 @@ get '/register/?' do
 end
 
 post '/register/confirm/?' do
-	if params[:name].nil? ||
-		 params[:pass].nil? || params[:pass].length < 6 ||
-		 params[:id].nil? 	|| params[:id].length < 4 then
-		 	session[:form_error] = Hash::new
-			["name", "id", "email", "pass"].each do |key|
-				session[:form_error][key.to_sym] = params[key]
-			end
-			session[:form_error][:redirect] = true
 
-			redirect "#{request.script_name}/register/"
+	# if params[:name].nil? ||
+	# 	 params[:pass].nil? || params[:pass].length < 6 ||
+	# 	 params[:id].nil? 	|| params[:id].length < 4 then
+	# 	 	session[:form_error] = Hash::new
+	# 		["name", "id", "email", "pass"].each do |key|
+	# 			session[:form_error][key.to_sym] = params[key]
+	# 		end
+	# 		session[:form_error][:redirect] = true
+
+	# 		redirect "#{request.script_name}/register/"
+	# end
+	form do
+		filters :strip
+		field :name,	:present => true
+		field :pass,	:present => true, :length => 6..32
+		field :email, :email	 => true
+		field :id,		:present => true, :length => 4..32
 	end
 
-	params_temp = params.clone
-	params_temp.default = nil
-	session[:form_confirm] = Marshal.load(Marshal.dump(params_temp))
+	if form.failed?
+		session[:form_error] = Hash::new
+		["name", "id", "email", "pass"].each do |key|
+			session[:form_error][key.to_sym] = params[key]
+		end
+		session[:form_error][:redirect] = true
+		redirect "#{request.script_name}/register/"
+	else
+		params_temp = params.clone
+		params_temp.default = nil
+		session[:form_confirm] = Marshal.load(Marshal.dump(params_temp))
 
-
-	@specific_object = :register_confirm
-	haml :common
+		@specific_object = :register_confirm
+		haml :common
+	end
 end
 
 post '/register/process/?' do
