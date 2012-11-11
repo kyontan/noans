@@ -48,6 +48,8 @@
 				%span.warn< Error: パスワードが短すぎます
 				%br.clear
 
+		%input(type = "hidden" name = "_csrf" value = "#{csrf_token}")
+		-#= csrf_tag
 		%input.button(type = "submit" value = "登録")
 		-#%input.button.blue type = "submit", onclick = "return convert_newac()"}
 		%br.clear
