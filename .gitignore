@@ -3,3 +3,9 @@ public/__sinatra__
 .sass-cache
 logs/*
 
+tmp/restart.txt
+tmp/always_restart.txt
+
+Gemfile.lock
+.bundler
+gems

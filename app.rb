@@ -6,6 +6,7 @@ $LOAD_PATH.push(File.dirname(__FILE__))
 require "bundler/setup"
 require "sinatra"
 require 'sinatra/formkeeper'
+require 'rack/csrf'
 require 'RhymeAuth'
 require 'cgi'
 
@@ -15,22 +16,42 @@ require './mongoidScheme.rb'
 require 'redis'
 require 'logger'
 
-#enable :sessions
-use Rack::Session::Cookie,
-	:key => 'rack.session',
-	:domain => 'test.monora.me',
-	:path => '/',
-	:expire_after => 60*60*24*7,
-	:secret => 'fueefuee'
-
-
 configure do
 	logger = Logger.new("logs/access.log", "daily")
 	logger.instance_eval {
 		alias :write :'<<' unless respond_to?(:write)
 	}
 	use Rack::CommonLogger, logger
+	#enable :sessions
+	use Rack::Session::Cookie,
+		:key => 'rack.session',
+		:domain => 'test.monora.me',
+		:path => '/',
+		:expire_after => 60*60*24*7,
+		:secret => 'fueefuee'
+	use Rack::Csrf, :raise => true
+end
 
+helpers do
+	def csrf_token
+    Rack::Csrf.csrf_token(env)
+  end
+	
+	# def csrf_tag
+ 	# 	Rack::Csrf.csrf_tag(env)
+ 	# end
+
+  def h(str)
+    CGI.escapeHTML str.to_s
+  end
+
+  # def title
+  #   if request.path_info == request.script_name #"/"
+  #     return 	"真実はいつも解なし"
+  #   else
+  #     return "真実はいつも解なし - #{}"
+  #   end
+  # end
 end
 
 before do

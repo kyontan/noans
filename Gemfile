@@ -1,7 +1,7 @@
 source "https://rubygems.org"
 
+gem 'rack_csrf'
 gem 'sinatra'
-
 
 gem 'formkeeper'
 gem 'hpricot'
