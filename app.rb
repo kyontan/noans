@@ -7,13 +7,13 @@ require "bundler/setup"
 require "sinatra"
 require 'sinatra/formkeeper'
 require 'rack/csrf'
-require 'RhymeAuth'
+require 'logger'
 
 require 'mongoid'
-require './mongoidScheme.rb'
+require 'mongoidScheme'
+require 'RhymeAuth'
 
 require 'redis'
-require 'logger'
 
 configure do
 	logger = Logger.new("logs/access.log", "daily")
