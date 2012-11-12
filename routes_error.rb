@@ -1,8 +1,23 @@
 #-*- Coding:UTF-8 -*-
-error 404 do
-	content_type :html
 
-text = <<-'EOF'
+set :inline_templates => true
+
+error 404 do
+	haml :'404'
+end
+
+error 418 do
+	haml :'418'
+end
+
+#Not working?
+error Rack::Csrf::InvalidCsrfToken do
+   "CSRF exception!!"
+end
+
+__END__
+
+@@404
 !!!5
 %html
 	%head
@@ -35,26 +50,10 @@ text = <<-'EOF'
 		%a(href="/") TOPへ
 		%div.footer
 			CopyRight (C) 2010-2012 monora.me... Some rights reserved.
-EOF
 
-haml text
-end
-
-error 418 do
-	content_type :html, :charset => 'utf-8'
-
-text = <<-"EOF"
+@@418
 !!!5
 %html
 	%h2 418 - I'm a teapot.
 	%img(src = "#{request.script_name}/teapot.png")
-EOF
-#'
-
-	haml text
-end
-
-#Not working?
-error Rack::Csrf::InvalidCsrfToken do
-   "CSRF exception!!"
-end
+	%a(href = "#{request.script_name}/") TOPへ
