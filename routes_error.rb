@@ -53,3 +53,8 @@ EOF
 
 	haml text
 end
+
+#Not working?
+error Rack::Csrf::InvalidCsrfToken do
+   "CSRF exception!!"
+end

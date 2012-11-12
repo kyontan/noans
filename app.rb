@@ -8,7 +8,6 @@ require "sinatra"
 require 'sinatra/formkeeper'
 require 'rack/csrf'
 require 'RhymeAuth'
-require 'cgi'
 
 require 'mongoid'
 require './mongoidScheme.rb'
@@ -29,7 +28,7 @@ configure do
 		:path => '/',
 		:expire_after => 60*60*24*7,
 		:secret => 'fueefuee'
-	use Rack::Csrf, :raise => true
+	use Rack::Csrf, :raise => true, :skip => ['POST:/register/process/?']
 end
 
 helpers do
@@ -41,10 +40,7 @@ helpers do
  	# 	Rack::Csrf.csrf_tag(env)
  	# end
 
-  def h(str)
-    CGI.escapeHTML str.to_s
-  end
-
+  alias_method :h, :escape_html
   # def title
   #   if request.path_info == request.script_name #"/"
   #     return 	"真実はいつも解なし"
@@ -52,6 +48,9 @@ helpers do
   #     return "真実はいつも解なし - #{}"
   #   end
   # end
+  def blank?(input)
+		input.nil? || input.empty?
+  end
 end
 
 before do
@@ -74,51 +73,42 @@ get '/register/?' do
 end
 
 post '/register/confirm/?' do
-
-	# if params[:name].nil? ||
-	# 	 params[:pass].nil? || params[:pass].length < 6 ||
-	# 	 params[:id].nil? 	|| params[:id].length < 4 then
-	# 	 	session[:form_error] = Hash::new
-	# 		["name", "id", "email", "pass"].each do |key|
-	# 			session[:form_error][key.to_sym] = params[key]
-	# 		end
-	# 		session[:form_error][:redirect] = true
-
-	# 		redirect "#{request.script_name}/register/"
-	# end
 	form do
 		filters :strip
 		field :name,	:present => true
+		field :id,		:present => true, :length => 4..32
 		field :pass,	:present => true, :length => 6..32
 		field :email, :email	 => true
-		field :id,		:present => true, :length => 4..32
 	end
 
 	if form.failed?
 		session[:form_error] = Hash::new
-		["name", "id", "email", "pass"].each do |key|
-			session[:form_error][key.to_sym] = params[key]
+		params.each do |key, value|
+			session[:form_error][key.to_sym] = h(value)
 		end
+		# ["name", "id", "email", "pass"].each do |key|
+		# 	session[:form_error][key.to_sym] = params[key]
+		# end
 		session[:form_error][:redirect] = true
 		redirect "#{request.script_name}/register/"
 	else
-		params_temp = params.clone
-		params_temp.default = nil
-		session[:form_confirm] = Marshal.load(Marshal.dump(params_temp))
-
+		params.each {|key, value| params[key] = h(value) }
+		params_copy = params.clone
+		params_copy.default = nil
+		session[:form_confirm] = params_copy.clone
 		@specific_object = :register_confirm
 		haml :common
 	end
 end
 
 post '/register/process/?' do
-	halt 418 if session[:form_confirm].empty?
+	halt 418 if session[:form_confirm].blank?
+	data = session[:form_confirm]
+	user = User.new(name:			data["name"], user: data["id"],
+					 				password: data["pass"], mail: data["mail"])
+	user.save
 
-	@form_value = Hash::new
-	session[:form_confirm].each do |key , value|
-		@form_value[key.to_sym] = CGI.escapeHTML(value)
-	end
-
+	session[:form_confirm] = nil
 	@specific_object = :register_completed
 	haml :common
 end
