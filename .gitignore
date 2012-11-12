@@ -9,3 +9,5 @@ tmp/always_restart.txt
 Gemfile.lock
 .bundler
 gems
+
+auth.rb
