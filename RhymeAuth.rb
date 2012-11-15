@@ -15,12 +15,18 @@ module Sinatra
 				halt 301 unless logged_in?
 			end
 
+			#DB名, ユーザー名, パスワード名の格納されているコラム名を設定
+			def config(db_name, column_user = "user", column_pass = "password")
+				@config = {db: db_name, user: column_user, pass: column_pass}
+		end
+
+			#:attr_reader :db
+
 			#ここから
 			def login(username,password,remember_me = false)
 				
-				
+
 				setSession("user", user)
-				#setSession("remember", remember_me)
 				remember_me ? remember_me! : forget_me!
 			end
 
