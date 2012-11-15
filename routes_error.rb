@@ -12,10 +12,15 @@ end
 
 #Not working?
 error Rack::Csrf::InvalidCsrfToken do
-   "CSRF exception!!"
+   #"CSRFが検出されました。"
+   @specific_object = :CSRF
+   @common_css = true
+   haml :common
 end
 
 __END__
+@@CSRF
+CSRFが検出されました。
 
 @@404
 !!!5
