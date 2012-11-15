@@ -1,8 +1,5 @@
 #-*- coding : utf-8 -*-
 
-#$LOAD_PATH.unshift(File.dirname(__FILE__))
-$LOAD_PATH.push(File.dirname(__FILE__))
-
 require "bundler/setup"
 require "sinatra"
 require 'sinatra/formkeeper'
@@ -10,8 +7,9 @@ require 'rack/csrf'
 require 'logger'
 
 require 'mongoid'
-require 'mongoidScheme'
-require 'RhymeAuth'
+
+require_relative 'mongoidScheme'
+require_relative 'RhymeAuth'
 
 require 'redis'
 
@@ -56,8 +54,6 @@ helpers do
   # end
   def blank?(input)
 		input.nil? || input.empty?
-	rescue
-		false
   end
 end
 
@@ -117,7 +113,7 @@ end
 post '/register/process/?' do
 	halt 418 if session[:form_confirm].blank?
 	data = session[:form_confirm]
-	halt 418 unless blank? User.where(user: data[:id]).to_a.first
+	halt 418 if User.where(user: data[:id]).exists?
 	user = User.new(name:			data["name"], user: data["id"],
 					 				password: data["pass"], mail: data["mail"])
 	begin
