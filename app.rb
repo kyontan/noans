@@ -9,9 +9,11 @@ require 'logger'
 require 'mongoid'
 
 require_relative 'mongoidScheme'
-require_relative 'RhymeAuth'
+#require_relative 'RhymeAuth'
 
-require 'redis'
+#require 'redis'
+require 'sinatra/redis'
+require 'rack/session/redis'
 
 configure do
 	logger = Logger.new("logs/access.log", "daily")
@@ -19,8 +21,11 @@ configure do
 		alias :write :'<<' unless respond_to?(:write)
 	}
 	use Rack::CommonLogger, logger
+
 	#enable :sessions
-	use Rack::Session::Cookie,
+	#use Rack::Session::Cookie,
+	use Rack::Session::Redis,
+		:redis_server => "redis://127.0.0.1:6379/1",
 		:key => 'rack.session',
 		:domain => 'test.monora.me',
 		:path => '/',
@@ -40,6 +45,16 @@ helpers do
 			raise Rack::Csrf::InvalidCsrfToken
 		end
 	end
+
+	def logged_in?(admin = false)
+		return !session[:user_data].nil? && session[:user_data][:admin] if admin
+		!session[:user_data].nil?
+	end
+
+	def require_login(admin = false)
+		halt 401 unless logged_in?(admin)
+	end
+
 	# def csrf_tag
  	# 	Rack::Csrf.csrf_tag(env)
  	# end
@@ -58,22 +73,24 @@ helpers do
 end
 
 before do
-	@redis = Redis.new
+	set :redis, 'redis://127.0.0.1:6379/2'
+	#@redis = Redis.new
 	#Haml::Template.options[:attr_wrapper] = '"'
 	set :haml, :attr_wrapper => '"'
 	set :haml, :format			 => :html5
 	@specific_object = nil
 	@common_css = false
+
 end
 
 get '/' do
 	@specific_object = :index
-	haml :common
+	haml :common #, :locals
 end
 
 get '/register/?' do
 	@specific_object = :register
-	@title = "新規登録"	
+	@title = "新規登録"
 	haml :common
 end
 
@@ -84,10 +101,10 @@ end
 post '/register/confirm/?' do
 	form do
 		filters :strip
-		field :name,	:present => true
-		field :id,		:present => true, :length => 4..32
-		field :pass,	:present => true, :length => 6..32
-		field :email, :email	 => true
+		field :name,			:present => true
+		field :id,				:present => true, :length => 4..255
+		field :password,	:present => true, :length => 6..255
+		field :email, 		:email	 => true
 	end
 
 	if form.failed?
@@ -111,15 +128,15 @@ post '/register/confirm/?' do
 end
 
 post '/register/process/?' do
-	halt 418 if session[:form_confirm].blank?
+	halt 500 if session[:form_confirm].blank?
 	data = session[:form_confirm]
-	halt 418 if User.where(user: data[:id]).exists?
+	halt 500 if User.where(user: data[:id]).exists?
 	user = User.new(name:			data["name"], user: data["id"],
-					 				password: data["pass"], mail: data["mail"])
+					 				password: data["password"], mail: data["mail"])
 	begin
 		user.save!
 	rescue
-		halt 418
+		halt 500
 	end
 	session[:form_confirm] = nil
 	@specific_object = :register_completed
@@ -129,6 +146,56 @@ end
 get '/login/?' do
 	@specific_object = :login
 	haml :common
+end
+
+get '/admin/?' do
+	require_login(true)
+
+	@specific_object = :admin
+	haml :common
+end
+
+post '/login/?' do
+	form do
+		filters :strip
+		field :id,		:present => true
+		field :password,	:present => true
+	end
+
+	if form.failed?
+		redirect "#{request.script_name}/login/"
+	end
+
+	params.each {|k, v| params[k] = h(v)}
+
+	db_user = User.where(user: params[:id])
+
+	redirect "#{request.script_name}/login/" if db_user.empty?
+
+	if db_user.first[:password] == params[:password]
+		# session[:login] = true
+		# session[:id]		= db_user.first[:id]
+		# session[:name]	= db_user.first[:name]
+		session[:user_data] = db_user.first
+		redirect "#{request.script_name}/"
+	else
+		redirect "#{request.script_name}/login/"
+	end
+	#@specific_object = :login
+	#haml :common
+end
+
+get '/logout/?' do
+	# session[:login] = nil
+	# session[:id]		= nil
+	# session[:name]	= nil
+	session[:user_data] = []
+	redirect "#{request.script_name}/"
+end
+
+get "/css/:file.css" do
+	content_type :css
+	send_file "./views/#{params[:file]}.css"
 end
 
 get '/:file.css' do
@@ -157,6 +224,10 @@ get '/test' do
 	haml :test
 end
 
+get '/test/error/:error_status' do
+	halt params[:error_status].to_i
+end
+
 get '/test/render/:obj/?' do
 	@specific_object = params[:obj].to_sym
 	haml :common
@@ -165,6 +236,7 @@ end
 get '/test/session/get/?' do
 	session[:test]
 end
+
 get '/test/session/set/?' do
 	session[:test] = "Sessioned! #{Time.now}"
 	redirect '#{request.script_name}/session/get'
@@ -176,3 +248,25 @@ end
 get '/test/post/?' do
 	"Post"
 end
+
+#set :inline_template :true
+before '/test/md/' do
+	require 'rdiscount'
+end
+
+get '/test/md/:obj/?' do
+	#markdown params[:obj].to_sym
+	@specific_object = params[:obj].to_sym
+	haml :MarkDownTemplate
+end
+
+__END__
+@@MarkDownTemplate
+!!!
+%html
+	%meta(charset = "utf-8")
+	-#%style
+	-#	:plain
+	-#		h1 {color:blue;}
+	%link(rel = "stylesheet" href = "#{request.script_name}/normalize.css")
+	= markdown @specific_object

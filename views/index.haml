@@ -1,6 +1,14 @@
-%a(href = "./register") 登録
-.posts
-	
-%hr
+- if session[:user_data].nil?
+	%section
+		%a(href = "#{request.script_name}/register") 登録
+		%br
+		%a(href = "#{request.script_name}/login") ログイン
+- else
+	- if session[:user_data][:admin]
+		%section
+			%a(href = "#{request.script_name}/admin") 管理画面へ
+	.posts
 
-#karipost
+	%hr
+
+	#karipost

@@ -2,12 +2,31 @@
 
 set :inline_templates => true
 
+error 401 do
+	haml :default_error,
+				locals: {image: "/e/Response_401.png", code: 401, res: "Authorization Required"}
+end
+
+error 403 do
+	haml :default_error,
+				locals: {image: "/e/Response_403.png", code: 401, res: "Forbidden"}
+end
+
 error 404 do
-	haml :'404'
+	haml :default_error,
+				locals: {image: "/e/Response_404.png", code: 404, res: "Not Found"}
+end
+
+error 500 do
+	haml :default_error,
+				locals: {image: "/e/Response_500.png", code: 500, res: "Internal Server Error"}
 end
 
 error 418 do
-	haml :'418'
+	#haml :'418'
+	haml :default_error,
+				locals: {image: "#{request.script_name}/teapot.png", code: 418, res: "I'm a teapot",
+				mes: "I'm a teapot!"}
 end
 
 #Not working?
@@ -22,21 +41,21 @@ __END__
 @@CSRF
 CSRFが検出されました。
 
-@@404
+@@default_error
 !!!5
 %html
 	%head
 		%meta(charset = "utf-8")
-		%title 404 Not Found
+		%title #{code} #{res}
 
 		:css
 			body {
 				width : 425px;
 				margin: 30px auto;
 			}
-			
+
 			a { color:#888;	}
-			
+
 			.response { display:none; }
 
 			.footer {
@@ -50,15 +69,12 @@ CSRFが検出されました。
 				color          : #888;
 			}
 	%body
-		%div.response 404 Not Found
-		%img(src="/e/Response_404.png" alt="404 Not Found")
+		%div.response #{code} #{res}
+		%img(src="#{image}" alt="#{code} #{res}")
+		- unless (mes ||= nil).nil?
+			%br
+			= mes
+			%br
 		%a(href="/") TOPへ
 		%div.footer
 			CopyRight (C) 2010-2012 monora.me... Some rights reserved.
-
-@@418
-!!!5
-%html
-	%h2 418 - I'm a teapot.
-	%img(src = "#{request.script_name}/teapot.png")
-	%a(href = "#{request.script_name}/") TOPへ

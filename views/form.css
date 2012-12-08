@@ -1,0 +1,70 @@
+/* ----------- フォーム ----------- */
+form {
+  padding: 10px;
+}
+.form {
+  margin: 15px 5px;
+  padding: 3px 5px;
+  border: #cec 2px solid;
+  border-radius: 8px;
+}
+label {
+  display: inline-block;
+  float: left;
+  width: 100px;
+  padding: 3px 0;
+}
+input[type=submit],
+input[type=button] {
+  float: right;
+}
+#login input[type=text],
+#register input[type=text],
+#login input[type=password],
+#register input[type=password],
+#login input[type=email],
+#register input[type=email] {
+  width: 200px;
+  font-size: 125%;
+  height: 24px;
+  border-radius: 3px;
+}
+#login input[type=text]:focus,
+#register input[type=text]:focus,
+#login input[type=password]:focus,
+#register input[type=password]:focus,
+#login input[type=email]:focus,
+#register input[type=email]:focus {
+  border: 2px solid #7fbfff;
+}
+#login input[type=text]:hover,
+#register input[type=text]:hover,
+#login input[type=password]:hover,
+#register input[type=password]:hover,
+#login input[type=email]:hover,
+#register input[type=email]:hover {
+  border: 2px solid #e0efff;
+}
+#login form,
+#register form {
+  width: 400px;
+  margin: 0 auto;
+}
+#login input,
+#register input,
+#login label,
+#register label {
+  margin: 6px 3px 4px;
+}
+#login input,
+#register input {
+  float: right;
+}
+#login label,
+#register label {
+  width: 180px;
+  padding: 3px 0;
+}
+.clear {
+  clear: both;
+}
