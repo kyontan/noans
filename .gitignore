@@ -2,6 +2,8 @@ views/ruby19.core
 public/__sinatra__
 .sass-cache
 logs/*
+nouse/*
+bak/*
 
 tmp/restart.txt
 tmp/always_restart.txt
@@ -11,3 +13,4 @@ Gemfile.lock
 gems
 
 auth.rb
+RhymeAuth.rb

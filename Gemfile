@@ -1,20 +1,22 @@
 source "https://rubygems.org"
 
-gem 'rack_csrf'
 gem 'sinatra'
 
 gem 'formkeeper'
 gem 'hpricot'
 gem 'sinatra-formkeeper'
 gem 'formkeeper-japanese'
-
-#gem "shotgun"
+gem 'sinatra-cross_origin'
+gem 'rack_csrf'
 
 gem 'haml'
-
-#gem 'cgi'
+gem 'rdiscount'
 
 gem 'mongoid'
-gem 'redis'
+
 gem 'logger'
+
+#gem 'redis'
+gem 'redis-rack'
+gem 'sinatra-redis'
 

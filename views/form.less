@@ -5,7 +5,7 @@ form {
 
 .form {
 	margin: 15px 5px;
-	padding: 3px 5px;	
+	padding: 3px 5px;
 
 	border: #cec 2px solid;
 	border-radius: 8px;
@@ -17,28 +17,27 @@ label {
 
 	float: left;
 	width: 100px;
+
+	padding: 3px 0;
 }
 
 input[type=submit], input[type=button] {
 	float: right;
 }
 
-.clear {
-  clear: both;
-}
 
 #login, #register {
-	
+
 	input[type=text], input[type=password], input[type=email] {
-	
+
 		//float: left;
 		width: 200px;
-		padding: 1px 3px;
+		//padding: 1px 3px;
 		font-size: 125%;
 		height: 24px;
-		
-		border-radius: 5px;
-		
+
+		border-radius: 3px;
+
 		&:focus {
 		  border: 2px solid #7fbfff;
 		}
@@ -46,4 +45,26 @@ input[type=submit], input[type=button] {
 		  border: 2px solid #e0efff;
 		}
 	}
+
+	form {
+		width: 400px;
+		margin: 0 auto;
+	}
+
+	input, label {
+		//margin: 5px 0 3px 0;
+		//margin: 6px 3px 4px 3px;
+		margin: 6px 3px 4px;
+	}
+	input { float: right; }
+	label {
+		width: 180px;
+		padding: 3px 0;
+	}
 }
+
+.clear {
+  clear: both;
+}
+
+//Todo: border-widthの調整 → 強調し過ぎ (Twitter Loginを参考に);

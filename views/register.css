@@ -9,7 +9,7 @@
 25px:156.3%   26px:162.5%
 */
 * {
-  font-family: 'Hiragino Kaku Gothic Pro', Meiryo, 'MS PGothic', sans-serif;
+  font-family: "Helvetica Neue", Arial, "Hiragino Kaku Gothic Pro", Meiryo, "MS PGothic", sans-serif;
   color: #333;
   font-size: 16px;
 }
@@ -26,7 +26,7 @@ body {
   background-position: right bottom;
   background-attachment: fixed;
   background-size: auto 320px;
-  margin: 15px auto 0 auto;
+  margin: 15px auto 10px auto;
   padding-bottom: 15px;
   width: 630px;
   border: 5px solid #c8efdc;
@@ -45,10 +45,25 @@ del { text-decoration: line-through; }
 i { font-style: italic; }
 b	{	font-weight: bold; }
 */
+/* ----------- clearFix ----------- */
+/* From: http://stackoverflow.com/questions/211383/which-method-of-clearfix-is-best */
+/* float clearing for IE6 */
+* html .clearfix {
+  height: 1%;
+  overflow: visible;
+}
+/* float clearing for IE7 */
+* + html .clearfix {
+  min-height: 1%;
+}
+/* float clearing for everyone else */
 .clearfix:after {
-  content: "";
-  display: block;
   clear: both;
+  content: ".";
+  display: block;
+  height: 0;
+  visibility: hidden;
+  font-size: 0;
 }
 /* ----------- ヘッダー ----------- */
 header {
@@ -189,13 +204,11 @@ label {
   display: inline-block;
   float: left;
   width: 100px;
+  padding: 3px 0;
 }
 input[type=submit],
 input[type=button] {
   float: right;
-}
-.clear {
-  clear: both;
 }
 #login input[type=text],
 #register input[type=text],
@@ -204,10 +217,9 @@ input[type=button] {
 #login input[type=email],
 #register input[type=email] {
   width: 200px;
-  padding: 1px 3px;
   font-size: 125%;
   height: 24px;
-  border-radius: 5px;
+  border-radius: 3px;
 }
 #login input[type=text]:focus,
 #register input[type=text]:focus,
@@ -225,21 +237,28 @@ input[type=button] {
 #register input[type=email]:hover {
   border: 2px solid #e0efff;
 }
-form {
+#login form,
+#register form {
   width: 400px;
   margin: 0 auto;
 }
-input,
-label {
-  margin: 5px 0 3px 0;
+#login input,
+#register input,
+#login label,
+#register label {
+  margin: 6px 3px 4px;
 }
-input {
+#login input,
+#register input {
   float: right;
 }
-label {
-  float: left;
+#login label,
+#register label {
   width: 180px;
-  padding-top: 4px;
+  padding: 3px 0;
+}
+.clear {
+  clear: both;
 }
 .warn {
   color: #D12E1F;

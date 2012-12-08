@@ -1,18 +1,16 @@
 .form#postmes
-		.titleD<
-			%span.titleS コメント投稿
-		%form{:method => "post", :action => "./api.rb?mode=post", :name => "postform"}
-			%input{:type => "text", :name => "postmes", :autofocus => true}
-			%br
-			%input{:type => "checkbox", :name => "tweet", :value => 1, :checked => true} Twitterへ投稿する
-			%input.button.blue{ :type => "submit", :value => "にゃん"}
-			%br.clearfix
-	
-	.form#karitext
-		.titleD<
-			%span.titleS お知らせ文の編集
-		%form{ :method => "post", :action => "./api.rb?mode=settext", :name => "testform"}
-				-#%form{ :method => "post", :action => "./index_dev.html", :name => "testform"}
-			%textarea{ :name => "karitext", :rows => 10 } 
-			%input.button{ :type => "submit", :value => "そおいっ"}
-		%br.clearfix
+	.titleD<
+		%span.titleS コメント投稿
+	%form(method = "post" action = "#{request.script_name}/admin/post" name = "post_admin" class = "clearfix")
+		%input(type = "text" name = "post" id = "post" autofocus = true)
+		%input(type = "checkbox" name = "tweet" value = 1 id = "twitter")
+		%label(for = "twitter") Twitterへ投稿する
+		%input.button.blue(type = "submit" value = "にゃん")
+
+.form#karitext
+	.titleD<
+		%span.titleS お知らせ文の編集
+	%form(method = "post" action = "#{request.script_name}/text/set" name = "testform" class = "clearfix")
+		%textarea(name = "text" rows = 10)
+		%input.button(type = "submit" value = "そおいっ")
+
