@@ -10,6 +10,7 @@ tmp/always_restart.txt
 
 Gemfile.lock
 .bundle/*
+
 gems
 
 auth.rb
