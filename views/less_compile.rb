@@ -3,7 +3,7 @@
 User  = "kyontan"
 Group = "www"
 
-Dir::glob("*.less").each do |s|
+Dir::glob(File.expand_path(File.dirname(__FILE__)) + "/*.less").each do |s|
 	f = s.match(/(.*?)\.less/)[1]
 	`lessc #{f}.less #{f}.css`
 end

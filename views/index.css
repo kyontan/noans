@@ -29,7 +29,7 @@ body {
   margin: 15px auto 10px auto;
   padding-bottom: 15px;
   width: 630px;
-  border: 5px solid #c8efdc;
+  border: 5px solid #A6E39D;
   border-radius: 8px;
 }
 /* ----------- 定形 ----------- */
@@ -78,7 +78,7 @@ header * {
 header #right {
   position: absolute;
   right: 8px;
-  top: 2px;
+  top: 3px;
   text-align: right;
 }
 #title {
@@ -88,17 +88,33 @@ header #right {
   font-size: 100%;
   text-decoration: none;
 }
-#logout {
+#right a {
   font-size: 81.5%;
   color: #CCC;
 }
-/* ----------- 枠 ----------- */
+/* ----------- セクション/枠 ----------- */
+section {
+  position: relative;
+  display: block;
+}
+.border {
+  border-top: #efb747 2px solid;
+  margin: 20px 20px 25px;
+  padding: 5px;
+}
 .center {
   margin: 0 auto;
   width: 400px;
 }
+.title {
+  position: absolute;
+  background: white;
+  left: 1rem;
+  top: -13px;
+  padding: 0 0.3rem;
+}
 .titleD {
-  margin: -17px auto auto 10px;
+  margin: -17px auto auto 12px;
 }
 .titleD .titleS {
   font-size: 106.7%;
@@ -195,8 +211,7 @@ body > section {
 }
 /* -----------投稿表示 ----------- */
 #posts {
-  font-size: 88%;
-  margin: 8px 20px;
+  margin: 8px 10px;
 }
 #karipost {
   margin-left: 20px;

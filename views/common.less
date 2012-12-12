@@ -33,8 +33,9 @@ body {
 
 	width: @width;
 
-	border: 5px solid #c8efdc;
-	border-radius: u8px;
+	border: 5px solid #A6E39D;
+	//border: 5px solid #cec;
+	border-radius: 8px;
 }
 
 /* ----------- 定形 ----------- */
@@ -84,7 +85,7 @@ header {
 	#right {
 		position: absolute;
 		right: 8px;
-		top: 2px;
+		top: 3px;
 		text-align: right;
 		}
 }
@@ -95,20 +96,41 @@ header {
 	text-decoration: none;
 }
 
-#logout {
+#right a {
 	font-size: 81.5%;
 	color: #CCC;
 }
 
-/* ----------- 枠 ----------- */
+/* ----------- セクション/枠 ----------- */
+section {
+	position: relative;
+	display: block;
+	margin: 5px 10px;
+}
+
+.border {
+	border-top: #efb747 2px solid;
+	//border-radius: 8px;
+	margin: 20px 20px 25px;
+	padding: 5px;
+}
+
 .center {
 	margin: 0 auto;
 	width: 400px;
 }
 
+.title {
+	position: absolute;
+	background: white;
+	left: 1rem;
+	top: -13px;
+	padding: 0 0.3rem
+}
+
 // 枠の見出し(仮)
 .titleD {
-	margin: -17px auto auto 10px;
+	margin: -17px auto auto 12px;
 
 	.titleS {
 		font-size: 106.7%;
