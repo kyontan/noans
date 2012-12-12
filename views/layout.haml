@@ -1,41 +1,30 @@
 !!!
 %html(lang = "ja")
-	%title 真実はいつも解なし #{@title.nil? ? "" : "- " + @title}
-	-#%meta(name = "viewport" content = "width=device-width, initial-scale=0.5, user-scalable=yes")
-	-#%meta(name = "viewport" content = "width=device-width, initial-scale=0.5, maximum-scale=2, user-scalable=yes"}
 	%meta(charset = "utf-8")
-	-#%meta(name = "viewport" content = "width=device-width, initial-scale=0.5, user-scalable=yes")
+	%title 真実はいつも解なし#{(title ||= nil).blank? ? "" : " - " + title}
+	-#%meta(name = "viewport" content = "width=device-width, initial-scale=1")
 
 	-#%link(rel = "apple-touch-icon-precomposed" href = "./apple-touch-icon-precomposed.png" sizes = "114x114")
 	-#%link(rel = "shortcut icon" href = "./apple-touch-icon-precomposed.png")
 
-	-#%link(rel = "stylesheet" href = "./reset.css")
-	-#%link(rel = "stylesheet" href = "./index.css")
-
-	-#%script(src = "./jquery-1.7.2.min.js")
-	-#%script(src = "./sha256.js")
-
 	%link(rel = "apple-touch-icon-precomposed" href = "#{@root_dir}/apple-touch-icon-precomposed.png" sizes = "114x114")
 	%link(rel = "shortcut icon" href = "#{@root_dir}/apple-touch-icon-precomposed.png")
 
-	-#%link(rel = "stylesheet" href = "#{@root_dir}/normalize.css")
 	- if @common_css
 		%link(rel = "stylesheet" href = "#{@root_dir}/common.css")
 	- elsif !path.nil?
 		%link(rel = "stylesheet" href = "#{@root_dir}/#{path}.css")
-	- else
-		%link(rel = "stylesheet" href = "#{@root_dir}/#{@specific_object.to_s}.css")
 
 	%script(src = "#{@root_dir}/jquery-1.8.3.min.js")
 
 	:javascript
-		$(document).ready(function(){
-			$.get("//hst.monora.me/counter/counter.rb", function(data){ $("#count").append(data); });
+		$(function(){
+			$.get("//hst.monora.me/counter/counter.rb", function(c){ $("#count").append(c); });
 		});
 
 	- if path == "index" || path == "admin"
 		:javascript
-			$(document).ready(function(){
+			$(function(){
 
 				$.ajax({
 					url:"/rack/noans/api/post",
@@ -51,14 +40,6 @@
 					$("textarea#text").val(data);
 					$("div#text").append(data);
 				});
-
-				/*
-				if (navigator.userAgent.indexOf('Android') > 0) {
-					$(window).bind('resize load', function(){
-						$("html").css("zoom" , $(window).width()/640 );
-					});
-				}
-				*/
 			});
 
 	:javascript
@@ -85,7 +66,6 @@
 					%a(href = "#{@root_dir}/admin") 管理画面へ
 				%a(href = "#{@root_dir}/logout/") ログアウト
 
-	= haml @specific_object unless @specific_object.nil? #ページに表示させるもの
 	= yield if block_given?
 
 	%footer
