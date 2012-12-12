@@ -96,6 +96,7 @@ header #right {
 section {
   position: relative;
   display: block;
+  margin: 5px 10px;
 }
 .border {
   border-top: #efb747 2px solid;
@@ -141,7 +142,7 @@ footer * {
 }
 footer #author {
   text-align: right;
-  right: 0;
+  right: 3px;
 }
 /* -----------Super Simple CSS Buttons ----------- */
 /* http://devgrow.com/examples/cssbuttons/ */
@@ -282,7 +283,7 @@ body {
   width: 420px;
 }
 form {
-  width: 320px;
+  width: 330px;
 }
 label {
   width: 120px;
@@ -293,7 +294,7 @@ input[type=email] {
   width: 160px;
 }
 section#register-link {
-  padding: 10px 30px 0 25px;
+  padding: 10px 25px 0;
 }
 a.button {
   text-decoration: none;
