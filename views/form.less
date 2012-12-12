@@ -4,11 +4,8 @@ form {
 }
 
 .form {
-	margin: 15px 5px;
-	padding: 3px 5px;
-
-	border: #cec 2px solid;
-	border-radius: 8px;
+	margin: 25px 20px 10px;
+	padding: 5px;
 }
 
 label {
@@ -25,13 +22,16 @@ input[type=submit], input[type=button] {
 	float: right;
 }
 
+input.button {
+	margin-top: 10px;
+}
 
 #login, #register {
 
 	input[type=text], input[type=password], input[type=email] {
 
 		//float: left;
-		width: 200px;
+		//width: 200px;
 		//padding: 1px 3px;
 		font-size: 125%;
 		height: 24px;
@@ -47,18 +47,16 @@ input[type=submit], input[type=button] {
 	}
 
 	form {
-		width: 400px;
 		margin: 0 auto;
 	}
 
-	input, label {
-		//margin: 5px 0 3px 0;
-		//margin: 6px 3px 4px 3px;
+	input[type=text], input[type=password], input[type=email], label {
 		margin: 6px 3px 4px;
 	}
+
 	input { float: right; }
 	label {
-		width: 180px;
+		//width: 180px;
 		padding: 3px 0;
 	}
 }

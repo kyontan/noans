@@ -3,28 +3,28 @@
 set :inline_templates => true
 
 error 401 do
-	haml :default_error,
+	haml :default_error, :layout => false,
 				locals: {image: "/e/Response_401.png", code: 401, res: "Authorization Required"}
 end
 
 error 403 do
-	haml :default_error,
+	haml :default_error, :layout => false,
 				locals: {image: "/e/Response_403.png", code: 401, res: "Forbidden"}
 end
 
 error 404 do
-	haml :default_error,
+	haml :default_error, :layout => false,
 				locals: {image: "/e/Response_404.png", code: 404, res: "Not Found"}
 end
 
 error 500 do
-	haml :default_error,
+	haml :default_error, :layout => false,
 				locals: {image: "/e/Response_500.png", code: 500, res: "Internal Server Error"}
 end
 
 error 418 do
 	#haml :'418'
-	haml :default_error,
+	haml :default_error, :layout => false,
 				locals: {image: "#{request.script_name}/teapot.png", code: 418, res: "I'm a teapot",
 				mes: "I'm a teapot!"}
 end
@@ -75,6 +75,6 @@ CSRFが検出されました。
 			%br
 			= mes
 			%br
-		%a(href="/") TOPへ
+		%a(href="#{@root_dir}/") TOPへ
 		%div.footer
 			CopyRight (C) 2010-2012 monora.me... Some rights reserved.

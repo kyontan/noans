@@ -1,16 +1,16 @@
-.form#postmes
-	.titleD<
-		%span.titleS コメント投稿
-	%form(method = "post" action = "#{request.script_name}/admin/post" name = "post_admin" class = "clearfix")
+%section.form.border#postmes
+	.title<
+		コメント投稿
+	%form(method = "post" action = "#{@root_dir}/admin/set/post" name = "post_admin" class = "clearfix")
 		%input(type = "text" name = "post" id = "post" autofocus = true)
 		%input(type = "checkbox" name = "tweet" value = 1 id = "twitter")
 		%label(for = "twitter") Twitterへ投稿する
 		%input.button.blue(type = "submit" value = "にゃん")
 
-.form#karitext
-	.titleD<
-		%span.titleS お知らせ文の編集
-	%form(method = "post" action = "#{request.script_name}/text/set" name = "testform" class = "clearfix")
-		%textarea(name = "text" rows = 10)
+%section.form.border#karitext
+	.title<
+		お知らせ文の編集
+	%form(method = "post" action = "#{@root_dir}/admin/set/text" name = "testform" class = "clearfix")
+		%textarea#text(name = "text")
 		%input.button(type = "submit" value = "そおいっ")
 

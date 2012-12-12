@@ -1,19 +1,24 @@
+#!/usr/local/bin/ruby -Ku
+# encoding: utf-8
+
 #-*- coding : utf-8 -*-
 
 require "bundler/setup"
 require "sinatra"
+require 'sinatra/cross_origin'
 require 'sinatra/formkeeper'
 require 'rack/csrf'
 require 'logger'
 
 require 'mongoid'
-
 require_relative 'mongoidScheme'
 #require_relative 'RhymeAuth'
 
 #require 'redis'
 require 'sinatra/redis'
 require 'rack/session/redis'
+
+require "better_errors"
 
 configure do
 	logger = Logger.new("logs/access.log", "daily")
@@ -32,7 +37,10 @@ configure do
 		:expire_after => 60*60*24*7,
 		:secret => 'fueefuee'
 	#use Rack::Csrf, :raise => true, :skip => ['POST:/register/process/?']
-	use Rack::Csrf, :raise => true, :skip => ['POST:.*', 'PUT:.*', 'DELETE:.*']
+	use Rack::Csrf, raise: true, skip: ['POST:.*', 'PUT:.*', 'DELETE:.*']
+
+	use BetterErrors::Middleware
+	BetterErrors.application_root = File.expand_path("..", __FILE__)
 end
 
 helpers do
@@ -46,9 +54,15 @@ helpers do
 		end
 	end
 
+	def blank?
+		self.nil? || self.empty?
+	end
+
 	def logged_in?(admin = false)
-		return !session[:user_data].nil? && session[:user_data][:admin] if admin
-		!session[:user_data].nil?
+		#session ||= {}
+		ses =  !session[:user_data].blank?
+		return ses && session[:user_data][:admin] if admin
+		ses
 	end
 
 	def require_login(admin = false)
@@ -74,24 +88,35 @@ end
 
 before do
 	set :redis, 'redis://127.0.0.1:6379/2'
-	#@redis = Redis.new
-	#Haml::Template.options[:attr_wrapper] = '"'
+	#@redis = Redis.new(db: 2)
 	set :haml, :attr_wrapper => '"'
 	set :haml, :format			 => :html5
+	set :haml, :cdata				 => false
 	@specific_object = nil
 	@common_css = false
 
+  @root_dir = request.script_name
 end
 
 get '/' do
-	@specific_object = :index
-	haml :common #, :locals
+	#@specific_object = :index
+	#begin
+	# 	@text = redis.get("text")
+	# rescue Exception => e
+	# 	@text = e
+	# end
+	#@text = redis.get("text") #.to_s
+	#haml :common, :layout => :index
+	if logged_in?
+		haml :index, locals: {path: "index"}
+	else
+		haml :login, locals: {path: "login"}
+	end
 end
 
 get '/register/?' do
-	@specific_object = :register
 	@title = "新規登録"
-	haml :common
+	haml :register, locals: {path: "register"}
 end
 
 before '/register/confirm/?' do
@@ -100,30 +125,28 @@ end
 
 post '/register/confirm/?' do
 	form do
-		filters :strip
-		field :name,			:present => true
-		field :id,				:present => true, :length => 4..255
-		field :password,	:present => true, :length => 6..255
-		field :email, 		:email	 => true
+		field :name,			present: true
+		field :id,				present: true, length: 4..255
+		field :password,	present: true, length: 6..255
+		field :email, 		email:	 true
 	end
 
-	if form.failed?
-		session[:form_error] = Hash::new
+	duplicate_id = User.where(user: params[:id]).exists?
+
+	if form.failed? || duplicate_id
+		session[:form_error] = {}
 		params.each do |key, value|
 			session[:form_error][key.to_sym] = h(value)
 		end
-		# ["name", "id", "email", "pass"].each do |key|
-		# 	session[:form_error][key.to_sym] = params[key]
-		# end
+		session[:form_error][:duplicate_id] = duplicate_id
 		session[:form_error][:redirect] = true
-		redirect "#{request.script_name}/register/"
+		redirect "#{@root_dir}/register/"
 	else
 		params.each {|k, v| params[k] = h(v)}
 		params_copy = params.clone
 		params_copy.default = nil
 		session[:form_confirm] = params_copy.clone
-		@specific_object = :register_confirm
-		haml :common
+		haml :register_confirm, locals: {path: "register_confirm"}
 	end
 end
 
@@ -139,58 +162,73 @@ post '/register/process/?' do
 		halt 500
 	end
 	session[:form_confirm] = nil
-	@specific_object = :register_completed
-	haml :common
+	haml :register_completed, locals: {path: "register_completed"}
 end
 
 get '/login/?' do
-	@specific_object = :login
-	haml :common
-end
-
-get '/admin/?' do
-	require_login(true)
-
-	@specific_object = :admin
-	haml :common
+	haml :login, locals: {path: "login"}
 end
 
 post '/login/?' do
 	form do
 		filters :strip
-		field :id,		:present => true
-		field :password,	:present => true
+		field :id,		present: true
+		field :password,	present: true
 	end
 
 	if form.failed?
-		redirect "#{request.script_name}/login/"
+		redirect "#{@root_dir}/login/"
 	end
 
 	params.each {|k, v| params[k] = h(v)}
 
 	db_user = User.where(user: params[:id])
 
-	redirect "#{request.script_name}/login/" if db_user.empty?
+	redirect "#{@root_dir}/login/" if db_user.empty?
 
 	if db_user.first[:password] == params[:password]
 		# session[:login] = true
 		# session[:id]		= db_user.first[:id]
+
 		# session[:name]	= db_user.first[:name]
 		session[:user_data] = db_user.first
-		redirect "#{request.script_name}/"
+		redirect "#{@root_dir}/"
 	else
-		redirect "#{request.script_name}/login/"
+		redirect "#{@root_dir}/login/"
 	end
-	#@specific_object = :login
-	#haml :common
 end
 
 get '/logout/?' do
 	# session[:login] = nil
 	# session[:id]		= nil
 	# session[:name]	= nil
-	session[:user_data] = []
-	redirect "#{request.script_name}/"
+	session[:user_data] = nil
+	redirect "#{@root_dir}/"
+end
+
+get '/admin/?' do
+	require_login(true)
+
+	haml :admin, locals: {path: "admin"}
+end
+
+post '/admin/set/post/?' do
+	require_login(true)
+	redirect "#{@root_dir}/admin/" if params[:post] == ""
+
+	user = User.where(user: session[:user_data][:user]).first
+	user.posts << Post.new(text: params[:post], showtop: true)
+
+	redirect "#{@root_dir}/admin/"
+end
+
+post '/admin/set/text/?' do
+	require_login(true)
+	redirect "#{@root_dir}/admin/" if params[:text] == ""
+
+	redis.set("text", params[:text])
+
+	redirect "#{@root_dir}/admin/"
 end
 
 get "/css/:file.css" do
@@ -229,8 +267,7 @@ get '/test/error/:error_status' do
 end
 
 get '/test/render/:obj/?' do
-	@specific_object = params[:obj].to_sym
-	haml :common
+	haml params[:obj].to_sym, locals: {path: params[:obj]}
 end
 
 get '/test/session/get/?' do
@@ -239,8 +276,9 @@ end
 
 get '/test/session/set/?' do
 	session[:test] = "Sessioned! #{Time.now}"
-	redirect '#{request.script_name}/session/get'
+	redirect '#{@root_dir}/session/get'
 end
+
 get '/test/session/clear/?' do
 	session[:test] = nil
 end
@@ -254,10 +292,22 @@ before '/test/md/' do
 	require 'rdiscount'
 end
 
+get '/test/raise/?' do
+	raise "oops"
+end
+
+get '/test/reset/?' do
+	require_login(true)
+
+	system("touch ./tmp/restart.txt")
+
+	redirect @root_dir if $?.exitstatus == 0
+	"#{$?.exitstatus} <a href='#{@root_dir}'>back</a>"
+end
+
 get '/test/md/:obj/?' do
 	#markdown params[:obj].to_sym
-	@specific_object = params[:obj].to_sym
-	haml :MarkDownTemplate
+	haml :MarkDownTemplate, :layout => false, locals: {path: params[:obj].to_sym}
 end
 
 __END__
@@ -268,5 +318,5 @@ __END__
 	-#%style
 	-#	:plain
 	-#		h1 {color:blue;}
-	%link(rel = "stylesheet" href = "#{request.script_name}/normalize.css")
+	%link(rel = "stylesheet" href = "#{@root_dir}/normalize.css")
 	= markdown @specific_object

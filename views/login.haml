@@ -1,6 +1,11 @@
-.form#login
-	.titleD<
-		%span.titleS ログイン
+%section.border#register-link
+	まだ登録されてないですか？
+	%br
+	こちらから登録できます
+	%a.button.blue(href = "#{@root_dir}/register") 新規登録
+%section.form.border#login
+	.title<
+		ログイン
 	%form(method = "post" action = "#{request.script_name}/login/" name = "login" class = "clearfix")
 		%label< ID
 		%input#user(type = "text" name = "id" required autofocus)

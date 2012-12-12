@@ -29,7 +29,7 @@ body {
   margin: 15px auto 10px auto;
   padding-bottom: 15px;
   width: 630px;
-  border: 5px solid #c8efdc;
+  border: 5px solid #A6E39D;
   border-radius: 8px;
 }
 /* ----------- 定形 ----------- */
@@ -78,7 +78,7 @@ header * {
 header #right {
   position: absolute;
   right: 8px;
-  top: 2px;
+  top: 3px;
   text-align: right;
 }
 #title {
@@ -88,17 +88,33 @@ header #right {
   font-size: 100%;
   text-decoration: none;
 }
-#logout {
+#right a {
   font-size: 81.5%;
   color: #CCC;
 }
-/* ----------- 枠 ----------- */
+/* ----------- セクション/枠 ----------- */
+section {
+  position: relative;
+  display: block;
+}
+.border {
+  border-top: #efb747 2px solid;
+  margin: 20px 20px 25px;
+  padding: 5px;
+}
 .center {
   margin: 0 auto;
   width: 400px;
 }
+.title {
+  position: absolute;
+  background: white;
+  left: 1rem;
+  top: -13px;
+  padding: 0 0.3rem;
+}
 .titleD {
-  margin: -17px auto auto 10px;
+  margin: -17px auto auto 12px;
 }
 .titleD .titleS {
   font-size: 106.7%;
@@ -195,10 +211,8 @@ form {
   padding: 10px;
 }
 .form {
-  margin: 15px 5px;
-  padding: 3px 5px;
-  border: #cec 2px solid;
-  border-radius: 8px;
+  margin: 25px 20px 10px;
+  padding: 5px;
 }
 label {
   display: inline-block;
@@ -210,13 +224,15 @@ input[type=submit],
 input[type=button] {
   float: right;
 }
+input.button {
+  margin-top: 10px;
+}
 #login input[type=text],
 #register input[type=text],
 #login input[type=password],
 #register input[type=password],
 #login input[type=email],
 #register input[type=email] {
-  width: 200px;
   font-size: 125%;
   height: 24px;
   border-radius: 3px;
@@ -239,11 +255,14 @@ input[type=button] {
 }
 #login form,
 #register form {
-  width: 400px;
   margin: 0 auto;
 }
-#login input,
-#register input,
+#login input[type=text],
+#register input[type=text],
+#login input[type=password],
+#register input[type=password],
+#login input[type=email],
+#register input[type=email],
 #login label,
 #register label {
   margin: 6px 3px 4px;
@@ -254,7 +273,6 @@ input[type=button] {
 }
 #login label,
 #register label {
-  width: 180px;
   padding: 3px 0;
 }
 .clear {
@@ -283,6 +301,7 @@ form {
 #karitext textarea {
   font-size: 75%;
   width: 100%;
+  height: 21.25em;
   resize: none;
   float: right;
 }
