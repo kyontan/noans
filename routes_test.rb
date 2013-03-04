@@ -1,7 +1,12 @@
 #-*- Coding:UTF-8 -*-
 
-get '/test' do
-	haml :test
+before '/test*' do
+	require_login(true)
+end
+
+
+get '/test/?' do
+	haml :test, locals: {common_css: true}
 end
 
 get '/test/error/:error_status' do
@@ -9,7 +14,8 @@ get '/test/error/:error_status' do
 end
 
 get '/test/render/:obj/?' do
-	haml params[:obj].to_sym, locals: {path: params[:obj]}
+	haml :"#{params[:obj]}",  :layout => false,
+			 locals: {path: params[:obj], title: "Test render - #{params[:obj]}", locals: {params: Hash::new("")}}
 end
 
 get '/test/session/get/?' do

@@ -1,8 +1,6 @@
 @import "common.less";
 @import "form.less";
 
-#login {}
-
 body {
 	width: 420px;
 }
@@ -15,8 +13,10 @@ label {
 	width: 120px;
 }
 
-input[type=text], input[type=password], input[type=email] {
-	width: 160px;
+input {
+	&[type=text], &[type=password], &[type=email] {
+		width: 160px;
+	}
 }
 
 section#register-link {

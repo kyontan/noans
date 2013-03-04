@@ -1,34 +1,12 @@
-@import "common.less";
-@import "form.less";
+//@import "common.less";
+//@import "form.less";
+@import "register.less";
 
-#register { }
+.key {
+	text-align: right;
 
-form {
-	width: 400px;
-	margin: 0 auto;
-}
-
-.value {
-	display: inline-block;
-}
-
-.value, label {
-	margin: 5px 0 3px 0;
-}
-
-.value {
-	//float: right;
-	float: left;
-	padding-top: 4px;
-}
-.value:before {
-	content: "\00a0:\00a0";
-}
-
-label {
-  float: left;
-
-	width: 180px;
-	padding-top: 4px;
-  text-align: right;
+	&:after {
+		//content: "\00a0:\00a0";
+		content: "\00a0:";
+	}
 }

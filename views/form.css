@@ -1,5 +1,6 @@
 /* ----------- フォーム ----------- */
 form {
+  margin: 0 auto;
   padding: 10px;
 }
 .form {
@@ -9,15 +10,17 @@ form {
 label {
   display: inline-block;
   float: left;
-  width: 100px;
   padding: 3px 0;
 }
-input[type=submit],
-input[type=button] {
+input {
   float: right;
 }
 input.button {
   margin-top: 10px;
+}
+#login input,
+#register input {
+  margin: 6px 3px 4px;
 }
 #login input[type=text],
 #register input[type=text],
@@ -25,8 +28,9 @@ input.button {
 #register input[type=password],
 #login input[type=email],
 #register input[type=email] {
-  font-size: 125%;
+  font-size: 1.25rem;
   height: 24px;
+  outline: none;
   border-radius: 3px;
 }
 #login input[type=text]:focus,
@@ -45,27 +49,9 @@ input.button {
 #register input[type=email]:hover {
   border: 2px solid #e0efff;
 }
-#login form,
-#register form {
-  margin: 0 auto;
-}
-#login input[type=text],
-#register input[type=text],
-#login input[type=password],
-#register input[type=password],
-#login input[type=email],
-#register input[type=email],
 #login label,
 #register label {
   margin: 6px 3px 4px;
-}
-#login input,
-#register input {
-  float: right;
-}
-#login label,
-#register label {
-  padding: 3px 0;
 }
 .clear {
   clear: both;

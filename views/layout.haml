@@ -10,9 +10,10 @@
 	%link(rel = "apple-touch-icon-precomposed" href = "#{@root_dir}/apple-touch-icon-precomposed.png" sizes = "114x114")
 	%link(rel = "shortcut icon" href = "#{@root_dir}/apple-touch-icon-precomposed.png")
 
-	- if @common_css
+	- path ||= ""; common_css = @common_css || false
+	- if common_css || path.blank?
 		%link(rel = "stylesheet" href = "#{@root_dir}/common.css")
-	- elsif !path.nil?
+	- elsif
 		%link(rel = "stylesheet" href = "#{@root_dir}/#{path}.css")
 
 	%script(src = "#{@root_dir}/jquery-1.8.3.min.js")
@@ -25,21 +26,26 @@
 	- if path == "index" || path == "admin"
 		:javascript
 			$(function(){
-
 				$.ajax({
 					url:"/rack/noans/api/post",
 					dataType: "json",
-					success: function(data,status){
-						$.each(data, function(i, item){
-							$("#posts").append(item["time"] + ": " + item["text"] + "<br>");
-						});
-					}
+				}).done(function(data){
+					$.each(data, function(i, item){
+						$("#posts").append(item["time"] + ": " + item["text"] + "<br>");
+					});
+				}).fail(function(data){
+					$("#posts").append("投稿の取得に失敗しました");
 				});
-
-				$.get("/rack/noans/api/text", function(data){
-					$("textarea#text").val(data);
-					$("div#text").append(data);
-				});
+			});
+	- if path == "index"
+		:javascript
+			$(function(){
+				$.get("/rack/noans/api/text", function(text){ $("#text").append(text);});
+			});
+	- if path == "admin"
+		:javascript
+			$(function(){
+				$.get("/rack/noans/api/text", function(text){ $("#text").val(text);});
 			});
 
 	:javascript
