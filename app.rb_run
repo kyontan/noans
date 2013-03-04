@@ -1,7 +1,7 @@
 #!/usr/local/bin/ruby -Ku
 # Coding: utf-8
 
-require "bundler/setup"
+#require "bundler/setup"
 
 require "sinatra"
 require 'sinatra/cross_origin'
@@ -19,6 +19,8 @@ require 'sinatra/redis'
 
 require "better_errors"
 
+require 'rack/csrf'
+
 configure do
 	logger = Logger.new("logs/access.log", "daily")
 	logger.instance_eval {
@@ -35,27 +37,71 @@ configure do
 		#:domain => '',
 		#:path => '/',
 		:expire_after => 60*60*24*7,
-		:secret => 'fueefuee'
+		:secret => "HUsOBoLL0CXAZSJO"
 
 	use BetterErrors::Middleware
 	BetterErrors.application_root = File.expand_path("..", __FILE__)
+
+	use Rack::Csrf, raise: true, skip: ['POST:.*', 'PUT:.*', 'DELETE:.*']
 end
 
-#require_relative "../lib/haml/link"
-require_relative "../lib/sinatra/lib"
+#require_relative "../lib/sinatra/lib"
+#require_relative "lib/sinatra/lib"
+
 
 helpers do
-  # def title
-  #   if request.path_info == request.script_name #"/"
-  #     return 	"真実はいつも解なし"
-  #   else
-  #     return "真実はいつも解なし - #{}"
-  #   end
+  class Object
+	  def blank?
+	    self.nil? || self.empty?
+	  end
+	end
+
+	alias_method :h, :escape_html
+
+  def link_to(to)
+    request.script_name + to #@root_dir
+  end
+
+  def redirect_to(to)
+    redirect link_to(to)
+  end
+  # Usage:
+  # before '/where/to/check' do
+  #   check_csrf
   # end
+  def check_csrf
+    unless params[Rack::Csrf.csrf_field] == session['csrf.token']
+      raise Rack::Csrf::InvalidCsrfToken
+    end
+  end
+  #Haml - CSRF Tag module
+  #
+  #Usage:
+  #haml: %input(type = "hidden" name = "_csrf" value = "#{csrf_token}")
+  #   => <input type="hidden" name="_csrf" value="xxxxx">
+  def csrf_token
+    Rack::Csrf.csrf_token(env)
+  end
+
+  #Usage:
+  #haml: =csrf_tag
+  #   => <input type="hidden" name="_csrf" value="xxxxx">
+  def csrf_tag
+    Rack::Csrf.csrf_tag(env)
+  end
+
+  def logged_in?(admin = false)
+    #session ||= {}
+    ses = !session[:user].blank?
+    return admin ? ses && session[:admin] : ses
+  end
+
+  def require_login(admin = false)
+    halt 401 unless logged_in?(admin)
+  end
 end
 
 before do
-	set :views, File.dirname(__FILE__) + '/views'
 	set :redis, 'redis://127.0.0.1:6379/2'
 	set :haml, :attr_wrapper => '"'
 	set :haml, :format			 => :html5
@@ -149,7 +195,6 @@ end
 
 get '/logout/?' do
 	session[:user_data] = nil
-	session[:user] = nil
 	redirect_to ?/
 end
 
@@ -164,11 +209,8 @@ get '/:file.css' do
 	send_file "./views/#{params[:file]}.css"
 end
 
-get '/csrf/?' do
-	raise Rack::Csrf::InvalidCsrfToken
-end
-
 load 'routes_admin.rb'
 load 'routes_files.rb'
 load 'routes_api.rb'
 load 'routes_test.rb'
+load './lib/sinatra/routes_error.rb'

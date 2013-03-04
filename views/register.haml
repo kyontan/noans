@@ -11,8 +11,6 @@
 		- if form_failed
 			- if form_last[:name] == ""
 				%span.warn< Error: 名前が入力されていません
-			- if form_last[:duplicate_id]
-				%span.warn< Error: IDが既に使われています
 		-#%label 学籍番号
 		-#%input(type = "text" name = "studentID")
 		.clearfix
@@ -31,6 +29,8 @@
 				%span.warn< Error: IDが入力されていません
 			- if form_last[:id].length < 4
 				%span.warn< Error: IDが短すぎます
+			- if form_last[:duplicate_id]
+				%span.warn< Error: IDが既に使われています
 
 		.clearfix
 		%label

@@ -1,0 +1,28 @@
+%br
+
+%section.form.border#login
+	.title<
+		ログイン
+	%form(method = "post" action = "#{request.script_name}/login/" name = "login" class = "clearfix")
+		%label< ID
+		%input#user(type = "text" name = "id" required autofocus)
+		.clearfix
+		%label<
+			パスワード
+		%input#pass(type = "password" name = "password" required)
+		.clearfix
+		%input(type = "hidden" name = "_csrf" value = "#{csrf_token}")
+		%input.button.blue(type = "submit" value = "ログイン")
+%section.form.border#login
+	.title<
+		ログイン
+	%form(method = "post" action = "#{request.script_name}/login/" name = "login" class = "clearfix")
+		%label< ID
+		%input#user(type = "text" name = "id" required autofocus)
+		.clearfix
+		%label<
+			パスワード
+		%input#pass(type = "password" name = "password" required)
+		.clearfix
+		%input(type = "hidden" name = "_csrf" value = "#{csrf_token}")
+		%input.button.blue(type = "submit" value = "ログイン")

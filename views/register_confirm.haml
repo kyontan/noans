@@ -3,33 +3,33 @@
 		新規登録
 
 	%form(method = "post" action = "../process" name = "register")
-		%label 名前
+		%label.key 名前
 		-#%input(type = "text" name = "name" required autofocus)
-		%span.value<
+		%label.value<
 			= params[:name]
 		%br.clear
 		-#%label 学籍番号
 		-#%input(type = "text" name = "studentID")
 		-#%br.clear
 
-		%label<
+		%label.key<
 			メールアドレス
 			%small> &nbsp;(任意)
-		%span.value<
+		%label.value<
 			= params[:mail] == "" ? "入力されていません" : params[:mail]
 		-#%input(type = "email" name = "mail")
 		%br.clear
 
-		%label<
+		%label.key<
 			ID
-		%span.value<
+		%label.value<
 			= params[:id]
 		-#%input(type = "text" name = "id" autocomplete = "off" required)
 		%br.clear
 
-		%label
+		%label.key
 			パスワード
-		%span.value<
+		%label.value<
 			= "*" * params[:password].length
 		-#%input#pass(type = "password" name = "pass" autocomplete = "off" required)
 		%br.clear

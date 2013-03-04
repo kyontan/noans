@@ -1,0 +1,41 @@
+:css
+	ul {
+		list-style: none;
+	}
+	ul li:before {
+		display : inline-block;
+		content : ' ';
+	  width		: 0;
+	  height	: 0;
+		border-top		: solid transparent;
+		border-bottom	: solid transparent;
+		border-left		: solid rgb(100, 100, 192);
+		border-width	: 5px;
+		margin-right	:	5px;
+	}
+
+%section
+	%h2 Test page
+
+	%ul
+		%li{href: @root_dir + "/test/reset"} リセット
+	%br
+
+	- list = Dir::glob(File.expand_path(File.dirname(__FILE__)) + "/*.haml")
+	- list.map!{|f| f.match(/views\/(.*)/)[1] }
+	Exists templetes (click to render)
+	%ul
+		- list.each do |f|
+			- fn = @root_dir + "/test/render/" + f.match(/(.*?)\..*/)[1]
+			%li<
+				%a{href: fn}= f
+
+	%br
+	- list = Dir::glob(File.expand_path(File.dirname(__FILE__)) + "/*.md")
+	- list.map!{|f| f.match(/views\/(.*)/)[1] }
+	Exists Markdown templetes (click to render)
+	%ul
+		- list.each do |f|
+			- fn = @root_dir + "/test/md/" + f.match(/(.*?)\..*/)[1]
+			%li<
+				%a{href: fn}= f
