@@ -1,9 +1,8 @@
-#!/usr/local/bin/ruby -Ku
-# Coding: utf-8
+#!/usr/local/bin/ruby
 
-require "bundler/setup"
+require 'bundler/setup'
 
-require "sinatra"
+require 'sinatra'
 require 'sinatra/cross_origin'
 require 'sinatra/formkeeper'
 #require 'rack/csrf'
@@ -15,9 +14,12 @@ require_relative 'mongoidScheme'
 
 #require 'redis'
 require 'sinatra/redis'
-#require 'rack/session/redis'
 
-require "better_errors"
+require 'better_errors'
+# require "sinatra/reloader" if development?
+# configure :development do
+#   use Rack::Reloader
+# end
 
 configure do
 	logger = Logger.new("logs/access.log", "daily")
@@ -26,11 +28,7 @@ configure do
 	}
 	use Rack::CommonLogger, logger
 
-	#use Rack::Reloader, 5
-
 	use Rack::Session::Cookie,
-	#use Rack::Session::Redis,
-		#:redis_server => "redis://127.0.0.1:6379/1",
 		:key => 'noans.session',
 		#:domain => '',
 		#:path => '/',
@@ -39,11 +37,31 @@ configure do
 
 	use BetterErrors::Middleware
 	BetterErrors.application_root = File.expand_path("..", __FILE__)
+
+	set :views, File.dirname(__FILE__) + '/views'
+	set :redis, 'redis://127.0.0.1:6379/2'
+	set :haml, :attr_wrapper => '"'
+	set :haml, :format			 => :html5
+	set :haml, :cdata				 => false
 end
 
-#require_relative "../lib/haml/link"
-require_relative "../lib/sinatra/lib"
+require_relative "../lib/haml/link"
+#require_relative "../lib/sinatra/lib"
+require_relative "../lib/sinatra/managing_login"
+require_relative "../lib/sinatra/routes_error"
+require_relative "../lib/sinatra/usual"
+#require 'sinatra/noans_helpers'
+#require_relative './lib/sinatra/noans_helpers'
+$:.unshift "./lib/"
+require 'sinatra/noans_helpers'
 
+class Object
+	def blank?
+		self.nil? || self.empty?
+	end
+end
+
+helpers Sinatra::NoansHelpers
 helpers do
   # def title
   #   if request.path_info == request.script_name #"/"
@@ -52,14 +70,11 @@ helpers do
   #     return "真実はいつも解なし - #{}"
   #   end
   # end
+  def check_csrf;end
+  def csrf_token;end
 end
 
 before do
-	set :views, File.dirname(__FILE__) + '/views'
-	set :redis, 'redis://127.0.0.1:6379/2'
-	set :haml, :attr_wrapper => '"'
-	set :haml, :format			 => :html5
-	set :haml, :cdata				 => false
   @root_dir = request.script_name
 end
 
@@ -141,18 +156,17 @@ post '/login/?' do
 	if db_user.empty? || db_user.first[:password] != params[:password]
 		redirect_to "/login/"
 	else
-		session[:user_data] = db_user.first
-		session[:user] = db_user.first[:user]
+		session[:user] 			= db_user.first[:user]
+		session[:admin] 		= db_user.first[:admin]
 		redirect_to ?/
 	end
 end
 
 get '/logout/?' do
-	session[:user_data] = nil
 	session[:user] = nil
+	session[:admin] = nil
 	redirect_to ?/
 end
-
 
 get "/css/:file.css" do
 	content_type :css
@@ -162,10 +176,6 @@ end
 get '/:file.css' do
 	content_type :css
 	send_file "./views/#{params[:file]}.css"
-end
-
-get '/csrf/?' do
-	raise Rack::Csrf::InvalidCsrfToken
 end
 
 load 'routes_admin.rb'

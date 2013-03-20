@@ -61,11 +61,10 @@
 		})();
 
 	%header
-		%span#title<
-			%a(href = "#{@root_dir}/") 真実はいつも解なし
+		%a#title{href: link_to(?/)} 真実はいつも解なし
 		#right<
 			- if logged_in?
-				%span#username #{session[:user_data][:name]} さん
+				%span#username #{userData[:name]} さん
 				%br
 				- if logged_in?(true)
 					%a(href = "#{@root_dir}/test/reset") リセット
@@ -76,4 +75,4 @@
 
 	%footer
 		%span#count> アクセス:
-		%span#author> 作った人: @hinokyon
+		%span#author> 作った人: @hinokin

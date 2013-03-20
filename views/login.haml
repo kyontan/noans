@@ -8,11 +8,9 @@
 		ログイン
 	%form(method = "post" action = "#{request.script_name}/login/" name = "login" class = "clearfix")
 		%label< ID
-		%input#user(type = "text" name = "id" required autofocus)
-		.clearfix
+		%input.cf#user(type = "text" name = "id" required autofocus)
 		%label<
 			パスワード
-		%input#pass(type = "password" name = "password" required)
-		.clearfix
+		%input.cf#pass(type = "password" name = "password" required)
 		%input(type = "hidden" name = "_csrf" value = "#{csrf_token}")
 		%input.button.blue(type = "submit" value = "ログイン")

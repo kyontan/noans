@@ -4,18 +4,26 @@ before '/test*' do
 	require_login(true)
 end
 
-
 get '/test/?' do
 	haml :test, locals: {common_css: true}
 end
 
-get '/test/error/:error_status' do
+get '/test/error/:error_status/?' do
 	halt params[:error_status].to_i
+end
+
+get %r{/test/([0-9]{3})/?} do
+	status = params[:captures].first.to_i
+	halt status
 end
 
 get '/test/render/:obj/?' do
 	haml :"#{params[:obj]}",  :layout => false,
 			 locals: {path: params[:obj], title: "Test render - #{params[:obj]}", locals: {params: Hash::new("")}}
+end
+
+get '/test/user_data/:spec/?' do
+	eval "UserData.#{params[:spec]}"
 end
 
 get '/test/session/get/?' do

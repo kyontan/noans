@@ -10,7 +10,7 @@ post '/admin/set/post/?' do
 	require_login(true)
 	redirect "#{@root_dir}/admin/" if params[:post] == ""
 
-	user = User.where(user: session[:user_data][:user]).first
+	user = User.where(user: session[:user]).first
 	user.posts << Post.new(text: params[:post], showtop: true)
 
 	redirect "#{@root_dir}/admin/"
