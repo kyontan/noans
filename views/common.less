@@ -47,27 +47,17 @@ i { font-style: italic; }
 b	{	font-weight: bold; }
 */
 
-/* ----------- clearFix ----------- */
-/* From: http://stackoverflow.com/questions/211383/which-method-of-clearfix-is-best */
-/* float clearing for IE6 */
-* html .clearfix {
-  height: 1%;
-  overflow: visible;
+/* ----------- clearfix-micro ----------- */
+/* From: http://coliss.com/articles/build-websites/operation/css/css-micro-clearfix.html */
+.cf:before, .cf:after,
+body > section:before,
+body > section:after {
+    content:"";
+    display:table;
 }
-
-/* float clearing for IE7 */
-*+html .clearfix {
-  min-height: 1%;
-}
-
-/* float clearing for everyone else */
-.clearfix:after {
-  clear: both;
-  content: ".";
-  display: block;
-  height: 0;
-  visibility: hidden;
-  font-size: 0;
+.cf:after,
+body > section:after {
+	clear:both;
 }
 
 /* ----------- ヘッダー ----------- */
@@ -87,18 +77,21 @@ header {
 		right: 8px;
 		top: 3px;
 		text-align: right;
+	}
+
+	#title {
+		font-size: 150%;
+		text-decoration: none;
+
+		&:hover {
+			text-decoration: underline;
 		}
-}
+	}
 
-#title { font-size: 150%; }
-#title a {
-	font-size: 100%;
-	text-decoration: none;
-}
-
-#right a {
-	font-size: 81.5%;
-	color: #CCC;
+	#right a {
+		font-size: 81.5%;
+		color: #CCC;
+	}
 }
 
 /* ----------- セクション/枠 ----------- */

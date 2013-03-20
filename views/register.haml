@@ -7,23 +7,20 @@
 		%span.titleS 新規登録
 	%form(method = "post" action = "#{request.script_name}/register/confirm/" name = "register" class = "clearfix")
 		%label 名前
-		%input(type = "text" name = "name" required autofocus value = "#{form_last[:name]}")
+		%input.cf(type = "text" name = "name" required autofocus value = "#{form_last[:name]}")
 		- if form_failed
 			- if form_last[:name] == ""
 				%span.warn< Error: 名前が入力されていません
 		-#%label 学籍番号
 		-#%input(type = "text" name = "studentID")
-		.clearfix
 		%label<
 			メールアドレス
 			%small> &nbsp;(任意)
-		%input(type = "email" name = "mail" value = "#{form_last[:email]}")
-
-		.clearfix
+		%input.cf(type = "email" name = "mail" value = "#{form_last[:email]}")
 		%label<
 			ID
 			%small> &nbsp;(半角英数字:4文字以上)
-		%input(type = "text" name = "id" required value = "#{form_last[:id]}")
+		%input.cf(type = "text" name = "id" required value = "#{form_last[:id]}")
 		- if form_failed
 			- if form_last[:id] == ""
 				%span.warn< Error: IDが入力されていません
@@ -31,18 +28,15 @@
 				%span.warn< Error: IDが短すぎます
 			- if form_last[:duplicate_id]
 				%span.warn< Error: IDが既に使われています
-
-		.clearfix
 		%label
 			パスワード
 			%small> &nbsp;(6文字以上)
-		%input#pass(type = "password" name = "password" required)
+		%input#pass.cf(type = "password" name = "password" required)
 		- if form_failed
 			- if form_last[:password] == ""
 				%span.warn< Error: パスワードが入力されていません
 			- if form_last[:password].length < 6
 				%span.warn< Error: パスワードが短すぎます
 
-		.clearfix
 		%input(type = "hidden" name = "_csrf" value = "#{csrf_token}")
 		%input.button(type = "submit" value = "登録")
