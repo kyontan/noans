@@ -1,0 +1,12 @@
+%section#mypage.border
+	.title<
+		ファイルの管理
+	%section.uploaded
+		- userData.fileGroups.each do |group|
+			%h3= group.title
+			%ul
+				- group.uploadedFiles.each do |file|
+					%li
+						%a{href("/files/" + group.folder_name + ?/ + file.file_name)}= file.file_name
+						access:
+						= file.access_count

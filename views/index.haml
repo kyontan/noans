@@ -1,8 +1,8 @@
 - unless logged_in?
 	%section
-		%a(href = "#{@root_dir}/register") 登録
+		%a{href("/register")} 登録
 		%br
-		%a(href = "#{@root_dir}/login") ログイン
+		%a{href("/login")} ログイン
 - else
 	#posts
 

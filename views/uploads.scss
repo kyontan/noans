@@ -1,0 +1,34 @@
+@charset "UTF-8";
+@import "common";
+@import "form";
+
+label {
+	width: 120px;
+	margin-right: 24px;
+}
+
+#title {
+	width: 320px;
+}
+
+#title, #file {
+	float: left;
+}
+
+#files {
+	clear: left;
+
+	margin: 10px 0 0 90px;
+	width: 300px;
+
+	list-style-position: inside;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+	overflow: hidden;
+}
+
+/*
+.button {
+	float: right;
+}
+*/

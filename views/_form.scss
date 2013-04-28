@@ -1,0 +1,59 @@
+@charset "UTF-8";
+@import "css_buttons";
+
+/* ----------- Form ----------- */
+form {
+	margin: 0 auto;
+	padding: 10px;
+}
+
+.form {
+	margin: 25px 20px 10px;
+	padding: 5px;
+}
+
+label {
+	float: left;
+	text-align: right;
+	display: inline-block;
+
+	height: 24px;
+
+	margin: 8px 3px 6px;
+	padding: 4px 0;
+}
+
+input {
+	float: right;
+
+	.button {
+		margin-top: 10px;
+	}
+
+	&[type=text], &[type=password], &[type=email] {
+		font-size: 1.25rem;
+		height: 24px;
+		outline: none;
+
+		border-radius: 3px;
+	}
+
+	&[type="file"] {
+		position: absolute;
+		visibility: hidden;
+		width: 1px;
+		height: 1px;
+		opacity: 0;
+	}
+
+}
+
+input, label {
+	margin: 6px 3px 4px;
+}
+
+input[type=submit], label {
+	clear: left;
+}
+
+//Todo: Adjust border-width -> Too much emphasis (Ref to twitter_login)

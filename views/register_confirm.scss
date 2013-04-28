@@ -1,0 +1,16 @@
+@charset "UTF-8";
+@import "register";
+
+.key {
+	text-align: right;
+
+	&:after {
+		//content: "\00a0:\00a0";
+		content: "\00a0:";
+	}
+}
+
+label.value {
+	clear: none;
+	text-align: left;
+}

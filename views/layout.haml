@@ -1,22 +1,24 @@
 !!!
 %html(lang = "ja")
 	%meta(charset = "utf-8")
-	%title 真実はいつも解なし#{(title ||= nil).blank? ? "" : " - " + title}
+	%title 真実はいつも解なし#{(title ||= "").empty? ? "" : " - #{title}"}
 	-#%meta(name = "viewport" content = "width=device-width, initial-scale=1")
 
-	-#%link(rel = "apple-touch-icon-precomposed" href = "./apple-touch-icon-precomposed.png" sizes = "114x114")
-	-#%link(rel = "shortcut icon" href = "./apple-touch-icon-precomposed.png")
+	%link{href("/favicons/favicon_64.png")}(rel = "icon" type = "image/png")
+	%link{href("/favicons/favicon_57.png")}(rel = "apple-touch-icon" type = "image/png")
+	%link{href("/favicons/favicon_114.png")}(sizes = "114x114" rel = "apple-touch-icon" type = "image/png")
+	%link{href("/favicons/favicon_72.png")}(sizes = "72x72" rel = "apple-touch-icon" type = "image/png")
+	%link{href("/favicons/favicon_144.png")}(sizes = "144x144" rel = "apple-touch-icon" type = "image/png")
+	%link{href("/favicon.ico")}(rel = "shortcut icon")
 
-	%link(rel = "apple-touch-icon-precomposed" href = "#{@root_dir}/apple-touch-icon-precomposed.png" sizes = "114x114")
-	%link(rel = "shortcut icon" href = "#{@root_dir}/apple-touch-icon-precomposed.png")
-
+	%link{href("/css/normalize.css")}(rel = "stylesheet")
 	- path ||= ""; common_css = @common_css || false
-	- if common_css || path.blank?
-		%link(rel = "stylesheet" href = "#{@root_dir}/common.css")
+	- if common_css || path.empty?
+		%link{href("/common.css")}(rel = "stylesheet")
 	- elsif
-		%link(rel = "stylesheet" href = "#{@root_dir}/#{path}.css")
+		%link{href("/css/#{path}.css")}(rel = "stylesheet")
 
-	%script(src = "#{@root_dir}/jquery-1.8.3.min.js")
+	%script{src: link_to("/jquery-1.8.3.min.js")}
 
 	:javascript
 		$(function(){
@@ -55,24 +57,26 @@
 		_gaq.push(['_trackPageview']);
 		(function() {
 			var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
-			ga.src = 'http://monora.me/data/ga.js';
+			ga.src = 'http://monora.me/js/ga.js';
 			//ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
 			var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
 		})();
 
-	%header
-		%a#title{href: link_to(?/)} 真実はいつも解なし
+	%header.cf
+		%a#title{href(?/)} 真実はいつも解なし
 		#right<
 			- if logged_in?
-				%span#username #{userData[:name]} さん
+				%span#username #{userData[:display_name]} さん
 				%br
 				- if logged_in?(true)
-					%a(href = "#{@root_dir}/test/reset") リセット
-					%a(href = "#{@root_dir}/admin") 管理画面へ
-				%a(href = "#{@root_dir}/logout/") ログアウト
+					%a{href("/test/reset")} リセット
+					%a{href("/uploads")} アップロード
+					%a{href("/admin")} 管理画面
+				%a{href("/my")} マイページ
+				%a{href("/logout/")} ログアウト
 
 	= yield if block_given?
 
 	%footer
 		%span#count> アクセス:
-		%span#author> 作った人: @hinokin
+		%span#author> 作った人: @sukuhino

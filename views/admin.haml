@@ -1,16 +1,16 @@
-%section.form.border#postmes
+%section#postmes.form.border
 	.title<
 		コメント投稿
-	%form.cf(method = "post" action = "#{@root_dir}/admin/set/post" name = "post_admin")
-		%input(type = "text" name = "post" id = "post" autofocus = true)
-		%input(type = "checkbox" name = "tweet" value = 1 id = "twitter")
+	%form.cf{action("/admin/set/post")}(method = "post" name = "post_admin")
+		%input#post(type = "text" name = "post" autofocus = true)
+		%input#twitter(type = "checkbox" name = "tweet" value = 1)
 		%label(for = "twitter") Twitterへ投稿する
-		%input.button.blue(type = "submit" value = "にゃん")
+		%input.button.blue(type = "submit" value = "投稿")
 
-%section.form.border#karitext
+%section#karitext.form.border
 	.title<
 		お知らせ文の編集
-	%form.cf(method = "post" action = "#{@root_dir}/admin/set/text" name = "testform")
+	%form.cf{action("/admin/set/text")}(method = "post" name = "testform")
 		%textarea#text(name = "text")
-		%input.button(type = "submit" value = "そおいっ")
+		%input.button(type = "submit" value = "保存")
 

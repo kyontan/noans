@@ -2,15 +2,15 @@
 	まだ登録されてないですか？
 	%br
 	こちらから登録できます
-	%a.button.blue(href = "#{@root_dir}/register") 新規登録
+	%a.button.blue{href("/register")} 新規登録
 %section.form.border#login
 	.title<
 		ログイン
-	%form(method = "post" action = "#{request.script_name}/login/" name = "login" class = "clearfix")
+	%form.cf{action("/login/")}(method = "post" name = "login")
 		%label< ID
-		%input.cf#user(type = "text" name = "id" required autofocus)
+		%input#user(type = "text" name = "id" required autofocus)
 		%label<
 			パスワード
-		%input.cf#pass(type = "password" name = "password" required)
+		%input#pass(type = "password" name = "password" required)
 		%input(type = "hidden" name = "_csrf" value = "#{csrf_token}")
 		%input.button.blue(type = "submit" value = "ログイン")
