@@ -1,0 +1,39 @@
+@charset "UTF-8";
+@import "common";
+@import "form";
+
+/* ----------- login ----------- */
+
+body {
+	width: 420px;
+}
+
+form {
+	width: 330px;
+}
+
+label {
+	width: 130px;
+}
+
+input {
+	[type=text], [type=password], [type=email] {
+		float: left;
+		width: 160px;
+		margin-right: 5px;
+	}
+
+	[type=submit] {
+		float: right;
+	}
+}
+
+section#register-link {
+	padding: 10px 25px 0;
+}
+
+a.button {
+	text-decoration: none;
+	float: right;
+}
+

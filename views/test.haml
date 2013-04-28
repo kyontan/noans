@@ -18,7 +18,7 @@
 	%h2 Test page
 
 	%ul
-		%li{href: @root_dir + "/test/reset"} リセット
+		%li{href("/test/reset")} リセット
 	%br
 
 	- list = Dir::glob(File.expand_path(File.dirname(__FILE__)) + "/*.haml")
@@ -26,9 +26,9 @@
 	Exists templetes (click to render)
 	%ul
 		- list.each do |f|
-			- fn = @root_dir + "/test/render/" + f.match(/(.*?)\..*/)[1]
+			- fn = "/test/render/" + f.match(/(.*?)\..*/)[1]
 			%li<
-				%a{href: fn}= f
+				%a{href(fn)}= f
 
 	%br
 	- list = Dir::glob(File.expand_path(File.dirname(__FILE__)) + "/*.md")
@@ -36,6 +36,6 @@
 	Exists Markdown templetes (click to render)
 	%ul
 		- list.each do |f|
-			- fn = @root_dir + "/test/md/" + f.match(/(.*?)\..*/)[1]
+			- fn = "/test/md/" + f.match(/(.*?)\..*/)[1]
 			%li<
-				%a{href: fn}= f
+				%a{href(fn)}= f

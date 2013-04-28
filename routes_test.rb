@@ -43,13 +43,9 @@ get '/test/post/?' do
 	"Post"
 end
 
-#set :inline_template :true
-before '/test/md/' do
-	require 'rdiscount'
-end
 
 get '/test/raise/?' do
-	raise "oops"
+	raise "Raise for debugging"
 end
 
 get '/test/reset/?' do
@@ -60,7 +56,12 @@ get '/test/reset/?' do
 	redirect_url = request.referer == '/' ? @root_dir : request.referer
 	redirect redirect_url if $?.exitstatus == 0
 	#redirect @root_dir if $?.exitstatus == 0
-	"#{$?.exitstatus} <a href='#{@root_dir}'>back</a>"
+	"#{$?.exitstatus} <a href='#{link_to ?/}'>back</a>"
+end
+
+#set :inline_template :true
+before '/test/md/' do
+	require 'rdiscount'
 end
 
 get '/test/md/:obj/?' do

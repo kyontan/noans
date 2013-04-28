@@ -1,5 +1,5 @@
-source "http://rubygems.org"
-#source "https://rubygems.org"
+#source "http://rubygems.org"
+source "https://rubygems.org"
 
 gem 'sinatra'
 
@@ -11,6 +11,7 @@ gem 'sinatra-cross_origin'
 gem 'rack_csrf'
 
 gem 'haml'
+gem 'sass'
 gem 'rdiscount'
 
 gem 'mongoid'
