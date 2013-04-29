@@ -28,3 +28,26 @@ get '/api/post/?:num?/?' do
 		h << post
 	end.to_json
 end
+
+get '/api/access_count/?' do
+	#unless env["REMOTE_ADDR"] == env["SERVER_ADDR"]
+
+	db_name_count = "access_count"
+	db_name_hash 	= "access_count_ip_hash"
+
+	redis.hgetall(db_name_hash).each do |ip, time|
+		redis.hdel(db_name_hash, ip) if Time.now - Time.parse(time) >= 3600
+	end
+
+	# Time to allow duplication count
+	distance = 60 * 60 #[sec]
+	log = redis.hget(db_name_hash, request.ip)
+
+
+	if log.nil? || Time.now - Time.parse(log) >= distance
+		redis.hset(db_name_hash, request.ip, Time.now)
+		redis.incr(db_name_count)
+	end
+
+	redis.get(db_name_count).to_json
+end
