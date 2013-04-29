@@ -1,13 +1,13 @@
 development:
   sessions:
     default:
-      database: NoAns_dev
+      database: noans_dev
       hosts:
       - localhost:27017
 
 production:
   sessions:
     default:
-      database: NoAns
+      database: noans
       hosts:
       - localhost:27017
