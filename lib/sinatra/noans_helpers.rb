@@ -5,8 +5,8 @@ require 'sinatra/base'
 module Sinatra
 	module NoansHelpers
 		def logged_in?(admin = false)
-			ses = !userData.nil?
-			return admin ? (ses && userData.admin) : ses
+			ses = !user_data.nil?
+			return admin ? (ses && user_data.admin) : ses
 		end
 
 		def require_login(admin = false)
@@ -16,7 +16,7 @@ module Sinatra
 	helpers NoansHelpers
 
 	module SessionHelper
-		def userData
+		def user_data
 			User.where(id: session[:id]).first
 		end
 	end

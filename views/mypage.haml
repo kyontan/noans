@@ -2,7 +2,7 @@
 	.title<
 		ファイルの管理
 	%section.uploaded
-		- userData.fileGroups.each do |group|
+		- user_data.fileGroups.each do |group|
 			%h3= group.title
 			%ul
 				- group.uploadedFiles.each do |file|

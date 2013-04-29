@@ -27,17 +27,15 @@ require 'better_errors'
 
 configure do
 	logger = Logger.new("logs/access.log", "daily")
-	logger.instance_eval {
-		alias :write :'<<' unless respond_to?(:write)
-	}
+	logger.instance_eval { alias :write :<< unless respond_to?(:write) }
 	use Rack::CommonLogger, logger
 
 	use Rack::Session::Cookie,
-		:key => 'noans.session',
-		#:domain => '',
-		#:path => '/',
-		:expire_after => 60*60*24*7,
-		:secret => 'fueefuee'
+		key: 'noans.session',
+		#domain: '',
+		#path: '/',
+		expire_after: 60 * 60 * 24 * 7, # 7 days
+		secret: 'fueefuee'
 
 	#set :views, settings.root + '/views'
 	set :redis, 'redis://127.0.0.1:6379/2'
@@ -52,16 +50,7 @@ configure :development do
 	BetterErrors.application_root = settings.root
 end
 
-#require_relative "../lib/sinatra/lib"
-#require_relative "../lib/sinatra/managing_login"
-#require 'sinatra/noans_helpers'
-#require_relative './lib/sinatra/noans_helpers'
-
-#require_relative "../lib/haml/link"
-#require_relative "../lib/sinatra/routes_error"
-# require_relative "../lib/sinatra/usual"
-
-$:.unshift "./lib/"
+$LOAD_PATH.unshift "./lib/"
 require 'sinatra/noans_helpers'
 require 'sinatra/usual_helpers'
 require 'sinatra/error_routes'
@@ -81,8 +70,10 @@ helpers do
   #     return "真実はいつも解なし - #{}"
   #   end
   # end
-  def check_csrf;end
-  def csrf_token;end
+
+	def check_csrf; end
+
+	def csrf_token; end
 
   def password_hash(password, salt = nil)
   	require 'securerandom'
@@ -92,6 +83,8 @@ helpers do
   	1024.times{ p = Digest::SHA256.hexdigest(p + salt) }
   	[p, salt]
   end
+
+  alias_method :h, :escape_html
 end
 
 before do

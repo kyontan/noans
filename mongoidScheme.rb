@@ -5,17 +5,17 @@ class User
 	include Mongoid::Timestamps
 	include Mongoid::Paranoia
 
-  field :display_name	,type: String
-  field :user_id    	,type: String
+  field :display_name,	type: String
+  field :user_id ,			type: String
 
   #password = 1024.times{ original_pass = Digest::SHA256.hexdigest(original_pass + salt) }
-  field :password			,type: String
-  field :salt					,type: String
+  field :password,	type: String
+  field :salt,			type: String
 
-  field :mail     	 	,type: String
+  field :mail,			type: String
 
   #field :studentid ,type: Integer
-  field :admin     		,type: Boolean, default: false
+  field :admin,			type: Boolean, default: false
 
 	has_many :posts
 	has_many :fileGroups
@@ -26,8 +26,8 @@ class Post
 	include Mongoid::Document
 	include Mongoid::Timestamps
 
-	field :text			,type: String
-	field :showtop	,type: Boolean, default: false
+	field :text,		type: String
+	field :showtop,	type: Boolean, default: false
 
 	belongs_to :user
 end
@@ -37,8 +37,8 @@ class LoggedActivity
 	include Mongoid::Document
 	include Mongoid::Timestamps
 
-	field :type	,type: String # "login" || "logout"
-	field :ip		,type: String
+	field :type,	type: String # "login" || "logout"
+	field :ip,		type: String
 
 	belongs_to :user
 end
@@ -53,7 +53,7 @@ end
 # 	field :periodstart	,type: Date
 # 	field :periodend		,type: Date
 
-# 	field :type		,type: String	#Normal or Basic Science and Technology (BasicScience)
+# 	field :type		,type: String	#Normal or Basic Science and Technology
 
 # 	field :count	,type: Integer
 # 		# Normal:
@@ -84,7 +84,7 @@ class FileGroup
 	include Mongoid::Document
 	include Mongoid::Timestamps
 
-	field :title			, type: String
+	field :title,				type: String
 	field :folder_name, type: String
 
 	belongs_to :user
@@ -95,9 +95,9 @@ class UploadedFile
 	include Mongoid::Document
 	include Mongoid::Timestamps
 
-	field :type, 			type: String
-	field :file_name, type: String
-	field :saved_path, 			type: String
+	field :type, 				type: String
+	field :file_name, 	type: String
+	field :saved_path, 	type: String
 
 	field :access_count, type: Integer, default: 0
 

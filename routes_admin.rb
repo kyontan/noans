@@ -12,7 +12,7 @@ post '/admin/set/post/?' do
 
 	#user = User.where(id: session[:id]).first
 	#user.posts << Post.new(text: params[:post], showtop: true)
-	userData.posts << Post.new(text: params[:post], showtop: true)
+	user_data.posts << Post.new(text: params[:post], showtop: true)
 
 	redirect_to "/admin/"
 end

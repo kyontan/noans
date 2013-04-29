@@ -8,8 +8,8 @@ get '/files/:folder/:filename' do
 	begin
 		filegroup = FileGroup.where(folder_name: params[:folder]).first
 		uploadedfile = filegroup.uploadedFiles.where(file_name: params[:filename]).first
-		uploadedfile.access_count ||= 0;
-		uploadedfile.access_count += 1;
+		uploadedfile.access_count ||= 0
+		uploadedfile.access_count += 1
 		uploadedfile.save!
 	rescue
 		halt 404
@@ -27,6 +27,7 @@ end
 
 get '/uploads/?' do
 	haml :uploads, locals: {path: "uploads", title: "アップロード"}
+
 end
 
 post '/uploads/?' do
@@ -54,7 +55,7 @@ post '/uploads/?' do
 	filegroup = FileGroup.new(
 		title: 				params[:title],
 		folder_name:	filename_escape(params[:title] + get_uuid),
-		user:		userData)
+		user:		user_data)
 	filegroup.save!
 
 	save_to = File.join(settings.root, "uploaded_files", filegroup.folder_name)
