@@ -75,10 +75,10 @@ header {
 	}
 
 	#title {
+		float: left;
 		font-size: 156.3%;
 		text-shadow: 2px 2px 8px rgba(255,255,255, 0.5);
 		text-decoration: none;
-		float: left;
 
 		&:hover {
 			text-decoration: underline;

@@ -5,17 +5,19 @@
 					$file = $this.prev("input[type=file]");
 
 			$this.on("click", function(e){ $file.trigger("click"); });
-			$file.change(function(){
+			$file.change(function() {
 				$("ul").empty();
-				if(window.File){
+				if(window.File) {
 					$.each(this.files, function(i, val){
-						$("ul").append("<li>" + val.name + "</li>\n");
+						add_file_list(val.name);
 					})
-				} else {
-					$("ul").append("<li>" + $(this).value() + "</li>");
-				}
+				} else add_file_list($(this).value());
 			});
 		});
+
+		function add_file_list(file_name) {
+			$("ul").append("<li>" + file_name + "</li>");
+		}
 	});
 
 %section.form.border#login
@@ -26,7 +28,7 @@
 		%input#title(type = "text" name = "title" autofocus)
 
 		%label< ファイル
-		%input(type = "file" name="file[]" size = "0" multiple)
+		%input(type = "file" name="file[]" size = "0" multiple required)
 		%input#file(type = "button" class = "buttonw" value = "参照...")
 
 		%input(type = "hidden" name = "_csrf" value = "#{csrf_token}")

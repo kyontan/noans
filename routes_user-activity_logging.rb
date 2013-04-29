@@ -11,7 +11,7 @@ post '/login/?' do
 
 	redirect_to "/login/" if form.failed?
 
-	params.each {|k, v| params[k] = h(v)}
+	params.each {|k, v| params[k] = h(v) }
 
 	db_user = User.where(user_id: params[:id]).to_a.first
 
@@ -21,13 +21,13 @@ post '/login/?' do
 		redirect_to "/login/"
 	else
 		session[:id] = db_user.id
-		userData.loggedActivities << LoggedActivity.new(type: "login", ip: request.ip)
+		user_data.loggedActivities << LoggedActivity.new(type: "login", ip: request.ip)
 		redirect_to ?/
 	end
 end
 
 get '/logout/?' do
-	userData.loggedActivities << LoggedActivity.new(type: "logout", ip: request.ip)
+	user_data.loggedActivities << LoggedActivity.new(type: "logout", ip: request.ip)
 	session[:id] = nil
 	redirect_to ?/
 end

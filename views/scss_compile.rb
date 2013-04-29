@@ -3,7 +3,7 @@ require 'fileutils'
 
 User  = "kyontan"
 Group = "www"
-  
+
 
 def scss_compile(from, to, op = "--style expanded")
   puts "Compiling #{from}"
@@ -18,7 +18,7 @@ unless ARGV.empty?
 	from = file_name + ".scss"
 	to = file_name + ".css"
 	scss_compile(from, to)
-		
+
 	exit
 end
 

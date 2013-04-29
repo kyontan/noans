@@ -2,30 +2,37 @@
 @import "common";
 @import "form";
 
-label {
-	width: 120px;
-	margin-right: 24px;
+form {
+	label {
+		width: 120px;
+		margin-right: 24px;
+	}
+
+	#files {
+		clear: left;
+
+		margin: 10px 0 0 90px;
+		width: 300px;
+
+		list-style-position: inside;
+		white-space: nowrap;
+		text-overflow: ellipsis;
+		overflow: hidden;
+	}
 }
 
-#title {
-	width: 320px;
+input {
+	&[type=text] {
+		width: 320px;
+	}
+
+	#title, #file {
+		float: left;
+	}
 }
 
-#title, #file {
-	float: left;
-}
 
-#files {
-	clear: left;
 
-	margin: 10px 0 0 90px;
-	width: 300px;
-
-	list-style-position: inside;
-	white-space: nowrap;
-	text-overflow: ellipsis;
-	overflow: hidden;
-}
 
 /*
 .button {

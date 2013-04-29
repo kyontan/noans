@@ -19,9 +19,9 @@ task :routes do
     abort("Cannot find any defined routes.....")
   end
 
-  endpoints.each do |app_name,routes|
+  endpoints.each do |app_name, routes|
     puts "Application: #{app_name}\n"
-    routes.each do |verb,handlers|
+    routes.each do |verb, handlers|
       puts "\n#{verb}:\n"
       handlers.each do |handler|
         puts handler[0].source.to_s

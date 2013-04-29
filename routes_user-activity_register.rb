@@ -29,7 +29,7 @@ post '/register/confirm/?' do
 		session[:form_error][:redirect] = true
 		redirect_to "/register/"
 	else
-		params.each {|k, v| params[k] = h(v)}
+		params.each {|k, v| params[k] = h(v) }
 		params_copy = params.clone
 		params_copy.default = nil
 		session[:form_confirm] = params_copy.clone

@@ -17,7 +17,7 @@ get '/api/post/?:num?/?' do
 	num = params[:num].to_i unless params[:num].to_i.zero?
 	num = 0 if params[:num] == "all"
 	posts = Post.where(showtop: true)
-	posts = posts.where(created_at: Time.now-14.days..Time.now) if params[:num].nil?
+	posts = posts.where(created_at: Time.now - 14.days..Time.now) if params[:num].nil?
 	posts = posts.limit(num).to_a
 	posts.each_with_object([]) do |l, h|
 		post = {
