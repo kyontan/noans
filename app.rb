@@ -89,6 +89,8 @@ end
 
 before do
   @root_dir = request.script_name
+  redis.set("text", "") if redis.get("text").nil?
+  redis.set("access_count", 0) if redis.get("access_count").nil?
 end
 
 get '/' do
