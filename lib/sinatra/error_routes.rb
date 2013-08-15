@@ -31,7 +31,7 @@ module Sinatra
 			app.error 418 do
 				#haml :'418'
 				haml :default_error, layout: false,
-							locals: {image: "#{request.script_name}/teapot.png", code: 418, res: "I'm a teapot",
+							locals: {image: "#{request.script_name}/img/teapot.png", code: 418, res: "I'm a teapot",
 							mes: "I'm a teapot!"}
 			end
 		end

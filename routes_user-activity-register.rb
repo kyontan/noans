@@ -9,7 +9,7 @@ end
 post '/register/confirm/?' do
 	form do
 		field :name,			present: true
-		field :id,				present: true, length: 4..255
+		field :id,				present: true, length: 4..255, alnum: true
 		field :password,	present: true, length: 6..255
 		field :email, 		email:	 true
 	end
@@ -29,8 +29,8 @@ post '/register/confirm/?' do
 		session[:form_error][:redirect] = true
 		redirect_to "/register/"
 	else
-		params.each {|k, v| params[k] = h(v)}
-		params_copy = params.clone
+		form.each {|k, v| form[k] = h(v)}
+		params_copy = form.clone
 		params_copy.default = nil
 		session[:form_confirm] = params_copy.clone
 		haml :register_confirm, locals: {path: "register_confirm", title: "新規登録"}

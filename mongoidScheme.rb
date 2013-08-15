@@ -15,11 +15,14 @@ class User
   field :mail,			type: String
 
   #field :studentid ,type: Integer
-  field :admin,			type: Boolean, default: false
+	#field :group,			type: Array, 		default: []
+  field :admin,			type: Boolean,	default: false
+  #field :allowed_group, type: Array, default: []
 
 	has_many :posts
 	has_many :fileGroups
 	has_many :loggedActivities
+	has_and_belongs_to_many :tags
 end
 
 class Post
@@ -42,6 +45,57 @@ class LoggedActivity
 
 	belongs_to :user
 end
+
+# class UserGroup
+# 	include Mongoid::Document
+# 	include Mongoid::Timestamps
+
+# 	field :group,	type: String
+
+# 	has_and_belongs_to_many :users
+# 	has_and_belongs_to_many :tags
+# end
+
+class Tag
+	include Mongoid::Document
+	#include Mongoid::Timestamps
+
+	field :name,		type: String
+	field :require, type: Boolean
+
+	has_and_belongs_to_many :users
+	has_and_belongs_to_many :fileGroups
+
+	# http://stackoverflow.com/questions/6394290/two-1-n-relations-in-mongoid-rails
+end
+
+class FileGroup
+	include Mongoid::Document
+	include Mongoid::Timestamps
+
+	field :title,				type: String
+	field :folder_name, type: String
+	#field :tags,				type: Array, 		default: []
+	#field :public,			type: Boolean,	default: true
+
+	belongs_to :user
+	embeds_many :uploadedFiles
+	has_and_belongs_to_many :tags
+end
+
+class UploadedFile
+	include Mongoid::Document
+	include Mongoid::Timestamps
+
+	field :type, 				type: String
+	field :file_name, 	type: String
+	field :saved_path, 	type: String
+
+	field :access_count, type: Integer, default: 0
+
+	embedded_in :fileGroup
+end
+
 
 # class Examination
 # 	include Mongoid::Document
@@ -79,27 +133,3 @@ end
 
 # 	field :targetaverage	,type: String,  default: "grade" #grade or grade-class (ex: 1-A)
 # end
-
-class FileGroup
-	include Mongoid::Document
-	include Mongoid::Timestamps
-
-	field :title,				type: String
-	field :folder_name, type: String
-
-	belongs_to :user
-	embeds_many :uploadedFiles
-end
-
-class UploadedFile
-	include Mongoid::Document
-	include Mongoid::Timestamps
-
-	field :type, 				type: String
-	field :file_name, 	type: String
-	field :saved_path, 	type: String
-
-	field :access_count, type: Integer, default: 0
-
-	embedded_in :fileGroup
-end

@@ -1,25 +1,27 @@
 #!/usr/local/bin/ruby
 # Coding: UTF-8
 
-require 'bundler/setup'
+require "bundler/setup"
 
-require 'sinatra'
-require 'sinatra/cross_origin'
-require 'sinatra/formkeeper'
-#require 'rack/csrf'
-require 'logger'
+require "sinatra"
+require "sinatra/cross_origin"
+require "sinatra/formkeeper"
+#require "rack/csrf"
+require "logger"
 
-require 'haml'
-require 'sass'
+require "haml"
+require "sass"
+require "rdiscount"
 
-require 'mongoid'
-require_relative 'mongoidScheme'
-#require_relative 'RhymeAuth'
+require "mongoid"
+require_relative "mongoidScheme"
+#require_relative "RhymeAuth"
 
-#require 'redis'
-require 'sinatra/redis'
+#require "redis"
+#require "sinatra/redis"
+require "redis-sinatra"
 
-require 'better_errors'
+require "better_errors"
 # require "sinatra/reloader" if development?
 # configure :development do
 #   use Rack::Reloader
@@ -88,9 +90,9 @@ helpers do
 end
 
 before do
-  @root_dir = request.script_name
-  redis.set("text", "") if redis.get("text").nil?
-  redis.set("access_count", 0) if redis.get("access_count").nil?
+  #@root_dir = request.script_name
+  redis.set("text", "") 				if redis.get("text").nil?
+  redis.set("access_count", 0)	if redis.get("access_count").nil?
 end
 
 get '/' do
