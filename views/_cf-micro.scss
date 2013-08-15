@@ -1,0 +1,12 @@
+/* ----------- clearfix-micro ----------- */
+/* From: http://coliss.com/articles/build-websites/operation/css/css-micro-clearfix.html */
+.cf:before, .cf:after,
+body > section:before,
+body > section:after {
+    content:"";
+    display:table;
+}
+.cf:after,
+body > section:after {
+	clear:both;
+}

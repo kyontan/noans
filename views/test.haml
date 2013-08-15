@@ -14,11 +14,30 @@
 		margin-right	:	5px;
 	}
 
+	ul.tagit li:before {
+		border: none;
+		margin-right: auto;
+		content: initial;
+	}
+	ul.tagit li.tagit-choice {
+		height: 1.3em;
+		/* 日本語対応 */
+	}
+
+:javascript
+	$(function(){
+		$('#tagit').tagit({autocomplete: { disabled: true }});
+	});
+
 %section
 	%h2 Test page
 
-	%ul
-		%li{href("/test/reset")} リセット
+	- if mode == "post"
+		%h3 Post
+		= params
+	%form{action("/test/")}(method = "POST")
+		%input{value: params[:tags]}(name = "tags" id = "tagit")
+		%input(type = "submit")
 	%br
 
 	- list = Dir::glob(File.expand_path(File.dirname(__FILE__)) + "/*.haml")

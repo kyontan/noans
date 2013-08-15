@@ -1,8 +1,6 @@
-!!!
-%html
-	%meta(charset = "utf-8")
-	-#%style
-	-#	:plain
-	-#		h1 {color:blue;}
-	%link(rel = "stylesheet" href = "#{@root_dir}/normalize.css")
-	= markdown path
+
+%section.markdown#preview
+	%a{href(File.join("/files/", folder, filename))}(style = "font-size: 1.3em")= filename
+	%br
+
+	= markdown File.read(File.join(settings.root, "uploaded_files", folder, filename))

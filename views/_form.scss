@@ -49,7 +49,7 @@ input {
 }
 
 input, label {
-	margin: 6px 3px 4px;
+	margin: 6px 0 4px;
 }
 
 input[type=submit], label {
@@ -57,3 +57,20 @@ input[type=submit], label {
 }
 
 //Todo: Adjust border-width -> Too much emphasis (Ref to twitter_login)
+
+/* ----- Tag it! ----- */
+.tagit {
+	float: left;
+	border-radius: 6px;
+	box-shadow: 1px 1px 1px #333 inset;
+}
+
+ul.tagit li.tagit-new {
+	width: 160px;
+}
+
+// 日本語が入る場合に height が狂うことに対する対処
+li.tagit-choice {
+	height: 1.3em;
+}
+

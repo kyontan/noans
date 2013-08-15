@@ -1,12 +1,13 @@
 :javascript
 	$(function(){
+		var $list = $("ul#files")
 		$(".buttonw").each(function(){
 			var $this = $(this),
 					$file = $this.prev("input[type=file]");
 
 			$this.on("click", function(e){ $file.trigger("click"); });
 			$file.change(function() {
-				$("ul").empty();
+				$list.empty();
 				if(window.File) {
 					$.each(this.files, function(i, val){
 						add_file_list(val.name);
@@ -16,7 +17,7 @@
 		});
 
 		function add_file_list(file_name) {
-			$("ul").append("<li>" + file_name + "</li>");
+			$list.append("<li>" + file_name + "</li>");
 		}
 	});
 
@@ -26,6 +27,9 @@
 	%form.cf{action("/uploads")}(method = "post" enctype = "multipart/form-data" name = "login")
 		%label< タイトル
 		%input#title(type = "text" name = "title" autofocus)
+
+		-# %label< タグ
+		-# %input(name = "tags" id = "tagit")
 
 		%label< ファイル
 		%input(type = "file" name="file[]" size = "0" multiple required)

@@ -5,7 +5,11 @@ before '/test*' do
 end
 
 get '/test/?' do
-	haml :test, locals: {common_css: true}
+	haml :test, locals: {common_css: true, mode: "get"}
+end
+
+post '/test/?' do
+	haml :test, locals: {common_css: true, mode: "post", params: params}
 end
 
 get '/test/raise/?' do
@@ -57,12 +61,12 @@ get '/test/reset/?' do
 	system("touch ./tmp/restart.txt")
 
 	#halt 500 unless $CHILD_STATUS.exitstatus.zero?
-	if request.referer == ?/
-		redirect_to ?/
-	else
-		redirect request.referer
-	end
-
+	# if request.referer == ?/
+	# 	redirect_to ?/
+	# else
+	# 	redirect request.referer
+	# end
+	redirect back
 	# "#{$CHILD_STATUS.exitstatus} <a href='#{link_to ?/}'>back to top</a>"
 end
 

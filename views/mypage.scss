@@ -1,3 +1,54 @@
 @charset "UTF-8";
 @import "common";
 
+.uploaded > section {
+	position: relative;
+	margin: 0;
+	padding: 10px;
+	border: 2px solid transparent;
+
+	transition: all .2s ease-in-out 20ms;
+
+	& > h3 {
+		margin: 0 0 10px;
+	}
+
+	&:hover {
+		background-color: #f0f2ff;
+		border: 2px solid #dde;
+		border-radius: 4px;
+
+		transition: all 200ms ease-in-out;
+	}
+
+	.tag_edit {
+		position: absolute;
+		top: 8px;
+		right: 10px;
+		font-size: 85%;
+		/* display: none; */
+	}
+}
+
+.tags {
+	margin-bottom: 5px;
+	padding-left: 0;
+
+	li {
+		display: inline-block;
+		margin-left: 5px;
+		padding: 5px;
+
+	  border: 1px solid #cce;
+	  border-radius: 5px;
+	  background-color: #eef;
+
+	  list-style: none;
+
+		a {
+			color: #2055ec;
+			font-weight: bold;
+			text-decoration: none;
+		}
+	}
+}

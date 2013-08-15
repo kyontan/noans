@@ -1,7 +1,7 @@
 !!!
 %html(lang = "ja")
 	%meta(charset = "utf-8")
-	%title 真実はいつも解なし#{(title ||= "").empty? ? "" : " - #{title}"}
+	%title !Ans #{(title ||= "").empty? ? "" : " - #{title}"}
 	-#%meta(name = "viewport" content = "width=device-width, initial-scale=1")
 
 	%link{href("/favicons/favicon_64.png")}(rel = "icon" type = "image/png")
@@ -11,14 +11,28 @@
 	%link{href("/favicons/favicon_144.png")}(sizes = "144x144" rel = "apple-touch-icon" type = "image/png")
 	%link{href("/favicon.ico")}(rel = "shortcut icon")
 
+	%link(href = 'http://fonts.googleapis.com/css?family=Source+Code+Pro:200' rel = 'stylesheet')
 	%link{href("/css/normalize.css")}(rel = "stylesheet")
-	- path ||= ""; common_css = @common_css || false
+	- path ||= ""; common_css ||= @common_css || false
 	- if common_css || path.empty?
 		%link{href("/common.css")}(rel = "stylesheet")
 	- elsif
 		%link{href("/css/#{path}.css")}(rel = "stylesheet")
 
-	%script{src: link_to("/jquery-1.8.3.min.js")}
+	%script{src: link_to("/js/jquery-2.0.0.min.js")}
+
+	-# Tag it!
+	- using_tagit_path = ["uploads", "mypage", "admin"]
+	- if using_tagit_path.include?(path)
+		%script{src: link_to("/js/jquery-ui-1.10.2.min.js")}
+		%script{src: link_to("/js/tag-it.min.js")}
+		-# %script{src: link_to("/js/tag-it.js")}
+		%link{href("/css/jquery.tagit.css")}(rel = "stylesheet")
+		%link{href("/css/tagit.ui-zendesk.css")}(rel = "stylesheet")
+		:javascript
+			$(function(){
+				$('#tagit').tagit({autocomplete: { disabled: true }});
+			});
 
 	= "<script> root_addr = '" + link_to(?/) + "'</script>"
 	:javascript
@@ -26,11 +40,11 @@
 			$.get(root_addr + "api/access_count/", function(c){ $("#count").append(JSON.parse(c)); });
 		});
 
-	- if path == "index" || path == "admin"
+	- if ["index", "admin"].include?(path)
 		:javascript
 			$(function(){
 				$.ajax({
-					url:"/rack/noans/api/post",
+					url:"/api/post",
 					dataType: "json",
 				}).done(function(data){
 					$.each(data, function(i, item){
@@ -40,10 +54,14 @@
 					$("#posts").append("投稿の取得に失敗しました");
 				});
 			});
+	- using_markdown_path = ["index", "markdown"]
+	- if using_markdown_path.include?(path)
+		%script{src: link_to("/js/markdown.js")}
+		%link{href: link_to("/css/markdown.css")}(rel = "stylesheet")
 	- if path == "index"
 		:javascript
 			$(function(){
-				$.get(root_addr + "api/text", function(text){ $("#text").append(text);});
+				$.get(root_addr + "api/text", function(text){ $("#text").append(markdown.toHTML(text));});
 			});
 	- if path == "admin"
 		:javascript
@@ -67,7 +85,7 @@
 
 
 	%header.cf
-		%a#title{href(?/)} 真実はいつも解なし
+		%a#title{href(?/)} !Ans
 		#right<
 			- if logged_in?
 				%span#username #{user_data[:display_name]} さん

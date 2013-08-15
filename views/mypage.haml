@@ -1,12 +1,68 @@
+:javascript
+	$(function(){
+		$(document).on("mouseenter", ".uploaded > section", function() {
+			$(this).children(".tag_edit").fadeIn(200);
+		});
+
+		$(document).on("mouseleave", ".uploaded > section", function() {
+			$(this).children(".tag_edit").fadeOut(20);
+		});
+
+		$(document).on("click", ".tag_edit", function(e){
+			e.preventDefault();
+			var $this = $(this),
+					$tags = $this.siblings(".tags");
+			if(!$tags.is(".editing")) {
+				$tags.tagit({autocomplete: { disabled: true }, sortable: true});
+				$this.html("保存")
+				$tags.addClass("editing");
+			} else {
+				var $newlist = $('<ul class="tags"></ul>').insertAfter($tags),
+						tags = [];
+				$.each($tags.children(".tagit-choice"), function(){
+					var	tag		= $(this).children("input").val(),
+							item	= $("<li></li>").append($('<a></a>'));
+					tags.push(tag);
+					item.children("a").attr("href", root_addr + "tags/" + tag).html(tag);
+					$newlist.append(item);
+				})
+
+				$.ajax({
+					type: "post",
+					url: root_addr + "update/tags/",
+					dataType: "json",
+					data: {id: $this.parent().data("id"), tags: tags},
+					async: true,
+				//}).done(function(data){
+				}).fail(function(data){
+					console.log("Failed to update tags.")
+				});
+
+				$tags.remove();
+				$this.html("タグ編集");
+			}
+		})
+	});
+
+
 %section#mypage.border
 	.title<
 		ファイルの管理
-	%section.uploaded
+	%section.uploaded{"data-api" => "filegroups"}
 		- user_data.fileGroups.each do |group|
-			%h3= group.title
-			%ul
-				- group.uploadedFiles.each do |file|
-					%li
-						%a{href("/files/" + group.folder_name + ?/ + file.file_name)}= file.file_name
-						access:
-						= file.access_count
+			%section{"data-id" => group.id}
+				%h3= group.title
+				-# %a.tag_edit(href = "#" style = "display: none") タグ編集
+				-# %ul.tags
+					- group.tags.each do |tag|
+						%li<
+							%a{href("/tags/" + tag)}= tag
+				%ul
+					- group.uploadedFiles.each do |file|
+						%li{"data-id" => file.id}<
+							- filepath = group.folder_name + ?/ + file.file_name
+							%a{href("/files/" + filepath)}= file.file_name
+							- if /\.(md|markdown)$/ === filepath
+								%a{href("/preview/" + filepath)} プレビュー
+							%sub<= file.access_count
+		-# %input{value: params[:tags]}(name = "tags" id = "tagit")

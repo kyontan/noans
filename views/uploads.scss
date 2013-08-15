@@ -21,17 +21,17 @@ form {
 	}
 }
 
-input {
-	&[type=text] {
-		width: 320px;
-	}
-
-	#title, #file {
-		float: left;
-	}
+input[type=text] {
+	width: 320px;
 }
 
+#title, #file {
+	float: left;
+}
 
+.tagit {
+	width: 326px;
+}
 
 
 /*
