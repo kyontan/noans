@@ -19,9 +19,9 @@ gem "mongoid"
 gem "logger"
 
 # gem "redis"
-gem "redis-sinatra"
-# gem "redis-rack"
-# gem "sinatra-redis"
+# gem "redis-sinatra"
+gem "redis-rack"
+gem "sinatra-redis"
 
 gem "better_errors"
 gem "binding_of_caller"
