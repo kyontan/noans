@@ -17,9 +17,9 @@ require "mongoid"
 require_relative "mongoidScheme"
 #require_relative "RhymeAuth"
 
-#require "redis"
-#require "sinatra/redis"
-require "redis-sinatra"
+# require "redis-sinatra"
+require "redis"
+require "sinatra/redis"
 
 require "better_errors"
 # require "sinatra/reloader" if development?
