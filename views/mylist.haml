@@ -1,0 +1,32 @@
+:scss
+	.files {
+		margin-top: .5em;
+	}
+
+%section.border#mylist
+	%h2.title= mylist.title
+	(by
+	%a{href("/user/#{mylist.user.user_name}")}=mylist.user.user_name
+	)
+	- if mylist.user == user_data
+		%span.right-top
+			%a{href("/mylist/#{mylist.id}/edit")}>
+				%i.fa.fa-edit
+				マイリストを編集
+
+	%section#comment= mylist.comment
+
+	- if mylist.uploaded_files.empty?
+		%span#empty ファイルがありません
+		- if mylist.user == user_data
+			%a.btn.btn-primary.btn-block{href("/mylist/#{mylist.id}/add")}>
+				%i.fa.fa-file-o
+				&nbsp;ファイルを追加する
+	- else
+		%ul.files
+			- mylist.uploaded_files.each do |file|
+				%li{"data-id" => file.id}<
+					%a{href("/files/#{file.id}/#{file.orig_file_name}")}= file.orig_file_name
+					- if /\.(md|markdown)$/ === file.orig_file_name
+						%a{href("/files/preview/#{file.id}/#{file.orig_file_name}")} プレビュー
+					-# %sub<= file.access_count

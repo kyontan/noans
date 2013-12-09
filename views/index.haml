@@ -1,12 +1,32 @@
-- unless logged_in?
+- if logged_in?
+	%section.border#index
+		%section.result
+			%h3 公開されているマイリスト
+			- if Mylist.public.count.zero?
+				公開されているマイリストがありません
+			- else
+				%ul
+					- mylists = Mylist.public.all(limit: 100).sort{|a, b| a.created_at <=> b.created_at }
+					- mylists.each do |mylist|
+						%li{"data-id" => mylist.id}<
+							%a{href("/mylists/#{mylist.id}")}= mylist.title
+
+		%section.result
+			%h3 公開されているファイル
+			- if UploadedFile.public.count.zero?
+				公開されているファイルがありません
+			- else
+				%ul
+					- files = UploadedFile.public.all(limit: 100).sort{|a, b| a.created_at <=> b.created_at }
+					- files.each do |file|
+						%li{"data-id" => file.id}<
+							%a{href("/files/#{file.id}/#{file.orig_file_name}")}= file.orig_file_name
+							- if /\.(md|markdown)$/ === file.orig_file_name
+								%a{href("/preview/" + file.file_name)} プレビュー
+							-# %sub<= file.access_count
+
+- else
 	%section
 		%a{href("/register")} 登録
 		%br
 		%a{href("/login")} ログイン
-- else
-	#posts
-
-	%hr
-
-	%section
-		#text.markdown

@@ -1,0 +1,42 @@
+- succeed ||= false
+- errors ||= Hash.new
+- errors.default = []
+
+:scss
+	form {
+		width: 320px;
+	}
+
+%section.form.border#manage-new
+	%h2.title ファイルの管理
+
+	- if succeed
+		%span.center#message 変更しました
+
+	%form.cf{action("/files/manage")}(method = "post" name = "files-manage")
+
+		- files = user_data.uploaded_files.available
+		- if files.empty?
+			%span#empty ファイルがありません
+			%a.btn.btn-primary.btn-block{href("/mylist/#{mylist.id}/add")}>
+				%i.fa.fa-file-o
+				&nbsp;ファイルをアップロード
+		- else
+			%ul#files.cf
+				- files.each do |file|
+					%li.file{"data-id" => file.id}<
+						%a{href("/files/#{file.id}/#{file.orig_file_name}")}= file.orig_file_name
+						%span.checkbox.fa.fa-trash-o
+							%input#file{checked: file.deleted}(type = "checkbox" name = "remove-#{file.id.to_s}")
+							%span
+						%span.checkbox.fa.fa-users
+							%input#file{checked: file.public}(type = "checkbox" name = "public-#{file.id.to_s}")
+							%span
+
+		- errors[:public].each do |e|
+			%span.warn= e
+
+
+		%input(type = "hidden" name = "_csrf" value = "#{Rack::Csrf.token(env)}")
+
+		%input.btn.btn-warning.btn-block(type = "submit" value = "変更")

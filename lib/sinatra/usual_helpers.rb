@@ -1,4 +1,4 @@
-#!/usr/local/bin/ruby
+# Coding: UTF-8
 
 require 'sinatra/base'
 
@@ -8,9 +8,9 @@ module Sinatra
 			request.script_name + to
 		end
 
-		def redirect_to(to)
-			redirect link_to(to)
-		end
+		# def redirect_to(uri)
+		# 	redirect to(to)
+		# end
 	end
 	helpers UsualHelpers
 end

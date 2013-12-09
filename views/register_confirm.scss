@@ -1,15 +1,9 @@
 @charset "UTF-8";
-@import "register";
+@import "common";
+@import "form";
 
-.key {
-	text-align: right;
-
-	&:after {
-		content: "\00a0:";
+label {
+	&.key:after {
+		content: "\00a0:"; // " :"
 	}
-}
-
-label.value {
-	clear: none;
-	text-align: left;
 }

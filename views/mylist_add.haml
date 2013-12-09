@@ -1,0 +1,34 @@
+- errors ||= Hash.new
+- errors.default = []
+- succeed ||= false
+
+%section.form.border#mylist-add
+	%h2.title
+		%a{href("/mylists/#{mylist.id}")}=mylist.title
+		へファイルを追加
+
+	- if succeed
+		%span.center#message ファイルを追加しました
+
+
+	%form.cf{action("/mylist/#{mylist.id}/add")}(method = "post" name = "mylist-add")
+		- files = user_data.uploaded_files.available - mylist.uploaded_files
+		- if mylist.public?
+			- files = files.all(public: true)
+		- if files.empty?
+			%span#empty ファイルがありません
+			%a.btn.btn-primary.btn-block{href("/upload")}>
+				%i.fa.fa-upload
+				&nbsp;ファイルをアップロード
+		- else
+			%ul#files.cf
+				- files.each do |f|
+					%li.file
+						= f.orig_file_name
+						%span.checkbox
+							%input#file(type = "checkbox" name = "#{f.id.to_s}")
+							%span
+
+			%input(type = "hidden" name = "_csrf" value = "#{Rack::Csrf.token(env)}")
+
+			%input.btn.btn-primary.btn-block(type = "submit" value = "追加")

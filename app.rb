@@ -1,98 +1,113 @@
 #!/usr/local/bin/ruby
 # Coding: UTF-8
 
-require "bundler/setup"
+require_relative "db/model"
 
-require "sinatra"
-require "sinatra/cross_origin"
-require "sinatra/formkeeper"
-#require "rack/csrf"
-require "logger"
+DataMapper.setup(:default, "sqlite3://#{Dir.pwd}/db/#{ENV["RACK_ENV"]}.sqlite3")
+# DataMapper.setup(:default, 'sqlite::memory:')
 
-require "haml"
-require "sass"
-require "rdiscount"
-
-require "mongoid"
-require_relative "mongoidScheme"
-#require_relative "RhymeAuth"
-
-# require "redis-sinatra"
-require "redis"
-require "sinatra/redis"
-
-require "better_errors"
-# require "sinatra/reloader" if development?
-# configure :development do
-#   use Rack::Reloader
-# end
-
-configure do
-	logger = Logger.new("logs/access.log", "daily")
-	logger.instance_eval { alias :write :<< unless respond_to?(:write) }
-	use Rack::CommonLogger, logger
-
-	use Rack::Session::Cookie,
-		key: 'noans.session',
-		#domain: '',
-		#path: '/',
-		expire_after: 60 * 60 * 24 * 7, # 7 days
-		secret: 'fueefuee'
-
-	#set :views, settings.root + '/views'
-	set :redis, 'redis://127.0.0.1:6379/2'
-	set :haml, attr_wrapper: ?"
-	set :haml, format: :html5
-	set :haml, cdata: false
-	set :scss, style: :expanded
-end
+DataMapper::Validations::I18n.localize! "ja"
+DataMapper.finalize
+DataMapper.auto_upgrade!
 
 configure :development do
 	use BetterErrors::Middleware
 	BetterErrors.application_root = settings.root
 end
 
+configure do
+	logger = Logger.new("#{settings.root}/log/#{settings.environment}.log", "daily")
+	logger.instance_eval { alias :write :<< unless respond_to?(:write) }
+	use Rack::CommonLogger, logger
+
+	use Rack::Session::Cookie,
+		key: 'noans.session',
+		secret: 'fueefuee',
+		# domain: '',
+		path: '/',
+		expire_after: 60 * 60 * 24 * 180 # 3 months
+
+	use Rack::Protection::RemoteToken
+	use Rack::Protection::SessionHijacking
+	use Rack::Csrf, raise: true
+
+	enable :prefixed_redirects
+	set :haml, attr_wrapper: ?"
+	set :haml, format: :html5
+	set :haml, cdata: false
+	set :scss, style: :expanded
+end
+
 $LOAD_PATH.unshift "./lib/"
-require 'sinatra/noans_helpers'
 require 'sinatra/usual_helpers'
 require 'sinatra/error_routes'
 require 'haml/link_helpers'
-# class Object
-# 	def blank?
-# 		self.nil? || self.empty?
-# 	end
-# end
 
-helpers Sinatra::NoansHelpers
 helpers do
-  # def title
-  #   if request.path_info == request.script_name #"/"
-  #     return 	"真実はいつも解なし"
-  #   else
-  #     return "真実はいつも解なし - #{}"
-  #   end
+	class ::Hash
+		def select_keys(*key)
+			key.inject({}){|h, k| h[k] = self[k]; h}
+		end
+	end
+
+	def flat_map2(val, &block)
+		if val.is_a? Hash
+			val.each_with_object({}) {|(k, v), h| h[k] = flat_map2(v, &block)}
+		elsif val.is_a? Array
+			val.map{|v| flat_map2(v, &block) }
+		else
+			yield val
+		end
+	end
+
+	def dic_sub(str, dic)
+		ret = str.clone
+		dic.each{|s, ss| ret.gsub!(s, ss) }
+		ret
+	end
+
+  # def params_filled?(required)
+  # 	required.all?{|r| !request.params[r.to_s].nil? }
   # end
 
-	def check_csrf; end
+  # def get_mime_type(file_path)
+		# type = MIME::Types.type_for("")[0]
+		# return type && type.simplified
+  # end
 
-	def csrf_token; end
+  def user_data(user_name = session[:user_name])
+  	User.first(user_name: user_name)
+  end
 
-  def password_hash(password, salt = nil)
-  	require 'securerandom'
-  	require 'digest/sha2'
-  	salt ||= SecureRandom.urlsafe_base64(24)
-  	p = password
-  	1024.times{ p = Digest::SHA256.hexdigest(p + salt) }
-  	[p, salt]
+  def logged_in?(isadmin = false)
+  	!user_data.nil? && !user_data.draft && !user_data.deleted && (!isadmin || user_data.admin)
+  end
+
+  def login!(user_name, password)
+  	user_name, password = h(user_name), h(password)
+  	if (user = user_data(user_name)) && user.available? && (user.password == password)
+  		session[:user_name] = user_name
+  		LoggedActivity.create(user: user_data, type: "login")
+  		true
+  	else
+  		false
+  	end
+  end
+
+  def logout!
+ 		LoggedActivity.create(user: user_data, type: "logout")
+  	session.delete(:user_name)
+  end
+
+  def require_login(isadmin = false)
+  	redirect "/login" unless logged_in?
+  	halt 401 unless logged_in?(isadmin)
   end
 
   alias_method :h, :escape_html
 end
 
 before do
-  #@root_dir = request.script_name
-  redis.set("text", "") 				if redis.get("text").nil?
-  redis.set("access_count", 0)	if redis.get("access_count").nil?
 end
 
 get '/' do
@@ -103,8 +118,13 @@ get '/' do
 	end
 end
 
-load 'routes_user-activity.rb'
-load 'routes_admin.rb'
-load 'routes_files.rb'
-load 'routes_api.rb'
-load 'routes_test.rb'
+require_relative 'routes/user-activity'
+# require_relative 'routes/admin'
+require_relative 'routes/assets'
+# require_relative 'routes/api'
+require_relative 'routes/dev'
+require_relative 'routes/file'
+require_relative 'routes/mylist'
+require_relative 'routes/search'
+require_relative 'routes/upload'
+require_relative 'routes/user'

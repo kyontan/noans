@@ -1,16 +1,25 @@
-%section#postmes.form.border
-	.title<
-		コメント投稿
-	%form.cf{action("/admin/set/post")}(method = "post" name = "post_admin")
-		%input#post(type = "text" name = "post" autofocus = true)
-		%input#twitter(type = "checkbox" name = "tweet" value = 1)
-		%label(for = "twitter") Twitterへ投稿する
-		%input.button.blue(type = "submit" value = "投稿")
+:scss
+	td {
+		padding: 0 6px;
+		text-align: center;
+	}
 
-%section#karitext.form.border
-	.title<
-		お知らせ文の編集
-	%form.cf{action("/admin/set/text")}(method = "post" name = "testform")
-		%textarea#text(name = "text")
-		%input.button(type = "submit" value = "保存")
+-# %section#admin.form.border
+%section#admin.border
+	%table#user-list
+		%caption ユーザ一覧
+		%thead
+			%tr
+				%th ユーザ名
+				%th 登録日
+				%th 最終ログイン
+				%th 管理者
+		%tbody
+			- User.available.each do |user|
+				%tr
+					%td= user.user_name
+					%td= user.created_at.strftime("%F %T")
+					%td= user.logged_activities.last.created_at.strftime("%F %T")
+					%td
+						%input(type = "checkbox"){checked: user.admin}
 

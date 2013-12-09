@@ -1,36 +1,24 @@
-%section.form.border#register
-	.title<
-		新規登録
+%section.form.border#register_confirm
+	%h2.title 新規登録 - 確認
 
-	%form{action("/register/process")}(method = "post" name = "register")
-		%label.key 表示名
-		-#%input(type = "text" name = "name" required autofocus)
-		%label.value<
-			= params[:name]
-		%br.clear
-		-#%label 学籍番号
-		-#%br.clear
+	%form{action("/register/process")}(method = "post" name = "register-confirm")
 
-		%label.key<
-			メールアドレス
-			%small> &nbsp;(任意)
-		%label.value<
-			= params[:mail] == "" ? "入力されていません" : params[:mail]
-		%br.clear
+		- if Sinatra::Base.development?
+			%label.key UUID
+			%span.value= session[:uuid]
 
-		%label.key<
-			ID
-		%label.value<
-			= params[:id]
-		%br.clear
+		%label.key ユーザ名
+		%span.value= params[:user_name]
 
 		%label.key
-			パスワード
-		%label.value<
-			= ?* * params[:password].length
-		%br.clear
+			メールアドレス
+			%small> &nbsp;(任意)
+		%span.value= params[:mail].empty? ? "入力されていません" : params[:mail]
 
-		%input.button.orange(type = "submit" value = "登録")
-		%input.button(type = "button" value = "戻る"
-			onClick = "history.back(); return false;")
-		%br.clear
+		%label.key パスワード
+		%span.value 表示されません
+
+		%input(type = "hidden" name = "_csrf" value = "#{Rack::Csrf.token(env)}")
+
+		%input.btn.btn-default.btn-block(type = "button" value = "戻る" onClick = "history.back(); return false;")
+		%input.btn.btn-primary.btn-block(type = "submit" value = "登録")

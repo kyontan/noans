@@ -1,0 +1,66 @@
+- succeed ||= false
+- errors ||= Hash.new
+- errors.default = []
+
+:scss
+	form {
+		width: 320px;
+	}
+
+%section.form.border#mylist-new
+	%h2.title
+		%a{href("/mylists/#{mylist.id}")}= mylist.title
+		の編集
+
+	%span.right-top
+		%a{href("/mylist/#{mylist.id}/add")}>
+			%i.fa.fa-file-o
+			ファイルを追加
+
+	- if succeed
+		%span.center#message 変更しました
+
+	%form.cf{action("/mylist/#{mylist.id}/edit")}(method = "post" name = "mylist-edit")
+		%label(for = "title")<
+			タイトル
+		%input#title(type = "text" name = "title" value = "#{h params[:title] || mylist.title}" required)
+		- errors[:title].each do |e|
+			%span.warn= e
+
+		%label(for = "comment")<
+			コメント
+		%textarea#comment(name = "comment")= h params[:comment] || mylist.comment
+		- errors[:comment].each do |e|
+			%span.warn= e
+
+		%span.checkbox
+			%input#public{checked: mylist.public}(type = "checkbox" name = "public" disabled)
+		%label.label(for = "public")<
+			公開する
+			%small 変更できません
+
+		- errors[:public].each do |e|
+			%span.warn= e
+
+		%br
+		%label.label ファイルの削除
+		- mylists = mylist.uploaded_files
+		- if mylists.empty?
+			%span#empty ファイルがありません
+		- else
+			%ul#files.cf
+				- mylists.each do |file|
+					%li.file{"data-id" => file.id}<
+						%a{href("/files/#{file.id}/#{file.orig_file_name}")}= file.orig_file_name
+						%span.checkbox.fa.fa-trash-o
+							%input#file(type = "checkbox" name = "#{file.id.to_s}")
+							%span
+
+		%input(type = "hidden" name = "_csrf" value = "#{Rack::Csrf.token(env)}")
+
+		%input.btn.btn-warning.btn-block(type = "submit" value = "変更")
+
+	%span.right-bottom
+		%a{href("/mylist/#{mylist.id}/remove")}
+			%i.fa.fa-trash-o
+			マイリストを削除

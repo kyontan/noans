@@ -1,46 +1,36 @@
-- form_last = session[:form_error].nil? ? {} : session[:form_error].clone
-- form_failed = !form_last.empty?
-- session[:form_error] = nil
--#これはひどい
+- errors ||= Hash.new
+- errors.default = []
 %section.form.border#register
-	.titleD<
-		%span.titleS 新規登録
-	%form.cf{action("/register/confirm/")}(method = "post" name = "register")
-		%label 表示名
-		%input(type = "text" name = "name" required autofocus value = "#{form_last[:name]}")
-		- if form_failed
-			- if form_last[:name].empty?
-				%span.warn< Error: 名前が入力されていません
-		-#%label 学籍番号
-		-#%input(type = "text" name = "studentID")
-		%label<
+	%h2.title 新規登録
+	%form.cf{action("/register")}(method = "post" name = "register")
+		%label(for = "user-name")<
+			ユーザ名
+			%small> (半角英数字:4文字以上)
+		%input#user-name(type = "text" name = "user_name" value = "#{h params[:user_name]}" required)
+		- errors[:user_name].each do |e|
+			%span.warn= e
+
+		%label(for = "mail")<
 			メールアドレス
-			%small> &nbsp;(任意)
-		%input(type = "email" name = "mail" value = "#{form_last[:mail]}")
-		- if form_failed
-			- if form_last[:duplicate][:mail]
-				%span.warn< Error: メールアドレスが既に使われています
+			%small> (任意)
+		%input#mail(type = "email" name = "mail" value = "#{h params[:mail]}")
+		- errors[:mail].each do |e|
+			%span.warn= e
 
-		%label<
-			ID
-			%small> &nbsp;(半角英数字:4文字以上)
-		%input(type = "text" name = "id" required value = "#{form_last[:id]}")
-		- if form_failed
-			- if form_last[:id].empty?
-				%span.warn< Error: IDが入力されていません
-			- if form_last[:id].length < 4
-				%span.warn< Error: IDが短すぎます
-			- if form_last[:duplicate][:id]
-				%span.warn< Error: IDが既に使われています
-		%label
+		%label(for = "password")<
 			パスワード
-			%small> &nbsp;(6文字以上)
-		%input#pass(type = "password" name = "password" required)
-		- if form_failed
-			- if form_last[:password].empty?
-				%span.warn< Error: パスワードが入力されていません
-			- if form_last[:password].length < 6
-				%span.warn< Error: パスワードが短すぎます
+			%small> (6文字以上)
+		%input#password(type = "password" name = "password" required)
+		-# (errors[:password] + errors[:password_confirm]).each do |e|
+		- errors[:password].each do |e|
+			%span.warn= e
 
-		%input(type = "hidden" name = "_csrf" value = "#{csrf_token}")
-		%input.button(type = "submit" value = "登録")
+		%label(for = "password-confirm")<
+			パスワード(確認)
+		%input#password-confirm(type = "password" name = "password_confirm" required)
+		- errors[:password_confirm].each do |e|
+			%span.warn= e
+
+		%input(type = "hidden" name = "_csrf" value = "#{Rack::Csrf.token(env)}")
+
+		%input.btn.btn-primary.btn-block(type = "submit" value = "登録")

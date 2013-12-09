@@ -22,8 +22,8 @@ unless ARGV.empty?
 	exit
 end
 
-Dir::glob(File.expand_path(File.dirname(__FILE__)) + "/*.scss").each do |s|
-  next if /.*\/_.*?\.scss/ === s
+Dir.glob(File.expand_path(File.dirname(__FILE__)) + "/*.scss").each do |s|
+  next if /.*\/_.*?\.scss/ == s
   to = s[0..-6] + ".css"
   scss_compile(s, to)
 end

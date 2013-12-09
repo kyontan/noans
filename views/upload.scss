@@ -1,0 +1,44 @@
+@charset "UTF-8";
+@import "common";
+@import "form";
+
+form {
+	width: 400px;
+
+	#message {
+		margin: .2em 0 1em;
+		color: hsl(10, 90%, 50%);
+	}
+
+	label {
+		margin-right: .5em;
+
+		&[for=file] {
+			float: left;
+			vertical-align: middle;
+			display: inline;
+		}
+	}
+
+	textarea {
+		resize: vertical;
+		font-size: .88em;
+	}
+
+	ul#files {
+		margin: 10px 0;
+		padding: 0 0 0 10px;
+
+		list-style-type: circle;
+		list-style-position: inside;
+		white-space: nowrap;
+		text-overflow: ellipsis;
+		overflow: hidden;
+
+	}
+
+	input[type=submit] {
+		float: right;
+
+	}
+}

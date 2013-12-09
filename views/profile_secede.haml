@@ -1,0 +1,27 @@
+- errors ||= Hash.new
+- errors.default = []
+- completed ||= false
+
+%section.form.border#profile_secede
+	- unless completed
+		%h2.title 退会
+
+		%span.center 確認のためにパスワードを入力してください
+
+		%form{action("/my/settings/secede")}(method = "post" name = "profile-secede")
+
+			%input#pass(type = "password" name = "password" required)
+			- errors[:password].each do |e|
+				%span.warn= e
+
+			%input(type = "hidden" name = "_csrf" value = "#{Rack::Csrf.token(env)}")
+
+			%input.btn.btn-danger.btn-block(type = "submit" value = "退会")
+
+	- else
+		%h2.title 退会完了
+
+		%span.center 退会しました。
+
+		%a.btn.btn-primary.btn-block{href("/")} TOPへ
+

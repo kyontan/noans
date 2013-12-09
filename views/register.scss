@@ -1,21 +1,3 @@
 @charset "UTF-8";
 @import "common";
 @import "form";
-
-#register { }
-
-form {
-	width: 450px;
-}
-
-.warn {
-	float: left;
-	margin-left: 16px;
-
-	color: #D12E1F;
-	font-size: 88%;
-}
-
-label {
-	width: 200px;
-}

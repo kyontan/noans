@@ -1,27 +1,25 @@
-#source "http://rubygems.org"
 source "https://rubygems.org"
 
 gem "sinatra"
 
-gem "formkeeper"
-gem "hpricot"
-gem "sinatra-formkeeper"
-gem "formkeeper-japanese"
-gem "sinatra-cross_origin"
-gem "rack_csrf"
-
 gem "haml"
+
 gem "sass"
+
 gem "rdiscount"
 
-gem "mongoid"
+# gem "hpricot"
 
-gem "logger"
+# gem "mime-types", require: "mime/types"
 
-# gem "redis"
-# gem "redis-sinatra"
-gem "redis-rack"
-gem "sinatra-redis"
+gem "rack_csrf", require: "rack/csrf"
 
-gem "better_errors"
-gem "binding_of_caller"
+gem "data_mapper"
+# gem "dm-tags"
+gem "dm-sqlite-adapter"
+gem 'dm-validations-i18n'
+
+group :development do
+	gem "better_errors"
+	gem "binding_of_caller", require: false
+end

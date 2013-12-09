@@ -1,128 +1,232 @@
 @charset "utf-8";
 @import "cf-micro";
+@import "variables";
 
-// 基準:16px
-// 10px:63%     11px:69%       12px:75%
-// 13px:81.5%    14px:88%      15px:94%
-// 16px:100%     17px:106.3%  18px:112.5%
-// 19px:119%     20px:125%     21px:131.3%
-// 22px:137.5%   23px:144%    24px:150%
-// 25px:156.3%   26px:162.5%
+/* font-size memo (Based-on 16px)
+ *  9px -> 0.50em, 12px -> 0.75em, 18px -> 1.12em, 24px -> 1.50em
+ * 10px -> 0.62em, 14px -> 0.87em, 20px -> 1.25em, 26px -> 1.62em
+ * 11px -> 0.68em, 16px -> 1.00em, 22px -> 1.37em, 32px -> 2.00em
+ */
 
 /* ----------- common.scss ----------- */
 
+
+@mixin centering($width, $inside-width: $form-width) {
+	width: $width;
+	margin-left: -($width - $form-width) / 2;
+}
+
+
 body {
-	//font-family: 'Hiragino Kaku Gothic Pro', Meiryo, 'MS PGothic', sans-serif;
-	font-family: "Helvetica Neue", Arial, "Hiragino Kaku Gothic Pro", Meiryo, "MS PGothic", sans-serif;
+	font-family: "ヒラギノ角ゴ Pro", "Hiragino Kaku Gothic Pro", "メイリオ", Meiryo, "MS Pゴシック", "MS PGothic", sans-serif;
 	color: #333;
 	font-size: 16px;
 }
 
-
 // * html { font-size: 100%; } // for IE6
 // *:first-child+html { font-size: 100%; } // for IE7
 
-$width: 630px;
 
 body {
-	background-image: url(../img/akari.png);
-	position: relative;
-	background-repeat: no-repeat;
-	background-position: right bottom;
-	background-attachment: fixed;
-	background-size: auto 320px;
-
-	margin: 15px auto 10px auto;
-	padding-bottom: 15px;
-
+	// background: rgba(128, 128, 128, 0.04);
+	background: $background;
 	width: $width;
-
-	border: 4px solid #A6E39D;
-	//border: 5px solid #cec;
-	border-radius: 8px;
-	box-shadow: 2px 2px 8px #dfd;
+	margin: 0 auto;
 }
 
-a { color:#007b43;	}
+a { color: #007b43;	}
 ul, ol { margin: 0; }
 small { font-size: 70%; }
 
 /* ----------- ヘッダー ----------- */
 header {
-	background-color: #29905e;
-	border-radius: 4px 4px 0 0;
+	margin-top: 1em;
+	border-radius: $header-border-radius;
+	background: $header-background;
+	// background: linear-gradient(to bottom, #ffae02 98%, white);
 
-	padding: 8px 15px 4px;
-	margin-bottom: 8px;
+	padding: 12px;
 
 	* {
 		color: #fcfaf5;
 	}
 
-	#right {
-		float: right;
-		text-align: right;
+	h1 {
+		font-size: 1em;
+		font-weight: lighter;
+		margin: 0;
 	}
 
-	#title {
-		float: left;
+	a {
+		letter-spacing: .05em;
+		color: white;
 
-		font-family: 'Source Code Pro', monospace;
-		font-size: 156.3%;
-		text-shadow: 1px 1px 1px rgba(255, 255, 255, 0.5);
 		text-decoration: none;
+		border-bottom: 1px solid transparent;
+		transition: .5s ease;
 
+		&.fa, &.fa:hover {
+			border-bottom: none;
+			text-decoration: none;
+		}
 
 		&:hover {
-			text-decoration: underline;
+			text-decoration: none;
+
+			transition: .2s ease;
+			border-bottom-color: white;
 		}
 	}
 
-	#right a {
-		font-size: 81.5%;
-		color: #CCC;
+
+	#title {
+		float: left;
+		margin-left: .25em;
+
+		font-family: 'Source Code Pro', monospace;
+		font-size: 1.5rem;
+		text-shadow: .5px .5px 10px rgba(255, 255, 255, 0.25);
 	}
+
+	#right {
+		display: block;
+		text-align: right;
+		font-size: 1.25em;
+		margin-right: .25em;
+	}
+
+	nav {
+	  position: relative;
+	  bottom: -5px;
+		padding: .2em 0;
+
+		clear: both;
+	  text-align: right;
+
+		a {
+			margin-right: .32em;
+		}
+	}
+}
+
+.fa, .fa:hover {
+	text-decoration: none;
+}
+
+/* ----------- メイン要素 ----------- */
+
+main {
+
 }
 
 /* ----------- セクション/枠 ----------- */
 section {
+	box-sizing: border-box;
+	-moz-box-sizing: border-box;
+
 	position: relative;
 	display: block;
-	//margin: 5px 10px;
-	margin: 10px;
-}
 
-.border {
-	border-top: #efb747 2px solid;
-	//border-radius: 8px;
-	margin: 20px 20px 25px;
-	padding: 5px;
+	margin: 0 auto;
+	// width: $width;
+
+	&.border {
+		border: 2px dashed rgba(0, 0, 0, .25);
+		border-radius: $border-radius;
+
+		margin: 16px auto 8px;
+		padding: 12px 8px;
+	}
+
+	.btn-block {
+		width: 216px;
+		margin: 0 auto; // FIXME: temporary
+	}
+
+	section {
+		margin-left: 1em;
+
+		&:focus {
+			outline: none;
+		}
+	}
+
+	h3 {
+		display: inline-block;
+
+		&:first-child {
+			margin: .5em 0;
+		}
+	}
+
+	h2, h3 {
+		+ .right-top {
+			top: .75em;
+		}
+	}
+
+	.right-top, .right-bottom {
+		font-size: .88em;
+		vertical-align: middle;
+
+		a {
+			display: inline-block;
+			margin-right: .25em;
+			padding: 5px;
+
+			text-decoration: none;
+			border: 1px solid transparent;
+			border-radius: 5px;
+			color: #444;
+
+			transition: .15s ease;
+
+			&:hover {
+				transition: .25s;
+				border-color: #aaa;
+				background-color: rgba(255, 255, 255, .4);
+			}
+
+			&:active {
+				outline: 0;
+				background: hsla(0, 0%, 0%, 0.01);
+				box-shadow: inset hsl(0, 0%, 85%) 1px 1px 1px;
+			}
+		}
+
+		.fa:before {
+			font-size: 1.5em;
+			margin-right: .05em;
+			vertical-align: middle;
+		}
+	}
+	.right-top {
+		position: absolute;
+		right: .25em;
+		top: 1em;
+	}
+
+	.right-bottom {
+	  margin-top: .75em;
+	  text-align: right;
+	  display: block;
+	}
+
 }
 
 .center {
-	margin: 0 auto;
+	display: block;
 	width: 400px;
+	margin: 8px auto;
+	text-align: center;
 }
 
 .title {
-	position: absolute;
-	background: white;
-	left: 1rem;
-	top: -13px;
-	padding: 0 0.3rem
-}
-
-// 枠の見出し(仮)
-.titleD {
-	margin: -17px auto auto 12px;
-
-	.titleS {
-		font-size: 106.7%;
-		padding: 0 7px;
-
-		background: white;
-		width: auto;
-	}
+	display: inline-block;
+	margin: 0 0 .25em;
+	padding-left: 0.3em;
+	font-weight: bold;
+	font-size: 1.5em;
 }
 
 /* -----------フッター ----------- */
@@ -135,21 +239,25 @@ hr {
 }
 
 footer {
-	height: 15px;
-	border-top: 1px dashed #CCC;
+	display: block;
+	margin-top: .25em;
+	padding: .25em 0;
 
-	* {
-		font-size: 81.5%;
-		padding: 8px 2px 2px 8px;
+	border-top: 1px dashed #ccc;
 
-		position: absolute;
-		bottom: 2px;
-	}
+	font-size: .82em;
+	color: #666;
 
-	#author {
-		text-align: right;
-		right: 3px;
-	}
+	text-align: right;
+	margin-right: .2em;
 }
+
+#empty {
+	display: block;
+	// margin: 1em 0;
+	margin-bottom: .5em;
+	text-align: center;
+}
+
 
 /* ----------- end common.scss ----------- */

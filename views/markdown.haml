@@ -1,6 +1,0 @@
-
-%section.markdown#preview
-	%a{href(File.join("/files/", folder, filename))}(style = "font-size: 1.3em")= filename
-	%br
-
-	= markdown File.read(File.join(settings.root, "uploaded_files", folder, filename))

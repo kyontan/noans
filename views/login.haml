@@ -1,16 +1,19 @@
+- error ||= false
+%section.form.border#login
+	%h2.title ログイン
+	%form.cf{action("/login/")}(method = "post" name = "login")
+		%label(for = "user-name") ユーザ名
+		- if error
+			%span.warn ユーザ名かパスワードが間違っています。
+		%input#user-name(type = "text" name = "user_name" value = "#{params[:user_name]}" required autofocus)
+
+		%label(for = "password") パスワード
+		%input#password(type = "password" name = "password" required)
+
+		%input(type = "hidden" name = "_csrf" value = "#{Rack::Csrf.token(env)}")
+
+		%input.btn.btn-primary.btn-block(type = "submit" value = "ログイン")
+
 %section.border#register-link
 	まだ登録されてないですか？
-	%br
-	こちらから登録できます
-	%a.button.blue{href("/register")} 新規登録
-%section.form.border#login
-	.title<
-		ログイン
-	%form.cf{action("/login/")}(method = "post" name = "login")
-		%label< ID
-		%input#user(type = "text" name = "id" required autofocus)
-		%label<
-			パスワード
-		%input#pass(type = "password" name = "password" required)
-		%input(type = "hidden" name = "_csrf" value = "#{csrf_token}")
-		%input.button.blue(type = "submit" value = "ログイン")
+	%a.btn.btn-primary.btn-block{href("/register")} 新規登録

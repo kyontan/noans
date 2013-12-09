@@ -4,36 +4,10 @@
 
 /* ----------- login ----------- */
 
-body {
-	width: 420px;
-}
-
-form {
-	width: 330px;
-}
-
-label {
-	width: 130px;
-}
-
-input {
-	&[type=text], &[type=password], &[type=email] {
-		float: left;
-		width: 160px;
-		margin-right: 5px;
-	}
-
-	&[type=submit] {
-		float: right;
-	}
-}
-
 section#register-link {
-	padding: 10px 25px 0;
-}
+	text-align: center;
 
-a.button {
-	text-decoration: none;
-	float: right;
+	a.btn-block {
+		margin-top: 8px;
+	}
 }
-

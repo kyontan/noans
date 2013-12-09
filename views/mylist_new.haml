@@ -1,0 +1,37 @@
+- errors ||= Hash.new
+- errors.default = []
+
+:scss
+	form {
+		width: 320px;
+	}
+
+%section.form.border#mylist-new
+	%h2.title マイリストを作成
+
+	%form.cf{action("/mylist/new")}(method = "post" name = "mylist-new")
+		%label(for = "title")<
+			タイトル
+		- errors[:title].each do |e|
+			%span.warn= e
+		%input#title(type = "text" name = "title" value = "#{h params[:title]}" required)
+
+		%label(for = "comment")<
+			コメント
+			%small (後から変更できます)
+		- errors[:comment].each do |e|
+			%span.warn= e
+		%textarea#comment(name = "comment" value = "#{h params[:comment]}")
+
+		%span.checkbox
+			%input#public{checked: params[:public] || true}(type = "checkbox" name = "public")
+			%span
+		%label.label(for = "public")<
+			公開する
+
+		- errors[:public].each do |e|
+			%span.warn= e
+
+		%input(type = "hidden" name = "_csrf" value = "#{Rack::Csrf.token(env)}")
+
+		%input.btn.btn-primary.btn-block(type = "submit" value = "作成")

@@ -1,5 +1,6 @@
 @charset "UTF-8";
 @import "common";
+@import "bootstrap-buttons";
 
 .uploaded > section {
 	position: relative;
@@ -21,34 +22,28 @@
 		transition: all 200ms ease-in-out;
 	}
 
-	.tag_edit {
-		position: absolute;
-		top: 8px;
-		right: 10px;
-		font-size: 85%;
-		/* display: none; */
-	}
 }
 
-.tags {
-	margin-bottom: 5px;
-	padding-left: 0;
+// jquery.herotabs
+.js-nav {
+	margin-top: .5em;
+	display: flex;
+}
 
-	li {
-		display: inline-block;
-		margin-left: 5px;
-		padding: 5px;
+.js-nav-item {
+	flex: 1;
+	margin: 0 5px;
 
-	  border: 1px solid #cce;
-	  border-radius: 5px;
-	  background-color: #eef;
+	.btn {
+		box-sizing: border-box;
+		-moz-box-sizing: border-box;
+		width: 100%;
+	}
 
-	  list-style: none;
-
-		a {
-			color: #2055ec;
-			font-weight: bold;
-			text-decoration: none;
-		}
+	&.tab-nav-current .btn {
+		background: #428bca;
+		cursor: default;
+		outline: none;
+		color: white;
 	}
 }

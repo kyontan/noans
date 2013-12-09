@@ -1,76 +1,167 @@
 @charset "UTF-8";
-@import "css_buttons";
+@import "variables";
+@import "bootstrap-buttons";
+@import "ionic-checkbox";
 
+/* ----------- _form.scss ----------- */
 /* ----------- Form ----------- */
+
 form {
 	margin: 0 auto;
-	padding: 10px;
-}
+	box-sizing: border-box;
 
-.form {
-	margin: 25px 20px 10px;
-	padding: 5px;
-}
+	width: $form-width;
 
-label {
-	float: left;
-	text-align: right;
-	display: inline-block;
-
-	height: 24px;
-
-	margin: 8px 3px 6px;
-	padding: 4px 0;
-}
-
-input {
-	float: right;
-
-	.button {
-		margin-top: 10px;
+	* {
+		-moz-box-sizing: border-box;
+		box-sizing: border-box;
 	}
 
-	&[type=text], &[type=password], &[type=email] {
-		font-size: 1.25rem;
-		height: 24px;
-		outline: none;
+	input, label {
+		display: block;
+	}
 
+	label {
+		margin: 4px 0;
+		padding: 0;
+		vertical-align: top;
+		cursor: pointer;
+	}
+
+	.label {
+		display: inline-block;
+
+		& + label {
+			margin-left: .25em;
+		}
+	}
+
+	span.value {
+		display: inline-block;
+		margin: 0 auto 8px 16px;
+	}
+
+	@mixin input-like-bootstrap {
+		// Referenced from Bootstrap
+		padding: 6px 12px;
+		color: #555;
+		border: 1px solid #ccc;
 		border-radius: 3px;
+		box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075);
 	}
 
-	&[type="file"] {
-		position: absolute;
-		visibility: hidden;
-		width: 1px;
-		height: 1px;
-		opacity: 0;
+	@mixin input-like-bootstrap-focus {
+	  outline: dotted #999;
+	  outline: auto -webkit-focus-ring-color;
+	  outline-offset: -2px;
+		outline-width: 2px;
+
+		transition: outline-width .1s;
+		-webkit-transition: outline-width .1s;
 	}
 
+	%field {
+		margin: 0 auto 16px;
+	}
+
+	%text-field {
+		width: 100%;
+
+		background: rgba(255, 255, 255, .9);
+	}
+
+	input {
+		box-sizing: border-box;
+
+		&[type=text], &[type=password], &[type=email] {
+			@include input-like-bootstrap;
+			@extend %field;
+			@extend %text-field;
+
+			&:focus {
+				@include input-like-bootstrap-focus
+			}
+		}
+
+		&[type=checkbox], &[type=radio] {
+			@extend %field;
+		}
+
+		&[type=file] {
+			position: absolute;
+			visibility: hidden;
+			width: 1px;
+			height: 1px;
+			opacity: 0;
+		}
+	}
+
+	textarea {
+		@include input-like-bootstrap;
+		@extend %field;
+		@extend %text-field;
+
+		&:focus {
+			@include input-like-bootstrap-focus
+		}
+	}
+
+	small {
+		display: inline-block;
+		margin-left: .2em;
+	}
 }
 
-input, label {
-	margin: 6px 0 4px;
+
+.btn-block {
+	margin: 0 auto;
+	width: $form-width;
 }
 
-input[type=submit], label {
-	clear: left;
+.warn {
+	display: block;
+	width: 150%;
+
+	color: #D12E1F;
+	font-size: .88em;
 }
 
-//Todo: Adjust border-width -> Too much emphasis (Ref to twitter_login)
 
-/* ----- Tag it! ----- */
-.tagit {
-	float: left;
-	border-radius: 6px;
-	box-shadow: 1px 1px 1px #333 inset;
+// ionic-checkbox & font-awesome !!
+
+.checkbox.fa {
+	&:before {
+    position: absolute;
+    z-index: 2;
+    color: hsl(0, 100%, 100%);
+    font-size: 18px;
+    pointer-events: none;
+
+    width: 100%;
+    margin-top: 5px;
+    text-align: center;
+	}
+
+	input:checked + span:after {
+    content: initial;
+	}
+
+	&.fa-trash-o input {
+		 + span:before {
+			border-color: hsl(2, 64%, 53%);
+		}
+
+		&:checked + span:before {
+			background-color: hsl(2, 64%, 58%);
+		}
+	}
 }
 
-ul.tagit li.tagit-new {
-	width: 160px;
+
+.checkbox {
+	& + & {
+		margin-right: .5em;
+	}
 }
 
-// 日本語が入る場合に height が狂うことに対する対処
-li.tagit-choice {
-	height: 1.3em;
-}
-
+/* ----------- end _form.scss ----------- */

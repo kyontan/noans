@@ -1,68 +1,62 @@
+
+%script{src("/js/jquery.herotabs.js")}
+
 :javascript
 	$(function(){
-		$(document).on("mouseenter", ".uploaded > section", function() {
-			$(this).children(".tag_edit").fadeIn(200);
-		});
-
-		$(document).on("mouseleave", ".uploaded > section", function() {
-			$(this).children(".tag_edit").fadeOut(20);
-		});
-
-		$(document).on("click", ".tag_edit", function(e){
-			e.preventDefault();
-			var $this = $(this),
-					$tags = $this.siblings(".tags");
-			if(!$tags.is(".editing")) {
-				$tags.tagit({autocomplete: { disabled: true }, sortable: true});
-				$this.html("保存")
-				$tags.addClass("editing");
-			} else {
-				var $newlist = $('<ul class="tags"></ul>').insertAfter($tags),
-						tags = [];
-				$.each($tags.children(".tagit-choice"), function(){
-					var	tag		= $(this).children("input").val(),
-							item	= $("<li></li>").append($('<a></a>'));
-					tags.push(tag);
-					item.children("a").attr("href", root_addr + "tags/" + tag).html(tag);
-					$newlist.append(item);
-				})
-
-				$.ajax({
-					type: "post",
-					url: root_addr + "update/tags/",
-					dataType: "json",
-					data: {id: $this.parent().data("id"), tags: tags},
-					async: true,
-				//}).done(function(data){
-				}).fail(function(data){
-					console.log("Failed to update tags.")
-				});
-
-				$tags.remove();
-				$this.html("タグ編集");
-			}
-		})
+		$('.tabs').herotabs();
 	});
 
 
 %section#mypage.border
-	.title<
-		ファイルの管理
-	%section.uploaded{"data-api" => "filegroups"}
-		- user_data.fileGroups.each do |group|
-			%section{"data-id" => group.id}
-				%h3= group.title
-				-# %a.tag_edit(href = "#" style = "display: none") タグ編集
-				-# %ul.tags
-					- group.tags.each do |tag|
-						%li<
-							%a{href("/tags/" + tag)}= tag
-				%ul
-					- group.uploadedFiles.each do |file|
+
+	%h2.title マイページ
+
+	%div.tabs
+		%div.js-nav
+			%span.js-nav-item
+				%a.btn.btn-default(href = "#files") ファイル
+			%span.js-nav-item
+				%a.btn.btn-default(href = "#mylists") マイリスト
+
+		%section.js-tab#files
+			%h3 ファイル
+			%span.right-top
+				%a{href("/files/manage")}<
+					%i.fa.fa-inbox>
+					ファイルの管理
+				%a{href("/upload")}<
+					%i.fa.fa-upload>
+					&nbsp;ファイルをアップロード
+			- files = user_data.uploaded_files.available
+			- if files.empty?
+				%span#empty ファイルがありません
+				%a.btn.btn-primary.btn-block{href("/upload")}>
+					%i.fa.fa-upload
+					&nbsp;ファイルをアップロード
+			- else
+				%ul#files
+					- files.each do |file|
 						%li{"data-id" => file.id}<
-							- filepath = group.folder_name + ?/ + file.file_name
-							%a{href("/files/" + filepath)}= file.file_name
-							- if /\.(md|markdown)$/ === filepath
-								%a{href("/preview/" + filepath)} プレビュー
-							%sub<= file.access_count
-		-# %input{value: params[:tags]}(name = "tags" id = "tagit")
+							%a{href("/files/#{file.id}/#{file.orig_file_name}")}= file.orig_file_name
+							- if /\.(md|markdown)$/ === file.orig_file_name
+								%a{href("/preview/" + file.file_name)} プレビュー
+							-# %sub<= file.access_count
+
+		%section.js-tab#mylists
+			%h3 マイリスト
+			%span.right-top
+				%a{href("/mylist/new")}<
+					%i.fa.fa-list
+					&nbsp;マイリストを作成
+			- mylists = user_data.mylists.available
+			- if mylists.empty?
+				%span#empty マイリストがありません
+				%a.btn.btn-primary.btn-block{href("/mylist/new")}>
+					%i.fa.fa-list
+					&nbsp;マイリストを作成
+			- else
+				%ul#mylists
+					- mylists.each do |mylist|
+						%li{"data-id" => mylist.id}<
+							%a{href("/mylists/#{mylist.id}")}= mylist.title
+							-# %sub<= mylist.access_count

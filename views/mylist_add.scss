@@ -1,0 +1,31 @@
+@charset "UTF-8";
+@import "common";
+@import "form";
+
+form {
+	width: 320px;
+
+	.checkbox {
+		float: right;
+
+		input {
+			margin: 0;
+		}
+	}
+}
+
+ul#files {
+	width: 320px;
+	margin: 0 0 8px;
+
+	.file {
+		float: left;
+		clear: left;
+		margin: .1em 0;
+		width: 100%;
+	}
+}
+
+#message {
+	margin: .75em auto .2em;
+}

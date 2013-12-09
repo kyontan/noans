@@ -1,0 +1,19 @@
+- succeed ||= false
+
+%section.form.border#mylist_remove
+	- if succeed
+		%span.center#message 削除しました
+		%a.btn.btn-primary.btn-block{href("/my")} マイページへ
+
+	- else
+		%h2.title= "#{mylist.title} を削除"
+		%span.center 本当に削除しますか
+		%form{action("/mylist/#{mylist.id}/remove/")}(method = "post" name = "mylist-remove")
+
+
+			%input(type = "hidden" name = "_csrf" value = "#{Rack::Csrf.token(env)}")
+
+			%a.btn.btn-primary.btn-block{href(back)} 戻る
+			%input.btn.btn-danger.btn-block(type = "submit" value = "削除")
+
+

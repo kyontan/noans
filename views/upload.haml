@@ -1,0 +1,47 @@
+- succeed ||= false
+:javascript
+	$(function(){
+		var $list = $("ul#files")
+		$("#file").each(function(){
+			var $this = $(this),
+					$file = $this.prev("input[type=file]");
+
+			$this.on("click", function(e){ $file.trigger("click"); });
+			$file.change(function() {
+				$list.empty();
+				if(window.File) {
+					$.each(this.files, function(i, val){
+						add_file_list(val.name);
+					})
+				} else add_file_list($(this).value());
+			});
+		});
+
+		function add_file_list(file_name) {
+			$list.append("<li>" + file_name + "</li>");
+		}
+	});
+
+%section.form.border#login
+	%h2.title アップロード
+
+	- if succeed
+		%span.center#message アップロードしました
+
+	%form.cf{action("/upload")}(method = "post" enctype = "multipart/form-data" name = "upload")
+		%label(for = "file")< ファイル
+		%input(type = "file" name="file[]" size = "0" multiple required)
+		%input.btn.btn-default#file(type = "button" value = "参照...")
+
+		%ul#files
+
+		%span.checkbox
+			%input#public(type = "checkbox" name = "public" value = "#{h params[:public]}" checked)
+			%span
+		%label.label(for = "public")<
+			公開する
+
+
+		%input(type = "hidden" name = "_csrf" value = "#{Rack::Csrf.token(env)}")
+		%input.btn.btn-primary(type = "submit" value = "アップロード")
+

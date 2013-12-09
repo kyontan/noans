@@ -1,4 +1,4 @@
-#!/usr/local/bin/ruby
+# Coding: UTF-8
 
 require 'sinatra/base'
 require 'sinatra/usual_helpers'
@@ -6,33 +6,103 @@ require 'sinatra/usual_helpers'
 module Sinatra
 	module ErrorRoutes
 		def self.registered(app)
-			app.set inline_templates: true
-
 			app.error 401 do
 				haml :default_error, layout: false,
-							locals: {image: "/e/Response_401.png", code: 401, res: "Authorization Required"}
+							locals: {code: 401, res: "Authorization Required"}
 			end
 
 			app.error 403 do
 				haml :default_error, layout: false,
-							locals: {image: "/e/Response_403.png", code: 401, res: "Forbidden"}
+							locals: {code: 403, res: "Forbidden"}
 			end
 
 			app.error 404 do
 				haml :default_error, layout: false,
-							locals: {image: "/e/Response_404.png", code: 404, res: "Not Found"}
+							locals: {code: 404, res: "Not Found"}
 			end
 
 			app.error 500 do
 				haml :default_error, layout: false,
-							locals: {image: "/e/Response_500.png", code: 500, res: "Internal Server Error"}
+							locals: {code: 500, res: "Internal Server Error"}
 			end
 
 			app.error 418 do
-				#haml :'418'
 				haml :default_error, layout: false,
-							locals: {image: "#{request.script_name}/img/teapot.png", code: 418, res: "I'm a teapot",
+							locals: {image: to("/img/teapot.png"), code: 418, res: "I'm a teapot",
 							mes: "I'm a teapot!"}
+			end
+
+			app.template :default_error do
+<<'EOF'
+!!!
+%html
+	%meta(charset = "utf-8")
+
+	%title #{code} #{res}
+
+	:scss
+		body {
+			font-size: 16px;
+			line-height: 1;
+
+			width: 480px;
+			margin: 30px auto 0;
+		}
+
+		a {
+			display: inline-block;
+			font-size: 1.2em;
+			text-decoration: none;
+
+			color: #888;
+			transition: .5s;
+			border-bottom: 1px solid transparent;
+
+			&:hover {
+				transition: .2s;
+				border-bottom-color: #888;
+			}
+
+			&#link-top {
+				float: right;
+			}
+		}
+
+		.response {
+			font-family: "Source Code Pro", monospace;
+			font-size: 28px;
+			text-shadow: #eee 1px 1px 12px;
+			text-align: center;
+
+			background: white;
+			margin-bottom: 36px;
+			padding: 12px 0;
+			border: 6px solid #eee;
+			border-radius: 16px;
+
+			box-sizing: border-box;
+			box-shadow: #fcfcfc 3px 3px 12px;
+			-webkit-box-reflect: below 1px linear-gradient(to bottom, transparent, rgba(255, 255, 255, .02) 99%);
+		}
+
+		.footer {
+			margin-top: 20px;
+			padding: 6px 0;
+
+			border-image: linear-gradient(to left, #fff, #ccc, #fff) 1;
+			border-width: 1px;
+
+			font-size: 12px;
+			text-align: center;
+			color: #888;
+		}
+
+	%div.response #{code} #{res}
+
+	%a(href = "javascript:history.back()") 戻る
+	%a#link-top{href(?/)} TOPへ
+	%div.footer CopyRight &copy; 2010- Kyontan Some rights reserved.
+EOF
 			end
 		end
 	end
@@ -40,50 +110,3 @@ module Sinatra
 	register ErrorRoutes
 end
 
-# require 'rack/csrf'
-# error Rack::Csrf::InvalidCsrfToken do
-#    #"CSRFが検出されました。"
-#    "CSRF!"
-# #    # @specific_object = :CSRF
-# #    # @common_css = true
-# #    # haml :common
-# end
-
-__END__
-@@default_error
-!!!5
-%html
-	%head
-		%meta(charset = "utf-8")
-		%title #{code} #{res}
-
-		:css
-			body {
-				width : 425px;
-				margin: 30px auto;
-			}
-
-			a { color:#888;	}
-
-			.response { display:none; }
-
-			.footer {
-				margin-top     : 20px;
-				padding-top    : 6px;
-				padding-bottom : 6px;
-				border-top     : -moz-linear-gradient(left,#fff,#ccc,#fff);
-				border-bottom  : -moz-linear-gradient(left,#fff,#ccc,#fff);
-				text-align     : center;
-				font-size      : 12px;
-				color          : #888;
-			}
-	%body
-		%div.response #{code} #{res}
-		%img(src="#{image}" alt="#{code} #{res}")
-		- unless (mes ||= nil).nil?
-			%br
-			= mes
-			%br
-		%a{href(?/)} TOPへ
-		%div.footer
-			CopyRight (C) 2010-2012 monora.me... Some rights reserved.

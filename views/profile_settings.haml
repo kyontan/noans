@@ -1,0 +1,54 @@
+- errors ||= Hash.new([])
+- completed ||= false
+
+%section.form.border#profile_edit
+	%h2.title ユーザ情報の変更
+	%span.right-top
+		%a{href("/my/settings/secede")} 退会
+
+	- unless completed
+		%span.attention 変更する項目のみ入力してください
+
+		%form{action("/my/settings/edit")}(method = "post" name = "profile-edit")
+
+			%label<
+				ユーザ名
+				%small> (変更できません)
+			%span.value= user_data.user_name
+
+			%label(for = "mail")<
+				メールアドレス
+				%small> (任意)
+			%input#mail(type = "email" name = "mail" value = "#{params[:mail]}" placeholder = "#{user_data.mail}")
+			- errors[:mail].each do |e|
+				%span.warn= e
+
+			%label(for = "new-password")<
+				新しいパスワード
+				%small> (6文字以上)
+			%input#new-password(type = "password" name = "password_new")
+			- errors[:password].each do |e|
+				%span.warn= e
+
+			%label(for = "new-password-confirm")<
+				新しいパスワード
+				%small> (確認)
+			%input#new-password-confirm(type = "password" name = "password_new_confirm")
+
+			%hr
+
+			%span.center 確認のため、現在のパスワードを入力してください。
+
+			%label(for = "password") 現在のパスワード
+			%input#password(type = "password" name = "password" required)
+			- errors[:password_old].each do |e|
+				%span.warn= e
+
+			%input(type = "hidden" name = "_csrf" value = "#{Rack::Csrf.token(env)}")
+
+			%input.btn.btn-primary.btn-block(type = "submit" value = "変更")
+
+	- else
+		%span.center#completed 変更しました
+
+		%a.btn.btn-primary.btn-block{href("/my")} マイページへ

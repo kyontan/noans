@@ -1,0 +1,11 @@
+:scss
+	#link {
+		position: absolute;
+		font-size: 1.3em;
+		right: 1em;
+	}
+
+%section.border.markdown#preview
+	%a#link{href("/files/#{file.id}/#{file.orig_file_name}")}= file.orig_file_name
+
+	= markdown File.read(Pathname(settings.root) + "uploads" + file.file_name)

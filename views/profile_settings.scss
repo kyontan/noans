@@ -1,0 +1,25 @@
+@charset "UTF-8";
+@import "common";
+@import "form";
+
+
+hr, .center {
+	// $border-width: 400px;
+
+	// width: $border-width;
+	// margin-left: -($border-width - $form-width) / 2;
+	@include centering($width: 400px);
+}
+
+span {
+	&.attention {
+		display: block;
+		padding: 0 0.3rem;
+		font-weight: bold;
+		text-decoration: underline;
+	}
+
+	&#completed {
+		margin: .5em auto 1em;
+	}
+}
