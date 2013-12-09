@@ -21,7 +21,7 @@ post '/upload/?' do
 	# path = Pathname(settings.root) + "uploads" + mylist.title
 
 	path = Pathname(settings.root) + "uploads"
-	# FileUtils.makedirs(path)
+	FileUtils.makedirs(path)
 
 	params[:file].each do |f|
 		file = UploadedFile.new

@@ -1,3 +1,5 @@
+# Coding: UTF-8
+
 class User
 	require 'uuidtools'
 

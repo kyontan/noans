@@ -16,7 +16,10 @@ configure :development do
 end
 
 configure do
-	logger = Logger.new("#{settings.root}/log/#{settings.environment}.log", "daily")
+	require 'pathname'
+	log_path = Pathname(settings.root) + "log"
+	FileUtils.makedirs(log_path)
+	logger = Logger.new("#{log_path}/#{settings.environment}.log", "daily")
 	logger.instance_eval { alias :write :<< unless respond_to?(:write) }
 	use Rack::CommonLogger, logger
 
