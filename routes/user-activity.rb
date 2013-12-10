@@ -27,8 +27,7 @@ post '/my/settings/?' do
 		user.password_confirm	= params[:password_new_confirm]
 	end
 
-	is_password_valid = user_data.password == params[:password]
-
+	is_password_valid = (user_data.password == params[:password])
 	if is_password_valid && user.valid?(validation_case)
 		user.save
 		haml :profile_settings, locals: {path: "profile_settings", title: "ユーザ情報 - 編集", completed: true}

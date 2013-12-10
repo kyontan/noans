@@ -3,7 +3,7 @@
 
 require_relative "db/model"
 
-DataMapper.setup(:default, "sqlite3://#{Dir.pwd}/db/#{ENV["RACK_ENV"]}.sqlite3")
+DataMapper.setup(:default, "sqlite3://#{Dir.pwd}/db/#{settings.environment}.sqlite3")
 # DataMapper.setup(:default, 'sqlite::memory:')
 
 DataMapper::Validations::I18n.localize! "ja"
@@ -16,7 +16,6 @@ configure :development do
 end
 
 configure do
-	require 'pathname'
 	log_path = Pathname(settings.root) + "log"
 	FileUtils.makedirs(log_path)
 	logger = Logger.new("#{log_path}/#{settings.environment}.log", "daily")
