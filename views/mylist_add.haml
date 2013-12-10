@@ -16,7 +16,7 @@
 		- if mylist.public?
 			- files = files.all(public: true)
 		- if files.empty?
-			%span#empty ファイルがありません
+			%span.empty ファイルがありません
 			%a.btn.btn-primary.btn-block{href("/upload")}>
 				%i.fa.fa-upload
 				&nbsp;ファイルをアップロード

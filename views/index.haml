@@ -3,7 +3,7 @@
 		%section.result
 			%h3 公開されているマイリスト
 			- if Mylist.public.count.zero?
-				公開されているマイリストがありません
+				%span.empty 公開されているマイリストがありません
 			- else
 				%ul
 					- mylists = Mylist.public.all(limit: 100).sort{|a, b| a.created_at <=> b.created_at }
@@ -14,7 +14,7 @@
 		%section.result
 			%h3 公開されているファイル
 			- if UploadedFile.public.count.zero?
-				公開されているファイルがありません
+				%span.empty 公開されているファイルがありません
 			- else
 				%ul
 					- files = UploadedFile.public.all(limit: 100).sort{|a, b| a.created_at <=> b.created_at }
@@ -22,7 +22,7 @@
 						%li{"data-id" => file.id}<
 							%a{href("/files/#{file.id}/#{file.orig_file_name}")}= file.orig_file_name
 							- if /\.(md|markdown)$/ === file.orig_file_name
-								a{href("/files/preview/#{file.id}/#{file.orig_file_name}")} プレビュー
+								%a{href("/files/preview/#{file.id}/#{file.orig_file_name}")} プレビュー
 							-# %sub<= file.access_count
 
 - else

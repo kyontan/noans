@@ -46,7 +46,7 @@
 		%label.label ファイルの削除
 		- mylists = mylist.uploaded_files
 		- if mylists.empty?
-			%span#empty ファイルがありません
+			%span.empty ファイルがありません
 		- else
 			%ul#files.cf
 				- mylists.each do |file|
