@@ -21,16 +21,19 @@ post '/upload/?' do
 	# path = Pathname(settings.root) + "uploads" + mylist.title
 
 	path = Pathname(settings.root) + "uploads"
-	FileUtils.makedirs(path)
 
 	params[:file].each do |f|
+		sha2 = Digest::SHA2.hexdigest(File.read(f[:tempfile].path))
+		next if user_data.uploaded_files.available.first(orig_file_name: h(f[:filename]), sha2: sha2)
+
 		file = UploadedFile.new
 		# file.file_group = filegroup
-		file.user				= user_data
-		file.file_type	= h f[:type]
-		file.file_size	= h f[:tempfile].size
-		file.orig_file_name = h f[:filename]
-		file.public			= params[:public] ? true : false
+		file.user						= user_data
+		file.file_type			= h(f[:type])
+		file.file_size			= f[:tempfile]
+		file.orig_file_name = h(f[:filename])
+		file.sha2						= sha2
+		file.public					= params[:public] ? true : false
 		raise unless file.save
 
 		File.write(
