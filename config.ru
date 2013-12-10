@@ -1,6 +1,9 @@
 require "logger"
 require "bundler"
 
+require 'fileutils'
+FileUtils.makedirs(["uploads", "log"])
+
 Bundler.require
 
 set :environment, :development
