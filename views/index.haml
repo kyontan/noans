@@ -6,7 +6,7 @@
 				%span.empty 公開されているマイリストがありません
 			- else
 				%ul
-					- mylists = Mylist.public.all(limit: 100).sort{|a, b| a.created_at <=> b.created_at }
+					- mylists = Mylist.public.all(limit: 100, order: [:created_at.desc])
 					- mylists.each do |mylist|
 						%li{"data-id" => mylist.id}<
 							%a{href("/mylists/#{mylist.id}")}= mylist.title
@@ -17,7 +17,7 @@
 				%span.empty 公開されているファイルがありません
 			- else
 				%ul
-					- files = UploadedFile.public.all(limit: 100).sort{|a, b| a.created_at <=> b.created_at }
+					- files = UploadedFile.public.all(limit: 100, order: [:created_at.desc])
 					- files.each do |file|
 						%li{"data-id" => file.id}<
 							%a{href("/files/#{file.id}/#{file.orig_file_name}")}= file.orig_file_name
