@@ -114,7 +114,7 @@ get '/files/preview/:id/:file_name/?' do
 		halt 403
 	end
 
-	unless %r{.md$} === file.orig_file_name
+	unless %r{.(md|markdown)$} === file.orig_file_name
 		halt 415
 	else
 		haml :markdown_preview, locals: {path: "markdown_preview", file: file, title: file.orig_file_name}
