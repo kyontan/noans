@@ -23,8 +23,8 @@
 						%span.checkboxes
 							%span.checkbox
 								%input#file{checked: file.public}(type = "checkbox" name = "public-#{file.id.to_s}")
-								%span.unchecked.fa.fa-unlock
-								%span.checked.fa.fa-lock
+								%span.unchecked.fa.fa-lock
+								%span.checked.fa.fa-unlock
 							%span.checkbox.trash
 								%input#file{checked: file.deleted}(type = "checkbox" name = "remove-#{file.id.to_s}")
 								%span.unchecked.empty
