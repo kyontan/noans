@@ -1,1 +1,53 @@
+@charset "utf-8";
 @import "mylist_add";
+
+form 	{
+	width: 360px;
+}
+
+section#file-manage {
+	ul#files {
+		padding: 0;
+		width: 100%;
+		list-style-type: none;
+	}
+
+	li.file {
+		margin: 3px 0;
+
+		a {
+			max-width: calc(360px - 2 * (28px + 5px + 4px));
+			padding: 0;
+		}
+	}
+
+	.checkboxes {
+		float: right;
+		line-height: 0;
+
+		input[type=checkbox] {
+			margin-bottom: 0;
+		}
+
+		span:not(span:first-child) {
+			margin-left: 5px;
+		}
+	}
+
+	.checkbox {
+		margin-bottom: 0;
+	}
+}
+
+// trash
+
+:root .checkbox.trash {
+	span:before {
+		border-color: hsl(2, 64%, 53%);
+	}
+
+	.checked:before {
+		border-color: hsl(2, 64%, 53%);
+		background-color: hsl(2, 64%, 58%);
+	}
+}

@@ -1,22 +1,39 @@
 :scss
-	.title {
-		width: 100%;
-		white-space: nowrap;
-		overflow: hidden;
-		text-overflow: ellipsis;
-	}
+	section {
+		.title {
+			max-width: 100%;
+			margin-bottom: 0;
+			white-space: nowrap;
+			overflow: hidden;
+			text-overflow: ellipsis;
+		}
 
-	// #user {
-	// 	float: right;
-	// }
+		.user {
+			// float: right;
+			padding: 5px;
+			vertical-align: super;
+		}
 
-	.files {
-		margin-top: .5em;
+		.comment {
+			margin: .5em .5em 0;
+			text-indent: 1em;
+			word-break: break-all;
+		}
+
+		.files {
+			margin-top: .5em;
+		}
+
+		.right-top {
+			position: static !important;
+			float: right;
+			margin-top: -0.5em;
+		}
 	}
 
 %section.border#mylist
 	%h2.title= mylist.title
-	%span#user<
+	%span.user<
 		(by&nbsp;
 		%a{href("/user/#{mylist.user.user_name}")}>=mylist.user.user_name
 		&nbsp;)
@@ -26,11 +43,11 @@
 				%i.fa.fa-edit
 				マイリストを編集
 
-	%section#comment.cf= mylist.comment
+	%section.comment.cf= mylist.comment
 	- files = mylist.uploaded_files
 	- files = files.all(public: true) if mylist.public && (mylist.user != user_data)
 	- if files.empty?
-		%span.empty ファイルがありません
+		%span.center ファイルがありません
 		- if mylist.user == user_data
 			%a.btn.btn-primary.btn-block{href("/mylist/#{mylist.id}/add")}>
 				%i.fa.fa-file-o

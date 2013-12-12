@@ -8,7 +8,7 @@
 		へファイルを追加
 
 	- if succeed
-		%span.center#message ファイルを追加しました
+		%span.center ファイルを追加しました
 
 
 	%form.cf{action("/mylist/#{mylist.id}/add")}(method = "post" name = "mylist-add")
@@ -16,7 +16,7 @@
 		- if mylist.public?
 			- files = files.all(public: true)
 		- if files.empty?
-			%span.empty ファイルがありません
+			%span.center ファイルがありません
 			%a.btn.btn-primary.btn-block{href("/upload")}>
 				%i.fa.fa-upload
 				&nbsp;ファイルをアップロード
@@ -27,7 +27,8 @@
 						= f.orig_file_name
 						%span.checkbox
 							%input#file(type = "checkbox" name = "#{f.id.to_s}")
-							%span
+							%span.unchecked.empty
+							%span.checked.fa.fa-check
 
 			%input(type = "hidden" name = "_csrf" value = "#{Rack::Csrf.token(env)}")
 

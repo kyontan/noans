@@ -18,7 +18,7 @@
 			ファイルを追加
 
 	- if succeed
-		%span.center#message 変更しました
+		%span.center 変更しました
 
 	%form.cf{action("/mylist/#{mylist.id}/edit")}(method = "post" name = "mylist-edit")
 		%label(for = "title")<
@@ -35,7 +35,8 @@
 
 		%span.checkbox
 			%input#public{checked: mylist.public}(type = "checkbox" name = "public" disabled)
-			%span
+			%span.unchecked.empty
+			%span.checked.fa.fa-check
 		%label.label(for = "public")<
 			公開する
 			%small 変更できません
@@ -47,15 +48,16 @@
 		%label.label ファイルの削除
 		- mylists = mylist.uploaded_files
 		- if mylists.empty?
-			%span.empty ファイルがありません
+			%span.center ファイルがありません
 		- else
 			%ul#files.cf
 				- mylists.each do |file|
 					%li.file{"data-id" => file.id}<
 						%a{href("/files/#{file.id}/#{file.orig_file_name}")}= file.orig_file_name
-						%span.checkbox.fa.fa-trash-o
+						%span.checkbox
 							%input#file(type = "checkbox" name = "#{file.id.to_s}")
-							%span
+							%span.unchecked.empty
+							%span.checked.fa.fa-trash-o
 
 		%input(type = "hidden" name = "_csrf" value = "#{Rack::Csrf.token(env)}")
 

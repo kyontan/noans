@@ -2,21 +2,15 @@
 - errors ||= Hash.new
 - errors.default = []
 
-:scss
-	form {
-		width: 320px;
-	}
-
-%section.form.border#manage-new
+%section.form.border#file-manage
 	%h2.title ファイルの管理
 
 	- if succeed
 		%span.center#message 変更しました
 
-
 	- files = user_data.uploaded_files.available
 	- if files.empty?
-		%span.empty ファイルがありません
+		%span.center ファイルがありません
 		%a.btn.btn-primary.btn-block{href("/upload")}>
 			%i.fa.fa-file-o
 			&nbsp;ファイルをアップロード
@@ -26,12 +20,15 @@
 				- files.each do |file|
 					%li.file{"data-id" => file.id}<
 						%a{href("/files/#{file.id}/#{file.orig_file_name}")}= file.orig_file_name
-						%span.checkbox.fa.fa-trash-o
-							%input#file{checked: file.deleted}(type = "checkbox" name = "remove-#{file.id.to_s}")
-							%span
-						%span.checkbox.fa.fa-users
-							%input#file{checked: file.public}(type = "checkbox" name = "public-#{file.id.to_s}")
-							%span
+						%span.checkboxes
+							%span.checkbox
+								%input#file{checked: file.public}(type = "checkbox" name = "public-#{file.id.to_s}")
+								%span.unchecked.fa.fa-unlock
+								%span.checked.fa.fa-lock
+							%span.checkbox.trash
+								%input#file{checked: file.deleted}(type = "checkbox" name = "remove-#{file.id.to_s}")
+								%span.unchecked.empty
+								%span.checked.fa.fa-trash-o
 
 			%input(type = "hidden" name = "_csrf" value = "#{Rack::Csrf.token(env)}")
 

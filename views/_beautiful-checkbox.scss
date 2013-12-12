@@ -1,0 +1,90 @@
+@charset "utf-8";
+
+/* Beautiful Checkbox
+ * inspired by ionic (https://github.com/driftyco/ionic/)
+ *
+ * Copyright
+ *   2013 Kyontan (http://monora.me)
+ *   2013 Drifty Co. (http://drifty.com/)
+ * Licensed under the MIT license.
+ */
+
+:root input[type="checkbox"] {
+  opacity: 0;
+  position: absolute;
+}
+
+:root .checkbox {
+	outline: none;
+	position: relative;
+
+	&, *, *:before {
+		display: inline-block;
+		height: 28px;
+		width: 28px;
+		     box-sizing: border-box;
+		-moz-box-sizing: border-box;
+	}
+
+	*, *:before {
+		position: absolute;
+		top: 0;
+		left: 0;
+	}
+
+	input {
+		pointer-events: initial;
+		cursor: pointer;
+		-webkit-appearance: none;
+		   -moz-appearance: none;
+
+		.unchecked:before {
+			z-index: 1;
+		}
+
+		.checked:before {
+			z-index: 2;
+		}
+
+		&:not(:checked) ~ .checked:before {
+			opacity: 0;
+		}
+	}
+
+	.checked, .unchecked {
+		&, &:before {
+			pointer-events: none;
+		}
+
+		&:before {
+			transition: opacity .16s ease-in-out;
+			border: 1px solid transparent;
+			text-align: center;
+
+			// for font-awesome
+			padding-top: 4px;
+			font-size: 18px;
+		}
+	}
+
+	// Apperance
+	span:before {
+		border-radius: 50%;
+	}
+
+	.unchecked:before {
+		border-color: #4A87EE;
+		background-color: white;
+		color: #4A87EE;
+	}
+
+	.checked:before {
+		border-color: #4A87EE;
+		background-color: #4A87EE;
+		color: #fff;
+	}
+
+	.empty:before {
+		content: ' ';
+	}
+}

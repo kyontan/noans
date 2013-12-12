@@ -1,7 +1,51 @@
 @charset "UTF-8";
 @import "common";
 
-.empty {
-	display: inline-block;
-	margin-left: 1em;
+section {
+	&#mylists {
+		li {
+			list-style-type: none;
+			display: block;
+			clear: both;
+			margin: .8em 0 .2em;
+			padding-top: .5em;
+			border-top: 1px solid hsl(0, 0%, 80%);
+
+			&:first-child {
+				border-top: none;
+				margin-top: 0;
+				padding-top: 0;
+			}
+
+			.link {
+				font-size: 1.2em;
+				float: left;
+			}
+
+			.user {
+				&:before {
+					content: "(by ";
+				}
+
+				float: right;
+
+				&:after {
+					content: " )";
+				}
+			}
+		}
+
+		.comment {
+			clear: both;
+			float: left;
+			margin: .5em .5em 0;
+			text-indent: 1em;
+			word-break: break-all;
+		}
+	}
+
+	&#files {
+
+	}
+
 }

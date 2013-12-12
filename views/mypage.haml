@@ -29,7 +29,7 @@
 					&nbsp;ファイルをアップロード
 			- files = user_data.uploaded_files.available
 			- if files.empty?
-				%span.empty ファイルがありません
+				%span.center ファイルがありません
 				%a.btn.btn-primary.btn-block{href("/upload")}>
 					%i.fa.fa-upload
 					&nbsp;ファイルをアップロード
@@ -50,7 +50,7 @@
 					&nbsp;マイリストを作成
 			- mylists = user_data.mylists.available
 			- if mylists.empty?
-				%span.empty マイリストがありません
+				%span.center マイリストがありません
 				%a.btn.btn-primary.btn-block{href("/mylist/new")}>
 					%i.fa.fa-list
 					&nbsp;マイリストを作成

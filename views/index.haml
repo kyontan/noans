@@ -1,20 +1,23 @@
 - if logged_in?
 	%section.border#index
-		%section.result
+		%section#mylists
 			%h3 公開されているマイリスト
 			- if Mylist.public.count.zero?
-				%span.empty 公開されているマイリストがありません
+				%span.center 公開されているマイリストがありません
 			- else
 				%ul
 					- mylists = Mylist.public.all(limit: 100, order: [:created_at.desc])
 					- mylists.each do |mylist|
-						%li{"data-id" => mylist.id}<
-							%a{href("/mylists/#{mylist.id}")}= mylist.title
+						%li.cf{"data-id" => mylist.id}<
+							%a.link{href("/mylists/#{mylist.id}")}= mylist.title
+							%a.user{href("/user/#{mylist.user_user_name}")}= mylist.user_user_name
+							- unless mylist.comment.empty?
+								%span.comment= mylist.comment[0..50]
 
-		%section.result
+		%section#files
 			%h3 公開されているファイル
 			- if UploadedFile.public.count.zero?
-				%span.empty 公開されているファイルがありません
+				%span.center 公開されているファイルがありません
 			- else
 				%ul
 					- files = UploadedFile.public.all(limit: 100, order: [:created_at.desc])

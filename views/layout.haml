@@ -5,7 +5,7 @@
 !!!
 %html(lang = "ja")
 	%meta(charset = "utf-8")
-	%title !ans β #{title.empty? ? "" : " - #{title}"}
+	%title noans β #{title.empty? ? "" : " - #{title}"}
 	-#%meta(name = "viewport" content = "width=device-width, initial-scale=1")
 
 	%link{href("/favicons/favicon_64.png")}(rel = "icon" type = "image/png")
@@ -63,7 +63,7 @@
 	-# dev.monora.me: UA-20839690-9
 	-# hst.monora.me: UA-20839690-6
 
-	- if Sinatra::Base.production?
+	- if settings.production?
 		:javascript
 			(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
 			(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
@@ -76,7 +76,7 @@
 
 	%header.cf
 		%h1
-			%a#title{href(?/)} !ans β
+			%a#title{href(?/)} noans β
 		- if logged_in?
 			%span#right
 				%a{href("/my")}<

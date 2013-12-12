@@ -21,7 +21,7 @@
 			%h3 ファイル
 			- files = user.uploaded_files.all(public: true, deleted: false)
 			- if files.empty?
-				%span.empty 公開されているファイルがありません
+				%span.center 公開されているファイルがありません
 			- else
 				%ul#files
 					- files.each do |file|
@@ -35,7 +35,7 @@
 			%h3 マイリスト
 			- mylists = user.mylists.all(public: true, deleted: false)
 			- if mylists.empty?
-				%span.empty 公開されているマイリストがありません
+				%span.center 公開されているマイリストがありません
 			- else
 				%ul#mylists
 					- mylists.each do |mylist|

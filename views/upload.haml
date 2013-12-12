@@ -26,7 +26,7 @@
 	%h2.title アップロード
 
 	- if succeed
-		%span.center#message アップロードしました
+		%span.center アップロードしました
 
 	%form.cf{action("/upload")}(method = "post" enctype = "multipart/form-data" name = "upload")
 		%label(for = "file")< ファイル

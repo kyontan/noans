@@ -25,7 +25,8 @@
 
 		%span.checkbox
 			%input#public{checked: params[:public] || true}(type = "checkbox" name = "public")
-			%span
+			%span.unchecked.empty
+			%span.checked.fa.fa-check
 		%label.label(for = "public")<
 			公開する
 

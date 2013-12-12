@@ -1,7 +1,7 @@
 @charset "UTF-8";
 @import "variables";
 @import "bootstrap-buttons";
-@import "ionic-checkbox";
+@import "beautiful-checkbox";
 
 /* ----------- _form.scss ----------- */
 /* ----------- Form ----------- */
@@ -51,20 +51,18 @@ form {
 	}
 
 	@mixin input-like-bootstrap-focus {
-	  outline: dotted #999;
-	  outline: auto -webkit-focus-ring-color;
+	  outline: 2px solid #5B9DD9;
 	  outline-offset: -2px;
-		outline-width: 2px;
 
 		transition: outline-width .1s;
 		-webkit-transition: outline-width .1s;
 	}
 
-	%field {
-		margin: 0 auto 16px;
+	@mixin field($margin-bottom: 16px) {
+		margin: 0 auto $margin-bottom;
 	}
 
-	%text-field {
+	@mixin text-field {
 		width: 100%;
 
 		background: rgba(255, 255, 255, .9);
@@ -75,8 +73,8 @@ form {
 
 		&[type=text], &[type=password], &[type=email] {
 			@include input-like-bootstrap;
-			@extend %field;
-			@extend %text-field;
+			@include field;
+			@include text-field;
 
 			&:focus {
 				@include input-like-bootstrap-focus
@@ -84,7 +82,7 @@ form {
 		}
 
 		&[type=checkbox], &[type=radio] {
-			@extend %field;
+			@include field;
 		}
 
 		&[type=file] {
@@ -96,10 +94,14 @@ form {
 		}
 	}
 
+	.checkbox {
+		@include field(8px);
+	}
+
 	textarea {
 		@include input-like-bootstrap;
-		@extend %field;
-		@extend %text-field;
+		@include field;
+		@include text-field;
 
 		&:focus {
 			@include input-like-bootstrap-focus
