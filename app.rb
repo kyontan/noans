@@ -38,6 +38,7 @@ configure do
 	set :haml, format: :html5
 	set :haml, cdata: false
 	set :scss, style: :expanded
+	set :markdown, filter_html: true
 end
 
 $LOAD_PATH.unshift "./lib/"
