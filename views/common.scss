@@ -1,5 +1,6 @@
 @charset "utf-8";
 @import "cf-micro";
+@import "mixin";
 @import "variables";
 
 /* font-size memo (Based-on 16px)
@@ -10,22 +11,11 @@
 
 /* ----------- common.scss ----------- */
 
-
-@mixin centering($width, $inside-width: $form-width) {
-	width: $width;
-	margin-left: -($width - $form-width) / 2;
-}
-
-
 body {
 	font-family: "ヒラギノ角ゴ Pro", "Hiragino Kaku Gothic Pro", "メイリオ", Meiryo, "MS Pゴシック", "MS PGothic", sans-serif;
 	color: #333;
 	font-size: 16px;
 }
-
-// * html { font-size: 100%; } // for IE6
-// *:first-child+html { font-size: 100%; } // for IE7
-
 
 body {
 	// background: rgba(128, 128, 128, 0.04);
@@ -41,72 +31,101 @@ small { font-size: 70%; }
 // main
 
 header {
+	position: relative;
 	margin-top: 1em;
 	border-radius: $header-border-radius;
 	background: $header-background;
-	// background: linear-gradient(to bottom, #ffae02 98%, white);
 
-	padding: 12px;
+	padding: 12px 12px 0;
 
 	* {
 		color: #fcfaf5;
 	}
 
 	h1 {
-		font-size: 1em;
-		font-weight: lighter;
-		margin: 0;
+		margin: 0 0 .1em .25em;
+		float: left;
+
+		font-family: 'Source Code Pro', monospace;
+		font-weight: 100;
+		font-size: 1.5rem;
+		// text-shadow: .5px .5px 10px rgba(255, 255, 255, 0.25);
 	}
 
 	a {
-		letter-spacing: .05em;
+		letter-spacing: .06em;
 		color: white;
-
-		text-decoration: none;
 		border-bottom: 1px solid transparent;
-		transition: .5s ease;
+
+		&, &:hover {
+			text-decoration: none;
+			transition: .2s ease;
+		}
 
 		&:hover {
-			text-decoration: none;
-
-			transition: .2s ease;
 			border-bottom-color: white;
 		}
 	}
 
-
-	#title {
-		float: left;
-		margin-left: .25em;
-
-		font-family: 'Source Code Pro', monospace;
-		font-size: 1.5rem;
-		text-shadow: .5px .5px 10px rgba(255, 255, 255, 0.25);
-	}
-
 	#right {
-		display: block;
-		text-align: right;
+		display: inline-block;
+		float: right;
+		// text-align: right;
 		font-size: 1.25em;
-		margin-right: .25em;
+		margin-right: .4em;
+
+		.fa {
+			font-size: 1.1em;
+		}
 	}
 
 	nav {
-	  position: relative;
-	  bottom: -5px;
-		padding: .2em 0;
+		position: relative;
+		display: inline-block;
+		clear: left;
 
-		clear: both;
-	  text-align: right;
+		font-size: .88em;
+		vertical-align: middle;
+		padding: 5px;
+
+		&#admin {
+			float: left;
+		}
+
+		&#global-link {
+			float: right;
+		}
 
 		a {
-			margin-right: .32em;
+			transition: .15s ease;
+
+			display: inline-block;
+			margin-left: .25em;
+			padding: 5px;
+
+			text-decoration: none;
+			border: 1px solid transparent;
+			border-radius: 5px;
+
+			&:hover {
+				transition: .25s;
+				// border-color: hsla(0, 0%, 30%, .57);
+
+				border-color: hsla(0, 0%, 33%, 0.2);
+				// background-color: darken($header-background, 15%);
+				background-color: hsla(0, 0%, 25%, 0.2);
+			}
+
+			&:active {
+				outline: 0;
+				background-color: hsla(0, 0%, 25%, 0.2);
+				box-shadow: inset hsla(0, 0%, 15%, 0.3) 1px 1px 5px;
+			}
 		}
 	}
 }
 
 main { }
-
 
 section {
 	box-sizing: border-box;
@@ -128,7 +147,6 @@ section {
 
 	.btn-block {
 		width: 216px;
-		margin: 0 auto; // FIXME: temporary
 	}
 
 	section {
@@ -149,7 +167,15 @@ section {
 
 	h2, h3 {
 		+ .right-top {
-			top: .75em;
+			top: .32em;
+		}
+	}
+
+	a {
+		text-decoration: none;
+
+		&:hover {
+			text-decoration: underline;
 		}
 	}
 
@@ -166,6 +192,7 @@ section {
 			border: 1px solid transparent;
 			border-radius: 5px;
 			color: #444;
+			outline: none;
 
 			transition: .15s ease;
 
@@ -184,12 +211,13 @@ section {
 	}
 
 	li a {
+		@include ellipsis;
+
 		max-width: 95%;
 		padding-right: 1em;
-		overflow: hidden;
-		text-overflow: ellipsis;
 		display: inline-block;
 		line-height: 1;
+		vertical-align: middle;
 	}
 
 	.right-top {
@@ -232,7 +260,6 @@ footer {
 	display: block;
 	margin-top: .25em;
 	padding: .25em 0;
-
 	border-top: 1px dashed #ccc;
 
 	font-size: .82em;
@@ -243,15 +270,12 @@ footer {
 }
 
 // font-awesome
-
 .fa, .fa:hover {
 	text-decoration: none;
 }
 
 a {
 	&.fa, &.fa:hover {
-		border-bottom: none;
-		text-decoration: none;
 	}
 }
 

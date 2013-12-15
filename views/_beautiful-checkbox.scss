@@ -1,4 +1,5 @@
 @charset "utf-8";
+@import "variables";
 
 /* Beautiful Checkbox
  * inspired by ionic (https://github.com/driftyco/ionic/)
@@ -12,6 +13,19 @@
 :root input[type="checkbox"] {
   opacity: 0;
   position: absolute;
+
+  &:disabled {
+  	pointer-events: none;
+
+  	~ span:before {
+  		border-color: #666;
+  		background-color: #999;
+  	}
+
+  	~ span.empty:before {
+  		background: #fff;
+  	}
+  }
 }
 
 :root .checkbox {
@@ -20,10 +34,14 @@
 
 	&, *, *:before {
 		display: inline-block;
-		height: 28px;
-		width: 28px;
+		height: $checkbox-size;
+		width: $checkbox-size;
 		     box-sizing: border-box;
 		-moz-box-sizing: border-box;
+	}
+
+	& + .checkbox {
+		margin-left: 2px;
 	}
 
 	*, *:before {
@@ -74,7 +92,7 @@
 
 	.unchecked:before {
 		border-color: #4A87EE;
-		background-color: white;
+		background-color: #fff;
 		color: #4A87EE;
 	}
 
@@ -86,5 +104,17 @@
 
 	.empty:before {
 		content: ' ';
+	}
+}
+
+// trash
+:root .checkbox.trash {
+	span:before {
+		border-color: hsl(2, 64%, 53%);
+	}
+
+	.checked:before {
+		border-color: hsl(2, 64%, 53%);
+		background-color: hsl(2, 64%, 58%);
 	}
 }

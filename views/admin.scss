@@ -2,10 +2,32 @@
 @import "common";
 @import "form";
 
-// form {
-// 	padding: 10px 7px 0 10px;
+table {
+	margin: 0 auto;
 
-// 	.btn {
-// 		float: right;
-// 	}
-// }
+	caption {
+		font-weight: bold;
+		font-size: 1.2em;
+	}
+
+	thead {
+		border-bottom: 1px solid hsl(0, 0%, 80%);
+
+		tr th {
+			padding-bottom: .2em;
+		}
+	}
+
+	tbody tr {
+		line-height: 1.8;
+
+		&:first-child td {
+			padding-top: .4em;
+		}
+	}
+
+	td {
+		padding: 0 6px;
+		text-align: center;
+	}
+}

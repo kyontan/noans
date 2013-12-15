@@ -1,10 +1,10 @@
 @charset "UTF-8";
 @import "common";
+
+$form-width: 400px;
 @import "form";
 
 form {
-	width: 400px;
-
 	#message {
 		margin: .2em 0 1em;
 		color: hsl(10, 90%, 50%);
@@ -26,15 +26,13 @@ form {
 	}
 
 	ul#files {
+		@include ellipsis;
+
 		margin: 10px 0;
 		padding: 0 0 0 10px;
 
 		list-style-type: circle;
 		list-style-position: inside;
-		white-space: nowrap;
-		text-overflow: ellipsis;
-		overflow: hidden;
-
 	}
 
 	input[type=submit] {

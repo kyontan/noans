@@ -23,19 +23,15 @@ section {
 			}
 
 			.user {
-				&:before {
-					content: "(by ";
-				}
-
 				float: right;
-
-				&:after {
-					content: " )";
+				a {
+					padding-right: 0;
+					display: inline;
 				}
 			}
 		}
 
-		.comment {
+		.summary {
 			clear: both;
 			float: left;
 			margin: .5em .5em 0;

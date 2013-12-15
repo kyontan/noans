@@ -1,0 +1,18 @@
+@charset "utf-8";
+@import "variables";
+
+@mixin centering($width, $inside-width: $form-width) {
+	width: $width;
+	margin-left: -($width - $form-width) / 2;
+}
+
+@mixin maxwidth-with-checkbox($num: 1) {
+	max-width: calc(#{$form-width} - #{$num} * ( #{$checkbox-size} + 5px + 4px ));
+}
+
+@mixin ellipsis {
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+

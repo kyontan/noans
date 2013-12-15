@@ -1,27 +1,38 @@
-@charset "UTF-8";
+@charset "utf-8";
 @import "common";
+
+$form-width: 400px;
 @import "form";
 
-form {
-	width: 320px;
+ul#files {
+	width: 100%;
+	margin: 0 0 8px;
+	list-style-type: none;
+	padding-left: 0;
 
-	.checkbox {
-		float: right;
+	li.file {
+		float: left;
+		clear: left;
+		margin: 3px 0;
+		width: 100%;
 
-		input {
-			margin: 0;
-		}
+		a {}
 	}
 }
 
-ul#files {
-	width: 320px;
-	margin: 0 0 8px;
+section#mylist-add {
+	li {
+		.file-name {
+			@include ellipsis;
+			@include maxwidth-with-checkbox(1);
 
-	.file {
-		float: left;
-		clear: left;
-		margin: .1em 0;
-		width: 100%;
+			display: inline-block;
+			padding: 0;
+			vertical-align: middle;
+		}
+
+		.checkbox {
+			float: right;
+		}
 	}
 }

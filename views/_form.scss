@@ -1,46 +1,13 @@
 @charset "UTF-8";
+@import "mixin";
 @import "variables";
+
+/* ----------- _form.scss ----------- */
+
 @import "bootstrap-buttons";
 @import "beautiful-checkbox";
 
-/* ----------- _form.scss ----------- */
-/* ----------- Form ----------- */
-
 form {
-	margin: 0 auto;
-	box-sizing: border-box;
-
-	width: $form-width;
-
-	* {
-		-moz-box-sizing: border-box;
-		box-sizing: border-box;
-	}
-
-	input, label {
-		display: block;
-	}
-
-	label {
-		margin: 4px 0;
-		padding: 0;
-		vertical-align: top;
-		cursor: pointer;
-	}
-
-	.label {
-		display: inline-block;
-
-		& + label {
-			margin-left: .25em;
-		}
-	}
-
-	span.value {
-		display: inline-block;
-		margin: 0 auto 8px 16px;
-	}
-
 	@mixin input-like-bootstrap {
 		// Referenced from Bootstrap
 		padding: 6px 12px;
@@ -58,14 +25,45 @@ form {
 		-webkit-transition: outline-width .1s;
 	}
 
-	@mixin field($margin-bottom: 16px) {
+	@mixin field-margin($margin-bottom: 16px) {
 		margin: 0 auto $margin-bottom;
 	}
 
 	@mixin text-field {
 		width: 100%;
-
 		background: rgba(255, 255, 255, .9);
+	}
+
+	margin: 0 auto;
+	box-sizing: border-box;
+
+	width: $form-width;
+
+	* {
+		-moz-box-sizing: border-box;
+		box-sizing: border-box;
+	}
+
+	input, label {
+		display: block;
+	}
+
+	label {
+		margin: 4px 0;
+		display: inline-block;
+		padding: 0;
+		vertical-align: top;
+		cursor: pointer;
+
+
+		& + label {
+			margin-left: .25em;
+		}
+	}
+
+	span.value {
+		display: inline-block;
+		margin: 0 auto 8px 16px;
 	}
 
 	input {
@@ -73,7 +71,7 @@ form {
 
 		&[type=text], &[type=password], &[type=email] {
 			@include input-like-bootstrap;
-			@include field;
+			@include field-margin;
 			@include text-field;
 
 			&:focus {
@@ -82,7 +80,7 @@ form {
 		}
 
 		&[type=checkbox], &[type=radio] {
-			@include field;
+			@include field-margin(0px);
 		}
 
 		&[type=file] {
@@ -94,76 +92,35 @@ form {
 		}
 	}
 
-	.checkbox {
-		@include field(8px);
-	}
-
 	textarea {
 		@include input-like-bootstrap;
-		@include field;
+		@include field-margin;
 		@include text-field;
 
 		&:focus {
 			@include input-like-bootstrap-focus
 		}
+
+		resize: vertical;
 	}
 
 	small {
 		display: inline-block;
 		margin-left: .2em;
 	}
-}
 
+	.warn {
+		display: block;
+		width: 150%;
+
+		color: #D12E1F;
+		font-size: .88em;
+	}
+}
 
 .btn-block {
-	margin: 0 auto;
+	margin: 1em auto 0;
 	width: $form-width;
-}
-
-.warn {
-	display: block;
-	width: 150%;
-
-	color: #D12E1F;
-	font-size: .88em;
-}
-
-
-// ionic-checkbox & font-awesome !!
-
-.checkbox.fa {
-	&:before {
-    position: absolute;
-    z-index: 2;
-    color: hsl(0, 100%, 100%);
-    font-size: 18px;
-    pointer-events: none;
-
-    width: 100%;
-    margin-top: 5px;
-    text-align: center;
-	}
-
-	input:checked + span:after {
-    content: initial;
-	}
-
-	&.fa-trash-o input {
-		 + span:before {
-			border-color: hsl(2, 64%, 53%);
-		}
-
-		&:checked + span:before {
-			background-color: hsl(2, 64%, 58%);
-		}
-	}
-}
-
-
-.checkbox {
-	& + & {
-		margin-right: .5em;
-	}
 }
 
 /* ----------- end _form.scss ----------- */

@@ -64,5 +64,5 @@ before '/admin*' do
 end
 
 get '/admin/?' do
-	haml :admin, locals: {path: "admin", title: "管理画面", common_css: true}
+	haml :admin, locals: {path: "admin", title: "管理画面"}
 end

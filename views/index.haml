@@ -10,9 +10,13 @@
 					- mylists.each do |mylist|
 						%li.cf{"data-id" => mylist.id}<
 							%a.link{href("/mylists/#{mylist.id}")}= mylist.title
-							%a.user{href("/user/#{mylist.user_user_name}")}= mylist.user_user_name
+							-# %a.user{href("/user/#{mylist.user_user_name}")}= "(by #{mylist.user_user_name})"
+							%span.user<
+								(by&nbsp;
+								%a{href("/user/#{mylist.user_user_name}")}>= mylist.user_user_name
+								&nbsp;)
 							- unless mylist.comment.empty?
-								%span.comment= mylist.comment[0..50]
+								%span.summary= mylist.comment[0..50]
 
 		%section#files
 			%h3 公開されているファイル

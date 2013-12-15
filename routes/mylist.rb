@@ -11,7 +11,7 @@ get '/mylists/?' do
 end
 
 get '/mylist/new/?' do
-	haml :mylist_new, locals: {path: "mylist_new", title: "マイリスト - 作成", common_css: true}
+	haml :mylist_new, locals: {path: "mylist_new", title: "マイリスト - 作成"}
 end
 
 post '/mylist/new/?' do
@@ -27,7 +27,7 @@ post '/mylist/new/?' do
 	else
 		errors = flat_map2(mylist.errors.to_h){|s| dic_sub(s, Mylist.key_translation) }
 		errors.default = []
-		haml :mylist_new, locals: {path: "mylist_new", title: "マイリスト - 作成完了", common_css: true, errors: errors}
+		haml :mylist_new, locals: {path: "mylist_new", title: "マイリスト - 作成", errors: errors}
 	end
 
 end
@@ -35,7 +35,7 @@ end
 get '/mylists/:id/?' do
 	if mylist = Mylist.first(id: params[:id])
 		if mylist.public || mylist.user == user_data
-			haml :mylist, locals: {path: "mylist", title: "マイリスト - #{mylist.title}", common_css: true, mylist: mylist}
+			haml :mylist, locals: {path: "mylist", title: "マイリスト - #{mylist.title}", mylist: mylist}
 		else
 			halt 403
 		end

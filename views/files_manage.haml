@@ -18,16 +18,16 @@
 		%form.cf{action("/files/manage")}(method = "post" name = "files-manage")
 			%ul#files.cf
 				- files.each do |file|
-					%li.file{"data-id" => file.id}<
+					%li.file{"data-id" => file.id}
 						%a{href("/files/#{file.id}/#{file.orig_file_name}")}= file.orig_file_name
 						%span.checkboxes
 							%span.checkbox
 								%input#file{checked: file.public}(type = "checkbox" name = "public-#{file.id.to_s}")
-								%span.unchecked.fa.fa-lock
+								%span.unchecked.fa.fa-lock>
 								%span.checked.fa.fa-unlock
 							%span.checkbox.trash
 								%input#file{checked: file.deleted}(type = "checkbox" name = "remove-#{file.id.to_s}")
-								%span.unchecked.empty
+								%span.unchecked.empty>
 								%span.checked.fa.fa-trash-o
 
 			%input(type = "hidden" name = "_csrf" value = "#{Rack::Csrf.token(env)}")

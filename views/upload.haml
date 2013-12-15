@@ -37,7 +37,9 @@
 
 		%span.checkbox
 			%input#public(type = "checkbox" name = "public" value = "#{h params[:public]}" checked)
-			%span
+			%span.unchecked.fa.fa-lock
+			%span.checked.fa.fa-unlock
+
 		%label.label(for = "public")<
 			公開する
 

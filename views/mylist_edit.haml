@@ -2,14 +2,9 @@
 - errors ||= Hash.new
 - errors.default = []
 
-:scss
-	form {
-		width: 320px;
-	}
-
 %section.form.border#mylist-new
 	%h2.title
-		%a{href("/mylists/#{mylist.id}")}= mylist.title
+		%a{href("/mylists/#{mylist.id}")}>= mylist.title
 		の編集
 
 	%span.right-top
@@ -33,13 +28,13 @@
 		- errors[:comment].each do |e|
 			%span.warn= e
 
+		%label.label(for = "public")<
+			公開する
+			%small 変更できません
 		%span.checkbox
 			%input#public{checked: mylist.public}(type = "checkbox" name = "public" disabled)
 			%span.unchecked.empty
 			%span.checked.fa.fa-check
-		%label.label(for = "public")<
-			公開する
-			%small 変更できません
 
 		- errors[:public].each do |e|
 			%span.warn= e
@@ -54,7 +49,7 @@
 				- mylists.each do |file|
 					%li.file{"data-id" => file.id}<
 						%a{href("/files/#{file.id}/#{file.orig_file_name}")}= file.orig_file_name
-						%span.checkbox
+						%span.checkbox.trash
 							%input#file(type = "checkbox" name = "#{file.id.to_s}")
 							%span.unchecked.empty
 							%span.checked.fa.fa-trash-o

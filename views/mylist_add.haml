@@ -10,7 +10,6 @@
 	- if succeed
 		%span.center ファイルを追加しました
 
-
 	%form.cf{action("/mylist/#{mylist.id}/add")}(method = "post" name = "mylist-add")
 		- files = user_data.uploaded_files.available - mylist.uploaded_files
 		- if mylist.public?
@@ -24,7 +23,7 @@
 			%ul#files.cf
 				- files.each do |f|
 					%li.file
-						= f.orig_file_name
+						%span.file-name= f.orig_file_name
 						%span.checkbox
 							%input#file(type = "checkbox" name = "#{f.id.to_s}")
 							%span.unchecked.empty
