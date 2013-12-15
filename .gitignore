@@ -17,12 +17,11 @@ Gemfile.lock
 .config
 tmp
 
+# noans
+
 /uploads/*
 /db/*.sqlite3
-# /files/*
 /log/*
-
-.sass-cache
 unused
 
-public/robots.text
+.sass-cache

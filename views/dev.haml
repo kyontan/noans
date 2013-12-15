@@ -1,20 +1,6 @@
 :scss
 	ul {
-		list-style: none;
-
-		li:before {
-			display: inline-block;
-			margin-right:	5px;
-		  width: 0;
-		  height: 0;
-
-			content: ' ';
-
-			border-top		: solid transparent;
-			border-bottom	: solid transparent;
-			border-left		: solid rgb(100, 100, 192);
-			border-width	: 5px;
-		}
+		list-style: circle;
 	}
 
 %section
@@ -22,18 +8,12 @@
 
 	- views = settings.views
 
-	Existing templetes (click to render)
+	Existing templetes
 	%ul
 		- Dir.glob("#{views}/*.haml") do |f|
 			- full_filename, filename = f.match(%r{#{views}/((.*).haml)})[1,2]
 			%li<
 				%a{href("/dev/render/#{filename}")}= full_filename
+				%a{href("/dev/render_without_layout/#{filename}")} (without layout)
 
 	%br
-
-	Existing Markdown files (click to preview)
-	%ul
-		- Dir.glob("#{views}/*.md\0#{views}/*.markdown") do |f|
-			- full_filename, filename = f.match(%r{#{views}/((.*).(md|markdown))})[1,2]
-			%li<
-				%a{href("/dev/md/#{filename}")}= full_filename
