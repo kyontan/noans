@@ -36,7 +36,7 @@ header {
 	border-radius: $header-border-radius;
 	background: $header-background;
 
-	padding: 12px 12px 0;
+	padding: 12px;
 
 	* {
 		color: #fcfaf5;
@@ -83,6 +83,7 @@ header {
 		position: relative;
 		display: inline-block;
 		clear: left;
+		margin-bottom: -12px;
 
 		font-size: .88em;
 		vertical-align: middle;
