@@ -1,19 +1,19 @@
 - title ||= ""
 - path ||= ""
-- common_css ||= @common_css || path.empty?
+- common_css ||= path.empty?
 
 !!!
 %html(lang = "ja")
 	%meta(charset = "utf-8")
 	%title noans β #{title.empty? ? "" : " - #{title}"}
-	-#%meta(name = "viewport" content = "width=device-width, initial-scale=1")
 
-	%link{href("/favicons/favicon_64.png")}(rel = "icon" type = "image/png")
-	%link{href("/favicons/favicon_57.png")}(rel = "apple-touch-icon" type = "image/png")
-	%link{href("/favicons/favicon_114.png")}(sizes = "114x114" rel = "apple-touch-icon" type = "image/png")
-	%link{href("/favicons/favicon_72.png")}(sizes = "72x72" rel = "apple-touch-icon" type = "image/png")
-	%link{href("/favicons/favicon_144.png")}(sizes = "144x144" rel = "apple-touch-icon" type = "image/png")
-	%link{href("/favicon.ico")}(rel = "shortcut icon")
+	%meta(name = "viewport" content = "width=device-width, initial-scale=1")
+
+	%link(rel = "shortcut icon" href = "/favicon.ico")
+	-# %link(rel = "icon" sizes = "16x16 32x32 48x48" href="/favicon.ico")
+	%link(rel = "apple-touch-icon-precomposed" href = "/favicon-152.png")
+	%meta(name = "msapplication-TileColor" content = "#EEEEFF")
+	%meta(name = "msapplication-TileImage" content = "/favicon-144.png")
 
 	%link(href = 'http://fonts.googleapis.com/css?family=Source+Code+Pro:200' rel = 'stylesheet')
 	%link{href("/css/normalize.css")}(rel = "stylesheet")
@@ -26,42 +26,15 @@
 		%link{href("/css/#{path}.css")}(rel = "stylesheet")
 
 	%script{src("/js/jquery-2.0.3.min.js")}
-
-
-	= "<script> root_addr = '#{link_to(?/)}' </script>"
+	%script root_addr = '#{link_to(?/)}';
 
 	- if false
-		- if ["index", "admin"].include?(path)
-			:javascript
-				$(function(){
-					$.ajax({
-						url:"/api/post",
-						dataType: "json",
-					}).done(function(data){
-						$.each(data, function(i, item){
-							$("#posts").append(item["time"] + ": " + item["text"] + "<br>");
-						});
-					}).fail(function(data){
-						$("#posts").append("投稿の取得に失敗しました");
-					});
-				});
-		- using_markdown_path = ["index", "markdown"]
-		- if using_markdown_path.include?(path)
-			%script{src: link_to("/js/markdown.js")}
-			%link{href: link_to("/css/markdown.css")}(rel = "stylesheet")
-		- if path == "index"
-			:javascript
-				$(function(){
-					$.get(root_addr + "api/text", function(text){ $("#text").append(markdown.toHTML(text));});
-				});
-		- if path == "admin"
-			:javascript
-				$(function(){
-					$.get(root_addr + "api/text", function(text){ $("#text").val(text);});
-				});
-
-	-# dev.monora.me: UA-20839690-9
-	-# hst.monora.me: UA-20839690-6
+		%script{src("/js/markdown.js")}
+		%link{href("/css/markdown.css")}(rel = "stylesheet")
+		:javascript
+			$(function(){
+				$.get(root_addr + "api/text", function(text){ $("#text").append(markdown.toHTML(text));});
+			});
 
 	- if settings.production?
 		:javascript
@@ -69,7 +42,6 @@
 			(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
 			m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
 			})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
-
 			ga('create', 'UA-20839690-11', 'monora.me');
 			ga('send', 'pageview');
 
@@ -80,17 +52,24 @@
 		- if logged_in?
 			%span#right
 				%a{href("/my")}<
-					%i.fa.fa-user
-					&nbsp;#{user_data[:user_name]}
+					%i.fa.fa-user>
+					&nbsp;
+					= user_data[:user_name]
 				%a.fa.fa-gear{href("/my/settings")}
 				%a.fa.fa-sign-out{href("/logout")}
+			%nav#global-link
+				%a{href("/my")}>
+					%i.fa.fa-user
+					マイページ
+				%a{href("/upload")}>
+					%i.fa.fa-upload
+					アップロード
 		- if logged_in?(isadmin: true)
-			%nav<
+			%nav#admin<
 				%a{href("/test/reset")} リセット
 				%a{href("/admin")} 管理画面
 
 	- if block_given?
 		%main= yield
-	-# = yield if block_given?
 
 	%footer noans beta - &copy; Kyontan (@sukuhino)
