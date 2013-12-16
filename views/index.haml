@@ -27,9 +27,10 @@
 					- files = UploadedFile.public.all(limit: 100, order: [:created_at.desc])
 					- files.each do |file|
 						%li{"data-id" => file.id}<
-							%a{href("/files/#{file.id}/#{file.orig_file_name}")}= file.orig_file_name
-							- if /\.(md|markdown)$/ === file.orig_file_name
-								%a{href("/files/preview/#{file.id}/#{file.orig_file_name}")} プレビュー
+							- unless /\.(md|mdown|markdown)$/ === file.orig_file_name
+								%a{href("/files/#{file.id}/#{file.orig_file_name}")}= file.orig_file_name
+							- else
+								%a{href("/files/preview/#{file.id}/#{file.orig_file_name}")}= file.orig_file_name
 							-# %sub<= file.access_count
 
 - else
