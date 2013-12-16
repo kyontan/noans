@@ -22,7 +22,7 @@
 		- else
 			- lists = {}
 			- lists["#{user_data.user_name} がアップロードしたファイル"] = files
-			- lists["他の人がアップロードした	ファイル"] = UploadedFile.available - files
+			- lists["他の人がアップロードした	ファイル"] = UploadedFile.public - files
 			- lists.each do |list_title, list_files|
 				%h3= list_title
 				%ul.files.cf
