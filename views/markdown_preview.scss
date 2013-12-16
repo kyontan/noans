@@ -4,7 +4,8 @@
 .markdown {
   font-size: 14px;
   line-height: 1.6;
-  // background-color: white;
+  word-wrap: break-word;
+
   > * {
     &:first-child {
       margin-top: 0 !important;
