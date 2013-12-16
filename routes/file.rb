@@ -10,40 +10,6 @@ get '/files/?' do
 	UploadedFile.all.to_json
 end
 
-
-get '/files/:id/?' do
-	pass if ["manage", "preview"].include?(params[:id])
-
-	file_id = params[:id]
-	if file = UploadedFile.get(file_id)
-		if file.public || file.user == user_data
-			redirect to("/files/#{file_id}/#{file.orig_file_name}")
-		else
-			halt 403
-		end
-	else
-		halt 404
-	end
-end
-
-get '/files/:id/:file_name' do
-	pass if ["manage", "preview"].include?(params[:id])
-
-	if file = UploadedFile.get(params[:id]) \
-		and file.orig_file_name == params[:file_name]
-
-		if file.public || file.user == user_data
-			file.update(access_count: file.access_count+1)
-			send_file Pathname(settings.root) + "uploads" + file.file_name
-		else
-			halt 403
-		end
-	else
-		halt 404
-	end
-end
-
-
 get '/files/manage/?' do
 	haml :files_manage, locals: {path: "files_manage", title: "ファイル - 管理"}
 end
@@ -86,38 +52,32 @@ post '/files/manage/?' do
 	haml :files_manage, locals: {path: "files_manage", title: "ファイル - 管理", succeed: succeed}
 end
 
-get '/files/preview/:id/?' do
+get '/files/preview/:id/:file_name?' do
 	file_id = params[:id]
-	unless file = UploadedFile.get(file_id)
-		halt 404
-	end
+	file_name = params[:file_name]
 
-	unless file.public || file.user == user_data
-		halt 403
-	end
+	halt 404 unless file = UploadedFile.get(file_id) and (!file_name || file.orig_file_name == file_name)
+	halt 403 unless file.public || file.user == user_data
+	halt 415 unless %r{.(md|mdown|markdown)$} === file.orig_file_name
 
-	unless %r{.md$} === file.orig_file_name
-		halt 415
+	if file_name
+		haml :markdown_preview, locals: {path: "markdown_preview", file: file, title: file.orig_file_name}
 	else
 		redirect to("/files/preview/#{file_id}/#{file.orig_file_name}")
 	end
 end
 
-get '/files/preview/:id/:file_name/?' do
+get '/files/:id/:file_name?' do
 	file_id = params[:id]
-	unless file = UploadedFile.get(file_id) \
-		and file.orig_file_name == params[:file_name]
-		halt 404
-	end
+	file_name = params[:file_name]
 
-	unless file.public || file.user == user_data
-		halt 403
-	end
+	halt 404 unless file = UploadedFile.get(file_id) and (!file_name || file.orig_file_name == file_name)
+	halt 403 unless file.public || file.user == user_data
 
-	unless %r{.(md|markdown)$} === file.orig_file_name
-		halt 415
+	if file_name
+		file.update(access_count: file.access_count+1)
+		send_file Pathname(settings.root) + "uploads" + file.file_name
 	else
-		haml :markdown_preview, locals: {path: "markdown_preview", file: file, title: file.orig_file_name}
+		redirect to("/files/#{file_id}/#{file.orig_file_name}")
 	end
 end
-

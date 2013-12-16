@@ -1,5 +1,8 @@
 @import "mylist_add";
 
-.checkbox {
-	float: right;
+form {
+	label {
+		float: left;
+		clear: left;
+	}
 }

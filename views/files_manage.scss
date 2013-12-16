@@ -1,26 +1,25 @@
 @charset "utf-8";
 @import "mylist_add";
 
-section#file-manage {
-	li.file {
-		a {
-			@include maxwidth-with-checkbox(2);
-
-			padding: 0;
-		}
+li.file-name {
+	a {
+		@include maxwidth-with-checkbox(2);
 	}
+}
 
-	.checkboxes {
-		float: right;
-		line-height: 0;
+.checkbox {
+	float: none;
+}
 
-		span:not(span:first-child) {
-			margin-left: 5px;
-		}
+.checkboxes {
+	line-height: 0;
+
+	span:not(span:first-child) {
+		margin-left: 5px;
 	}
+}
 
-	.checkbox {
-		margin-bottom: 0;
-	}
+.checkbox {
+	margin-bottom: 0;
 }
 

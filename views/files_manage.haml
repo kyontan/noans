@@ -16,10 +16,10 @@
 			&nbsp;ファイルをアップロード
 	- else
 		%form.cf{action("/files/manage")}(method = "post" name = "files-manage")
-			%ul#files.cf
+			%ul.files.cf
 				- files.each do |file|
 					%li.file{"data-id" => file.id}
-						%a{href("/files/#{file.id}/#{file.orig_file_name}")}= file.orig_file_name
+						%a.file-name{href("/files/#{file.id}/#{file.orig_file_name}")}= file.orig_file_name
 						%span.checkboxes
 							%span.checkbox
 								%input#file{checked: file.public}(type = "checkbox" name = "public-#{file.id.to_s}")

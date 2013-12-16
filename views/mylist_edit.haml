@@ -2,7 +2,7 @@
 - errors ||= Hash.new
 - errors.default = []
 
-%section.form.border#mylist-new
+%section.form.border#mylist-edit
 	%h2.title
 		%a{href("/mylists/#{mylist.id}")}>= mylist.title
 		の編集
@@ -39,16 +39,17 @@
 		- errors[:public].each do |e|
 			%span.warn= e
 
-		%br
-		%label.label ファイルの削除
+		%label.label<
+			ファイルを削除
+			%small (アップロードしたファイルは削除されません)
 		- mylists = mylist.uploaded_files
 		- if mylists.empty?
 			%span.center ファイルがありません
 		- else
-			%ul#files.cf
+			%ul.files.cf
 				- mylists.each do |file|
 					%li.file{"data-id" => file.id}<
-						%a{href("/files/#{file.id}/#{file.orig_file_name}")}= file.orig_file_name
+						%a.file-name{href("/files/#{file.id}/#{file.orig_file_name}")}= file.orig_file_name
 						%span.checkbox.trash
 							%input#file(type = "checkbox" name = "#{file.id.to_s}")
 							%span.unchecked.empty

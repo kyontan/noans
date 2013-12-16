@@ -1,6 +1,10 @@
 
 %section.border#mylist
-	%h2.title= mylist.title
+	%h2.title<
+		- unless mylist.public
+			%i.fa.fa-lock
+		= mylist.title
+
 	%span.user<
 		(by&nbsp;
 		%a{href("/user/#{mylist.user.user_name}")}>=mylist.user.user_name
@@ -13,11 +17,11 @@
 
 	%section.comment.cf= mylist.comment
 	- files = mylist.uploaded_files
-	- files = files.all(public: true) if mylist.public && (mylist.user != user_data)
+	- files = files.all(public: true) if mylist.public
 	- if files.empty?
 		%span.center ファイルがありません
 		- if mylist.user == user_data
-			%a.btn.btn-primary.btn-block{href("/mylist/#{mylist.id}/add")}>
+			%a.btn.btn-primary.btn-block.center{href("/mylist/#{mylist.id}/add")}>
 				%i.fa.fa-file-o
 				&nbsp;ファイルを追加する
 	- else

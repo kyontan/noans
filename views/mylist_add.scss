@@ -4,7 +4,7 @@
 $form-width: 400px;
 @import "form";
 
-ul#files {
+ul.files {
 	width: 100%;
 	margin: 0 0 8px;
 	list-style-type: none;
@@ -16,12 +16,6 @@ ul#files {
 		margin: 3px 0;
 		width: 100%;
 
-		a {}
-	}
-}
-
-section#mylist-add {
-	li {
 		.file-name {
 			@include ellipsis;
 			@include maxwidth-with-checkbox(1);
@@ -30,9 +24,9 @@ section#mylist-add {
 			padding: 0;
 			vertical-align: middle;
 		}
-
-		.checkbox {
-			float: right;
-		}
 	}
+}
+
+.checkbox, .checkboxes {
+	float: right;
 }

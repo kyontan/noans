@@ -161,9 +161,10 @@ section {
 	h3 {
 		display: inline-block;
 
-		&:first-child {
-			margin: .5em 0;
-		}
+		margin: .5em 0;
+		// &:first-child {
+		// 	margin: .5em 0;
+		// }
 	}
 
 	h2, h3 {
@@ -186,7 +187,6 @@ section {
 
 		a {
 			display: inline-block;
-			margin-right: .25em;
 			padding: 5px;
 
 			text-decoration: none;
@@ -215,7 +215,6 @@ section {
 		@include ellipsis;
 
 		max-width: 95%;
-		padding-right: 1em;
 		display: inline-block;
 		line-height: 1;
 		vertical-align: middle;
