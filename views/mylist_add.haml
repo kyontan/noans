@@ -24,9 +24,10 @@
 			- lists["#{user_data.user_name} がアップロードしたファイル"] = files
 			- lists["他の人がアップロードした	ファイル"] = UploadedFile.public - files
 			- lists.each do |list_title, list_files|
+				- next if list_files.empty?
 				%h3= list_title
 				%ul.files.cf
-					- list_files.each do |files|
+					- list_files.each do |file|
 						%li.file
 							%span.file-name= file.orig_file_name
 							%span.checkbox
