@@ -1,7 +1,7 @@
 # Coding: UTF-8
 
 class User
-	require 'uuidtools'
+	# require 'uuidtools'
 
 	include DataMapper::Resource
 
