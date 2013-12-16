@@ -17,6 +17,7 @@ gem "dm-sqlite-adapter"
 gem 'dm-validations-i18n'
 
 group :development do
+	gem "thin", require: false
 	gem "better_errors"
 	gem "binding_of_caller", require: false
 end
