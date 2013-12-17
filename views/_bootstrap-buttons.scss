@@ -157,7 +157,7 @@ $btn-link-disabled-color:        $gray-light !default;
 // Webkit-style focus
 @mixin tab-focus() {
   // Default
-  outline: 2px thin dotted #999;
+  outline: 2px dotted #999;
   // WebKit
   outline: 4px auto -webkit-focus-ring-color;
   outline-offset: -4px;
