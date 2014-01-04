@@ -36,9 +36,9 @@
 					- files.each do |file|
 						%li{"data-id" => file.id}<
 							- unless /\.(md|mdown|markdown)$/ === file.orig_file_name
-								%a{href("/files/#{file.id}/#{file.orig_file_name}")}= file.orig_file_name
+								%a{href("/files/#{file.id}/#{URI.escape file.orig_file_name}")}= file.orig_file_name
 							- else
-								%a{href("/files/preview/#{file.id}/#{file.orig_file_name}")}= file.orig_file_name
+								%a{href("/files/preview/#{file.id}/#{URI.escape file.orig_file_name}")}= file.orig_file_name
 							-# %sub<= file.access_count
 
 		%section.js-tab#mylists

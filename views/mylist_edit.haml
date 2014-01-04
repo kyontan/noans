@@ -49,7 +49,7 @@
 			%ul.files.cf
 				- mylists.each do |file|
 					%li.file{"data-id" => file.id}<
-						%a.file-name{href("/files/#{file.id}/#{file.orig_file_name}")}= file.orig_file_name
+						%a.file-name{href("/files/#{file.id}/#{URI.escape file.orig_file_name}")}= file.orig_file_name
 						%span.checkbox.trash
 							%input#file(type = "checkbox" name = "#{file.id.to_s}")
 							%span.unchecked.empty

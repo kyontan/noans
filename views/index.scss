@@ -1,47 +1,29 @@
 @charset "UTF-8";
 @import "common";
+$form-width: 400px;
+@import "form";
+@import "lists";
 
 section {
-	&#mylists {
-		li {
-			list-style-type: none;
-			display: block;
-			clear: both;
-			margin: .4em 0;
-			padding-top: .8em;
-			border-top: 1px solid hsl(0, 0%, 80%);
+	&#search {
+		form {
+			margin: 0 auto;
 
-			&:first-child {
-				border-top: none;
-				margin-top: 0;
-				padding-top: 0;
-			}
+			input {
+				&[type=search] {
+					width: 320px;
+					display: inline-block;
+					margin-bottom: 0;
+				}
 
-			.link {
-				font-size: 1.2em;
-				float: left;
-			}
-
-			.user {
-				float: right;
-				a {
-					padding-right: 0;
-					display: inline;
+				&[type=submit] {
+					margin-left: 12px;
 				}
 			}
 		}
-
-		.summary {
-			clear: both;
-			float: left;
-			margin: .5em .5em 0;
-			text-indent: 1em;
-			word-break: break-all;
-		}
 	}
 
-	&#files {
-
-	}
+	&#mylists {}
+	&#files {}
 
 }

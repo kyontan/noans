@@ -25,11 +25,5 @@
 				%i.fa.fa-file-o
 				&nbsp;ファイルを追加する
 	- else
-		%ul.files.cf
-			- files.each do |file|
-				%li{"data-id" => file.id}<
-					- unless /\.(md|mdown|markdown)$/ === file.orig_file_name
-						%a{href("/files/#{file.id}/#{file.orig_file_name}")}= file.orig_file_name
-					- else
-						%a{href("/files/preview/#{file.id}/#{file.orig_file_name}")}= file.orig_file_name
-					-# %sub<= file.access_count
+		%section#files
+			= haml :"partial/files", locals: {files: files}

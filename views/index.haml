@@ -1,38 +1,26 @@
 - if logged_in?
-	%section.border#index
-		%section#mylists
-			%h3 公開されているマイリスト
-			- if Mylist.public.count.zero?
-				%span.center 公開されているマイリストがありません
-			- else
-				%ul
-					- mylists = Mylist.public.all(limit: 100, order: [:created_at.desc])
-					- mylists.each do |mylist|
-						%li.cf{"data-id" => mylist.id}<
-							%a.link{href("/mylists/#{mylist.id}")}= mylist.title
-							-# %a.user{href("/user/#{mylist.user_user_name}")}= "(by #{mylist.user_user_name})"
-							%span.user<
-								(by&nbsp;
-								%a{href("/user/#{mylist.user_user_name}")}>= mylist.user_user_name
-								&nbsp;)
-							- unless mylist.comment.empty?
-								%span.summary= mylist.comment[0..50]
+	%section.border#search
+		-# %h3 検索
+		%form{action("/search")}(method = "GET" placeholder = "キーワード")
+			%input(type = "search" name="keyword")
+			%input.btn.btn-primary(type = "submit" value = "検索")
 
-		%section#files
-			%h3 公開されているファイル
-			- if UploadedFile.public.count.zero?
-				%span.center 公開されているファイルがありません
-			- else
-				%ul
-					- files = UploadedFile.public.all(limit: 100, order: [:created_at.desc])
-					- files.each do |file|
-						%li{"data-id" => file.id}<
-							- unless /\.(md|mdown|markdown)$/ === file.orig_file_name
-								%a{href("/files/#{file.id}/#{file.orig_file_name}")}= file.orig_file_name
-							- else
-								%a{href("/files/preview/#{file.id}/#{file.orig_file_name}")}= file.orig_file_name
-							-# %sub<= file.access_count
+	%section.border#mylists
+		%h3 公開されているマイリスト
+		- if Mylist.public.count.zero?
+			%span.center 公開されているマイリストがありません
+		- else
+			%ul
+				- mylists = Mylist.public.all(limit: 100, order: [:created_at.desc])
+				= haml :"partial/mylists", locals: {mylists: mylists}
 
+	%section.border#files
+		%h3 公開されているファイル
+		- if UploadedFile.public.count.zero?
+			%span.center 公開されているファイルがありません
+		- else
+			- files = UploadedFile.public.all(limit: 20, order: [:created_at.desc])
+			= haml :"partial/files", locals: {files: files}
 - else
 	%section
 		%a{href("/register")} 登録

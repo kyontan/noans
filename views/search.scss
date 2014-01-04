@@ -1,0 +1,21 @@
+@charset "UTF-8";
+@import "common";
+$form-width: 400px;
+@import "form";
+@import "lists";
+
+form {
+	margin: 0 auto;
+
+	input {
+		&[type=search] {
+			width: 320px;
+			display: inline-block;
+			margin-bottom: 0;
+		}
+
+		&[type=submit] {
+			margin-left: 12px;
+		}
+	}
+}

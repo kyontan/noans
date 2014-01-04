@@ -1,0 +1,9 @@
+- files.each do |file|
+	%article.cf{"data-id" => file.id}<
+		- unless /\.(md|mdown|markdown)$/ === file.orig_file_name
+			%a.file-name{href("/files/#{file.id}/#{URI.escape file.orig_file_name}")}= file.orig_file_name
+		- else
+			%a.file-name{href("/files/preview/#{file.id}/#{URI.escape file.orig_file_name}")}= file.orig_file_name
+		-# %span.access-count<= file.access_count
+		%span.user= file.user.user_name
+		%time= file.created_at.strftime("%Y/%m/%d %H:%m")

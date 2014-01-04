@@ -2,47 +2,37 @@
 - mylists_result ||= []
 - keyword ||= ""
 
-:scss
-	form {
-		width: 90%;
-	}
-
-	input#keyword {
-		width: 85%;
-		float: left;
-		margin-right: 1em;
-	}
-
 %section.form.border#search
 	- if keyword.empty?
 		%h2.title 検索
 	- else
 		%h2.title #{keyword} の検索結果
 
-	%form.cf{action("/search")}(method = "get" name = "search")
-		%input#keyword(type = "text" name="keyword" value = "#{}" required)
+	%form{action("/search")}(method = "get" name = "search")
+		%input#keyword(type = "search" name="keyword" value = "" required)
 
 		%input.btn.btn-primary(type = "submit" value = "検索")
 
-	%section.result
+	%section#mylists
 		%h3 マイリスト
 		- if mylists_result.empty?
 			キーワードに一致するマイリストがありません
 		- else
-			%ul
-				- mylists_result.each do |mylist|
-					%li{"data-id" => mylist.id}<
-						%a{href("/mylists/#{mylist.id}")}= mylist.title
+			= haml :"partial/mylists", locals: {mylists: mylists_result}
 
-	%section.result
+	%section#files
 		%h3 ファイル
 		- if files_result.empty?
 			キーワードに一致するファイルがありません
 		- else
-			%ul
+			= haml :"partial/files", locals: {files: files_result}
+			- if false
 				- files_result.each do |file|
-					%li{"data-id" => file.id}<
-						%a{href("/files/#{file.id}/#{file.orig_file_name}")}= file.orig_file_name
-						- if /\.(md|markdown)$/ === file.orig_file_name
-							%a{href("/preview/" + file.file_name)} プレビュー
-						-# %sub<= file.access_count
+					%article.cf{"data-id" => file.id}<
+						- unless /\.(md|mdown|markdown)$/ === file.orig_file_name
+							%a.file-name{href("/files/#{file.id}/#{URI.escape file.orig_file_name}")}= file.orig_file_name
+						- else
+							%a.file-name{href("/files/preview/#{file.id}/#{URI.escape file.orig_file_name}")}= file.orig_file_name
+						-# %span.access-count<= file.access_count
+						%span.user= file.user.user_name
+						%time= file.created_at.strftime("%Y/%m/%d %H:%m")

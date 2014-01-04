@@ -10,6 +10,9 @@
 form {
 	@mixin input-like-bootstrap {
 		// Referenced from Bootstrap
+		-moz-box-sizing: border-box;
+		box-sizing: border-box;
+
 		padding: 6px 12px;
 		color: #555;
 		border: 1px solid #ccc;
@@ -69,7 +72,7 @@ form {
 	input {
 		box-sizing: border-box;
 
-		&[type=text], &[type=password], &[type=email] {
+		&[type=text], &[type=password], &[type=email], &[type=search] {
 			@include input-like-bootstrap;
 			@include field-margin;
 			@include text-field;

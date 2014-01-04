@@ -46,4 +46,8 @@
 		outline: none;
 		color: white;
 	}
+
+	&:not(.tab-nav-current) a:hover {
+		background-color: #F7F7F7;
+	}
 }
