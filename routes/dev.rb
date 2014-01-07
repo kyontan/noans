@@ -12,15 +12,6 @@ get '/dev/raise/?' do
 	raise "Raise for debugging"
 end
 
-get '/dev/error/:error_status/?' do
-	halt params[:error_status].to_i
-end
-
-get %r(/dev/([0-9]{3})/?) do
-	status = params[:captures].first.to_i
-	halt status
-end
-
 get '/dev/render/:obj/?' do
 	haml params[:obj].to_sym,
 				locals: {
@@ -37,14 +28,4 @@ get '/dev/render_without_layout/:obj/?' do
 			 		params: Hash.new(""),
 			 		title: "dev render - #{params[:obj]}"
 			 	}
-end
-
-get '/dev/raise/?' do
-	raise
-end
-
-get '/dev/reset/?' do
-	system("touch ./tmp/restart.txt")
-
-	redirect back
 end
