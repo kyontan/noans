@@ -110,24 +110,12 @@ helpers do
   alias_method :h, :escape_html
 end
 
-before do
-end
-
-get '/' do
-	if logged_in?
-		haml :index, locals: {path: "index"}
-	else
-		haml :login, locals: {path: "login"}
-	end
-end
-
-require_relative 'routes/user-activity'
-# require_relative 'routes/admin'
-require_relative 'routes/assets'
-# require_relative 'routes/api'
 require_relative 'routes/dev'
 require_relative 'routes/file'
+require_relative 'routes/index'
 require_relative 'routes/mylist'
 require_relative 'routes/search'
+require_relative 'routes/static'
 require_relative 'routes/upload'
 require_relative 'routes/user'
+require_relative 'routes/user-activity'

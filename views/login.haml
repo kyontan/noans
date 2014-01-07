@@ -1,4 +1,12 @@
 - error ||= false
+
+%section.border#about
+	%h3 noans とは?
+	授業でとったノートやプリントなどを共有し、閲覧するためのサービスです。 ―&nbsp;
+	%a{href("/about")}> 詳しく
+	%p.center まだ登録されてないですか？
+	%a.btn.btn-primary.btn-block{href("/register")} 新規登録
+
 %section.form.border#login
 	%h2.title ログイン
 	%form.cf{action("/login/")}(method = "post" name = "login")
@@ -14,6 +22,3 @@
 
 		%input.btn.btn-primary.btn-block(type = "submit" value = "ログイン")
 
-%section.border#register-link
-	まだ登録されてないですか？
-	%a.btn.btn-primary.btn-block{href("/register")} 新規登録

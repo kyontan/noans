@@ -5,3 +5,11 @@
 header {
 	padding-bottom: 12px;
 }
+
+#attension {
+	width: $width;
+	margin-left: -($width - $form-width) / 2;
+
+	font-size: .88em;
+	text-align: center;
+}

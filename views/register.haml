@@ -31,6 +31,10 @@
 		- errors[:password_confirm].each do |e|
 			%span.warn= e
 
+		%div#attension<
+			%a{href("/terms-of-service")}> 利用規約
+			に同意される方のみ登録をすることができます。
+
 		%input(type = "hidden" name = "_csrf" value = "#{Rack::Csrf.token(env)}")
 
 		%input.btn.btn-primary.btn-block(type = "submit" value = "登録")

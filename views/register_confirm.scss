@@ -1,8 +1,12 @@
 @charset "UTF-8";
 @import "register";
 
-label {
+form span {
 	&.key:after {
 		content: "\00a0:"; // " :"
+	}
+
+	&.value {
+		display: block;
 	}
 }

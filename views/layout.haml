@@ -15,7 +15,7 @@
 	%meta(name = "msapplication-TileColor" content = "#EEEEFF")
 	%meta(name = "msapplication-TileImage" content = "/favicon-144.png")
 
-	%link(href = 'http://fonts.googleapis.com/css?family=Source+Code+Pro:200' rel = 'stylesheet')
+	%link(href = 'http://fonts.googleapis.com/css?family=Source+Code+Pro:200' rel = "stylesheet")
 	%link{href("/css/normalize.css")}(rel = "stylesheet")
 	%link{href("/css/font-awesome/font-awesome.css")}(rel = "stylesheet")
 
@@ -27,14 +27,6 @@
 
 	%script{src("/js/jquery-2.0.3.min.js")}
 	%script root_addr = '#{link_to(?/)}';
-
-	- if false
-		%script{src("/js/markdown.js")}
-		%link{href("/css/markdown.css")}(rel = "stylesheet")
-		:javascript
-			$(function(){
-				$.get(root_addr + "api/text", function(text){ $("#text").append(markdown.toHTML(text));});
-			});
 
 	- if settings.production?
 		:javascript
@@ -66,10 +58,16 @@
 					アップロード
 		- if logged_in?(isadmin: true)
 			%nav#admin<
-				%a{href("/test/reset")} リセット
+				%a{href("/dev/reset")} リセット
 				%a{href("/admin")} 管理画面
 
 	- if block_given?
 		%main= yield
 
-	%footer noans beta - &copy; Kyontan (@sukuhino)
+	%footer
+		%nav
+			%a{href("/about")} About
+			%a{href("/terms-of-service")} Terms of Service
+			%a{href("/privacy-policy")} Privacy Policy
+		&copy; 2012- Created by&nbsp;
+		%a(href = "//monora.me")> kyontan
