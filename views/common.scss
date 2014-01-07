@@ -219,9 +219,11 @@ section {
 	}
 
 	.right-top {
-		position: absolute;
-		right: .25em;
-		top: 1em;
+		float: right;
+
+		+ * {
+			clear: right;
+		}
 	}
 
 	.right-bottom {
