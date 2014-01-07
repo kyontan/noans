@@ -1,0 +1,33 @@
+@charset "UTF-8";
+@import "files";
+@import "mylists";
+
+#files, #mylists {
+	a.link {
+		$link-color: hsl(153, 100%, 14%);
+		color: $link-color;
+
+		&:visited {
+			color: lighten($link-color, 4%);
+		}
+
+		&:hover {
+			color: lighten($link-color, 10%);
+		}
+	}
+
+	a.user {
+		font-size: .88em;
+
+		$link-color: hsl(228, 48%, 48%);
+		color: $link-color;
+
+		&:visited {
+			color: lighten($link-color, 4%);
+		}
+
+		&:hover {
+			color: lighten($link-color, 35%);
+		}
+	}
+}

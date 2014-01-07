@@ -159,10 +159,19 @@ section {
 		}
 	}
 
-	h1, h2, h3, h4, h5, h6 {
+	h1, h2, h3 {
 		&:first-child {
+			float: left;
 			margin-top: 0;
+
+			+ *:not([class=right-top]) {
+				clear: both;
+			}
 		}
+	}
+
+	h1, h2, h3, h4, h5, h6 {
+		margin: .25em 0;
 	}
 
 	a {
@@ -203,20 +212,11 @@ section {
 		}
 	}
 
-	li a {
-		@include ellipsis;
-
-		max-width: 95%;
-		display: inline-block;
-		line-height: 1;
-		vertical-align: middle;
-	}
-
 	.right-top {
 		float: right;
 
 		+ * {
-			clear: right;
+			clear: both;
 		}
 	}
 
@@ -226,6 +226,14 @@ section {
 	  display: block;
 	}
 
+	li > a {
+		@include ellipsis;
+
+		max-width: 95%;
+		display: inline-block;
+		line-height: 1;
+		vertical-align: middle;
+	}
 }
 
 .center {
@@ -262,10 +270,6 @@ footer {
 	a {
 		color: #666;
 		text-decoration: none;
-
-		&:visited {
-			color: #999;
-		}
 
 		&:hover {
 			color: #888;

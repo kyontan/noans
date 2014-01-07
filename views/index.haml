@@ -10,9 +10,8 @@
 		- if Mylist.public.count.zero?
 			%span.center 公開されているマイリストがありません
 		- else
-			%ul
-				- mylists = Mylist.public.all(limit: 100, order: [:created_at.desc])
-				= haml :"partial/mylists", locals: {mylists: mylists}
+			- mylists = Mylist.public.all(limit: 100, order: [:created_at.desc])
+			= haml :"partial/mylists", locals: {mylists: mylists}
 
 	%section.border#files
 		%h3 公開されているファイル

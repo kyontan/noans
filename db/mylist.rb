@@ -42,4 +42,7 @@ class Mylist
 		self.all(deleted: false)
 	end
 
+	def available
+		!deleted
+	end
 end

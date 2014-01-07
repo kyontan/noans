@@ -47,7 +47,7 @@ end
 get '/mylist/:mylist_id/add/?' do
 	mylist_id = params[:mylist_id]
 	mylist = Mylist.get(mylist_id)
-	halt 404 unless mylist || mylist.available
+	halt 404 unless mylist && mylist.available
 	halt 403 if mylist.user != user_data
 
 	haml :mylist_add, locals: {path: "mylist_add", title: "マイリスト - 追加", mylist: mylist}
@@ -56,7 +56,7 @@ end
 post '/mylist/:mylist_id/add/?' do
 	mylist_id = params[:mylist_id]
 	mylist = Mylist.get(mylist_id)
-	halt 404 unless mylist || mylist.available
+	halt 404 unless mylist && mylist.available
 	halt 403 if mylist.user != user_data
 
 
@@ -72,11 +72,10 @@ end
 get '/mylist/:mylist_id/edit/?' do
 	mylist_id = params[:mylist_id]
 	mylist = Mylist.get(mylist_id)
-	halt 404 unless mylist || mylist.available
+	halt 404 unless mylist && mylist.available
 	halt 403 if mylist.user != user_data
 
 	haml :mylist_edit, locals: {path: "mylist_edit", title: "マイリスト - 編集", mylist: mylist}
-
 end
 
 post '/mylist/:mylist_id/edit/?' do

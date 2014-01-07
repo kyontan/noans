@@ -4,7 +4,7 @@
 
 !!!
 %html(lang = "ja")
-	%meta(charset = "utf-8")
+	%meta(charset = "UTF-8")
 	%title noans β #{title.empty? ? "" : " - #{title}"}
 
 	%meta(name = "viewport" content = "width=device-width, initial-scale=1")
@@ -20,7 +20,7 @@
 	%link{href("/css/font-awesome/font-awesome.css")}(rel = "stylesheet")
 
 	- if common_css
-		%link{href("/css/common.css")}(rel = "stylesheet")
+		%link{href("/css/_common.css")}(rel = "stylesheet")
 		%link{href("/css/_form.css")}(rel = "stylesheet")
 	- elsif
 		%link{href("/css/#{path}.css")}(rel = "stylesheet")
@@ -66,7 +66,9 @@
 	%footer
 		%nav
 			%a{href("/about")} About
+			|
 			%a{href("/terms-of-service")} Terms of Service
+			|
 			%a{href("/privacy-policy")} Privacy Policy
 		&copy; 2012- Created by&nbsp;
 		%a(href = "//monora.me")> kyontan

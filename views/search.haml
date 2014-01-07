@@ -16,14 +16,14 @@
 	%section#mylists
 		%h3 マイリスト
 		- if mylists_result.empty?
-			キーワードに一致するマイリストがありません
+			%span.not-found キーワードに一致するマイリストがありません
 		- else
 			= haml :"partial/mylists", locals: {mylists: mylists_result}
 
 	%section#files
 		%h3 ファイル
 		- if files_result.empty?
-			キーワードに一致するファイルがありません
+			%span.not-found キーワードに一致するファイルがありません
 		- else
 			= haml :"partial/files", locals: {files: files_result}
 			- if false

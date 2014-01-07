@@ -5,15 +5,13 @@
 			%i.fa.fa-lock
 		= mylist.title
 
-	%span.user<
-		(by&nbsp;
-		%a{href("/user/#{mylist.user.user_name}")}>=mylist.user.user_name
-		&nbsp;)
 	- if mylist.user == user_data
 		%span.right-top
 			%a{href("/mylist/#{mylist.id}/edit")}>
 				%i.fa.fa-edit
 				マイリストを編集
+	%span.user.cf<
+		%a{href("/user/#{mylist.user.user_name}")}>=mylist.user.user_name
 
 	%section.comment.cf= mylist.comment
 	- files = mylist.uploaded_files

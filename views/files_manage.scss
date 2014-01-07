@@ -1,10 +1,8 @@
-@charset "utf-8";
+@charset "UTF-8";
 @import "mylist_add";
 
-li.file-name {
-	a {
-		@include maxwidth-with-checkbox(2);
-	}
+ul.files li.file a.file-name {
+	@include maxwidth-with-checkbox(2);
 }
 
 .checkbox {

@@ -13,7 +13,7 @@
 			ファイルを追加
 
 	- if succeed
-		%span.center 変更しました
+		%span.center#success 変更しました
 
 	%form.cf{action("/mylist/#{mylist.id}/edit")}(method = "post" name = "mylist-edit")
 		%label(for = "title")<

@@ -6,7 +6,7 @@
 
 %section.border#markdown-preview
 	%a#link{href("/files/#{file.id}/#{URI.escape file.orig_file_name}")}= file.orig_file_name
-	アップロード
+	Uploaded at&nbsp;
 	%time>= file.created_at.strftime("%Y/%m/%d %H:%m")
 	%hr
 	%div.markdown

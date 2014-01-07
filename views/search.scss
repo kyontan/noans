@@ -2,7 +2,7 @@
 @import "common";
 $form-width: 400px;
 @import "form";
-@import "lists";
+@import "partial/lists";
 
 form {
 	margin: 0 auto;
@@ -19,3 +19,13 @@ form {
 		}
 	}
 }
+
+section {
+	margin-top: 1em;
+
+	span.not-found {
+		margin-left: 1em;
+		vertical-align: middle;
+	}
+}
+
