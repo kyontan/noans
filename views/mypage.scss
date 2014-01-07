@@ -24,6 +24,18 @@
 
 }
 
+section.js-tab {
+	h3:first-child {
+		margin-top: .5em;
+	}
+
+	.right-top {
+		position: absolute;
+		top: 0;
+		right: .32em;
+	}
+}
+
 // jquery.herotabs
 .js-nav {
 	margin-top: .5em;
