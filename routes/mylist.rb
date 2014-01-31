@@ -112,7 +112,7 @@ get '/mylist/:mylist_id/remove/?' do
 	halt 404 unless mylist || mylist.available
 	halt 403 unless mylist.user == user_data
 
-	haml :mylist_remove, locals: {path: "mylist_remove", title: "マイリスト - 削除", common_css: true, mylist: mylist}
+	haml :mylist_remove, locals: {path: "mylist_remove", title: "マイリスト - 削除", mylist: mylist}
 
 end
 
@@ -124,6 +124,6 @@ post '/mylist/:mylist_id/remove/?' do
 
 	halt unless mylist.update(deleted: true)
 
-	haml :mylist_remove, locals: {path: "mylist_remove", title: "マイリスト - 削除", common_css: true, succeed: true}
+	haml :mylist_remove, locals: {path: "mylist_remove", title: "マイリスト - 削除", succeed: true}
 
 end

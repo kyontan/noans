@@ -7,7 +7,7 @@
 
 	- else
 		%h2.title= "#{mylist.title} を削除"
-		%span.center 本当に削除しますか
+		%span.center 本当に削除しますか?
 		%form{action("/mylist/#{mylist.id}/remove/")}(method = "post" name = "mylist-remove")
 
 
