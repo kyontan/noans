@@ -1,23 +1,6 @@
 @charset "UTF-8";
-@import "mylist_add";
+@import "common";
+@import "partial/tables";
 
-ul.files li.file a.file-name {
-	@include maxwidth-with-checkbox(2);
-}
-
-.checkbox {
-	float: none;
-}
-
-.checkboxes {
-	line-height: 0;
-
-	span:not(span:first-child) {
-		margin-left: 5px;
-	}
-}
-
-.checkbox {
-	margin-bottom: 0;
-}
-
+$form-width: 92%;
+@import "form";

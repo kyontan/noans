@@ -1,4 +1,3 @@
-
 %section.border#mylist
 	%h2.title<
 		- unless mylist.public
@@ -11,7 +10,7 @@
 				%i.fa.fa-edit
 				マイリストを編集
 	%span.user.cf<
-		%a{href("/user/#{mylist.user.user_name}")}>=mylist.user.user_name
+		%a{href("/user/#{mylist.user.user_name}")}>= mylist.user.user_name
 
 	%section.comment.cf= mylist.comment
 	- files = mylist.uploaded_files
@@ -21,7 +20,7 @@
 		- if mylist.user == user_data
 			%a.btn.btn-primary.btn-block.center{href("/mylist/#{mylist.id}/add")}>
 				%i.fa.fa-file-o
-				&nbsp;ファイルを追加する
+				ファイルを追加する
 	- else
 		%section#files
-			= haml :"partial/files", locals: {files: files}
+			= haml :"partial/files", locals: {files: files, fields: [:file_name, :user_name, :created_at]}

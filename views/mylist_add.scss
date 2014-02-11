@@ -1,32 +1,6 @@
 @charset "UTF-8";
 @import "common";
+@import "partial/tables";
 
-$form-width: 400px;
+$form-width: 92%;
 @import "form";
-
-ul.files {
-	width: 100%;
-	margin: 0 0 8px;
-	list-style-type: none;
-	padding-left: 0;
-
-	li.file {
-		float: left;
-		clear: left;
-		margin: 3px 0;
-		width: 100%;
-
-		.file-name {
-			@include ellipsis;
-			@include maxwidth-with-checkbox(1);
-
-			display: inline-block;
-			padding: 0;
-			vertical-align: middle;
-		}
-	}
-}
-
-.checkbox, .checkboxes {
-	float: right;
-}

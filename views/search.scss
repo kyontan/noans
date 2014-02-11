@@ -1,8 +1,9 @@
 @charset "UTF-8";
 @import "common";
+@import "partial/tables";
+
 $form-width: 400px;
 @import "form";
-@import "partial/lists";
 
 form {
 	margin: 0 auto;
@@ -25,7 +26,6 @@ section {
 
 	span.not-found {
 		margin-left: 1em;
-		vertical-align: middle;
+		vertical-align: text-top;
 	}
 }
-

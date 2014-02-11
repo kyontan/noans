@@ -1,12 +1,57 @@
-- files.each do |file|
-	%article.cf{"data-id" => file.id}<
-		- unless /\.(md|mdown|markdown)$/ === file.orig_file_name
-			- to = "/files/#{file.id}/#{URI.escape file.orig_file_name}"
-		- else
-			- to = "/files/preview/#{file.id}/#{URI.escape file.orig_file_name}"
-		%a.link{href(to)}= file.orig_file_name
-
-		-# %span.access-count<= file.access_count
-		%br
-		%a.user{href("/user/#{file.user_user_name}")}>= file.user.user_name
-		%time= file.created_at.strftime("%Y/%m/%d %H:%m")
+-# required: fields, files
+%table.files
+	%thead
+		%tr
+			- if fields.include?(:file_name)
+				%th.file-name ファイル名
+			- if fields.include?(:user_name)
+				%th.user-name 投稿者
+			- if fields.include?(:created_at)
+				%th.created-at 投稿日時
+			- if fields.include?(:checkbox_file_manage)
+				%th.checkboxes
+			- if fields.include?(:checkbox_mylist_add)
+				%th.checkbox
+			- if fields.include?(:checkbox_mylist_edit)
+				%th.checkbox
+			- if fields.include?(:access_count)
+				%th.access_count
+	%tbody
+		- files.each do |file|
+			%tr{"data-id" => file.id}<
+				- if fields.include?(:file_name)
+					%td.file-name<
+						- to  = "/files"
+						- to += "/preview" if /\.(md|mdown|markdown)$/ === file.orig_file_name
+						- to += "/#{file.id}/#{URI.escape file.orig_file_name}"
+						%a.link{href(to)}= file.orig_file_name
+				- if fields.include?(:user_name)
+					%td<
+						%a.user{href("/user/#{file.user_user_name}")}>= file.user.user_name
+				- if fields.include?(:created_at)
+					%td<
+						%time= file.created_at.strftime("%y/%m/%d %H:%m")
+				- if fields.include?(:checkbox_file_manage)
+					%td.checkboxes<
+						%span.checkbox
+							%input#file{checked: file.public}(type = "checkbox" name = "public-#{file.id.to_s}")
+							%span.unchecked.fa.fa-lock
+							%span.checked.fa.fa-unlock
+						%span.checkbox.trash
+							%input#file{checked: file.deleted}(type = "checkbox" name = "remove-#{file.id.to_s}")
+							%span.unchecked.empty
+							%span.checked.fa.fa-trash-o
+				- if fields.include?(:checkbox_mylist_add)
+					%td.checkbox<
+						%span.checkbox
+							%input#file(type = "checkbox" name = "#{file.id.to_s}")
+							%span.unchecked.empty
+							%span.checked.fa.fa-check
+				- if fields.include?(:checkbox_mylist_edit)
+					%td.checkbox<
+						%span.checkbox.trash
+							%input#file(type = "checkbox" name = "#{file.id.to_s}")
+							%span.unchecked.empty
+							%span.checked.fa.fa-trash-o
+				- if fields.include?(:access_count)
+					%span.access-count<= file.access_count

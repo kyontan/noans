@@ -55,7 +55,7 @@
 					マイページ
 				%a{href("/upload")}>
 					%i.fa.fa-upload
-					アップロード
+					ファイルを投稿
 		- if logged_in?(isadmin: true)
 			%nav#admin<
 				%a{href("/admin")} 管理画面
@@ -70,5 +70,5 @@
 			%a{href("/terms-of-service")} Terms of Service
 			|
 			%a{href("/privacy-policy")} Privacy Policy
-		&copy; 2012- Created by&nbsp;
-		%a(href = "//monora.me")> kyontan
+		&copy; 2012- Created by
+		%a(href = "//monora.me") kyontan

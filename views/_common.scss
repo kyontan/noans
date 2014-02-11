@@ -3,12 +3,6 @@
 @import "mixin";
 @import "variables";
 
-/* font-size memo (Based-on 16px)
- *  9px -> 0.50em, 12px -> 0.75em, 18px -> 1.12em, 24px -> 1.50em
- * 10px -> 0.62em, 14px -> 0.87em, 20px -> 1.25em, 26px -> 1.62em
- * 11px -> 0.68em, 16px -> 1.00em, 22px -> 1.37em, 32px -> 2.00em
- */
-
 /* ----------- common.scss ----------- */
 
 body {
@@ -126,8 +120,6 @@ header {
 	}
 }
 
-main { }
-
 section {
 	box-sizing: border-box;
 	-moz-box-sizing: border-box;
@@ -136,7 +128,6 @@ section {
 	display: block;
 
 	margin: 0 auto;
-	// width: $width;
 
 	&.border {
 		background-color: #faf9f9;
@@ -162,11 +153,17 @@ section {
 	h1, h2, h3 {
 		&:first-child {
 			float: left;
-			margin-top: 0;
+			// margin-top: 0;
 
 			+ *:not([class=right-top]) {
 				clear: both;
 			}
+		}
+
+		&.title {
+			margin: 0 0 .25em;
+			font-weight: bold;
+			font-size: 1.5em;
 		}
 	}
 
@@ -214,6 +211,7 @@ section {
 
 	.right-top {
 		float: right;
+		margin: 2px 5px 0 0;
 
 		+ * {
 			clear: both;
@@ -226,13 +224,16 @@ section {
 	  display: block;
 	}
 
-	li > a {
-		@include ellipsis;
+	li {
+		word-break: break-all;
+		> a {
+			// @include ellipsis;
 
-		max-width: 95%;
-		display: inline-block;
-		line-height: 1;
-		vertical-align: middle;
+			max-width: 95%;
+			display: inline-block;
+			// line-height: 1;
+			vertical-align: middle;
+		}
 	}
 }
 
@@ -243,16 +244,34 @@ section {
 	text-align: center;
 }
 
-.title {
-	margin: 0 0 .25em;
-	font-weight: bold;
-	font-size: 1.5em;
+hr {
+  border: 0;
+  height: 0;
+  border-top: 1px dashed #aaa;
 }
 
-hr {
-    border: 0;
-    height: 0;
-    border-top: 1px dashed #aaa;
+table {
+	width: 100%;
+
+	thead {
+		tr:last-child {
+			border-bottom: 1px solid #999;
+		}
+	}
+
+	tbody {
+		tr {
+			&:first-child {
+				border-top: none;
+			}
+
+			border-top: 1px solid #ccc;
+		}
+
+		td {
+			padding: 6px;
+		}
+	}
 }
 
 footer {
@@ -282,6 +301,7 @@ footer {
 	}
 }
 
+
 // font-awesome
 .fa, .fa:hover {
 	text-decoration: none;
@@ -294,10 +314,19 @@ a {
 
 section {
 	.right-top, .right-bottom {
-		.fa:before {
-			font-size: 1.5em;
-			margin-right: .05em;
-			vertical-align: middle;
+		.fa {
+			&::before {
+				font-size: 1.375em;
+				margin-right: .05em;
+				vertical-align: middle;
+				line-height: 0;
+			}
+		}
+	}
+
+	.right-top, .right-bottom, .btn {
+		.fa::after {
+			content: "\00a0";
 		}
 	}
 }

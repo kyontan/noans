@@ -9,30 +9,21 @@
 		%h2.title #{keyword} の検索結果
 
 	%form{action("/search")}(method = "get" name = "search")
-		%input#keyword(type = "search" name="keyword" value = "" required)
+		%input#keyword(type = "search" name = "keyword" value = "" required)
 
 		%input.btn.btn-primary(type = "submit" value = "検索")
 
-	%section#mylists
-		%h3 マイリスト
-		- if mylists_result.empty?
-			%span.not-found キーワードに一致するマイリストがありません
-		- else
-			= haml :"partial/mylists", locals: {mylists: mylists_result}
+	- unless keyword.empty?
+		%section#mylists
+			%h3 マイリスト
+			- if mylists_result.empty?
+				%span.not-found キーワードに一致するマイリストがありません
+			- else
+				= haml :"partial/mylists", locals: {mylists: mylists_result, fields: [:title, :user_name, :updated_at]}
 
-	%section#files
-		%h3 ファイル
-		- if files_result.empty?
-			%span.not-found キーワードに一致するファイルがありません
-		- else
-			= haml :"partial/files", locals: {files: files_result}
-			- if false
-				- files_result.each do |file|
-					%article.cf{"data-id" => file.id}<
-						- unless /\.(md|mdown|markdown)$/ === file.orig_file_name
-							%a.file-name{href("/files/#{file.id}/#{URI.escape file.orig_file_name}")}= file.orig_file_name
-						- else
-							%a.file-name{href("/files/preview/#{file.id}/#{URI.escape file.orig_file_name}")}= file.orig_file_name
-						-# %span.access-count<= file.access_count
-						%span.user= file.user.user_name
-						%time= file.created_at.strftime("%Y/%m/%d %H:%m")
+		%section#files
+			%h3 ファイル
+			- if files_result.empty?
+				%span.not-found キーワードに一致するファイルがありません
+			- else
+				= haml :"partial/files", locals: {files: files_result, fields: [:file_name, :user_name, :created_at]}

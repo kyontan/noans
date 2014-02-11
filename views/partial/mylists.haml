@@ -1,8 +1,22 @@
-%ul
-	- mylists.each do |mylist|
-		%li{"data-id" => mylist.id}<
-			%a.link{href("/mylists/#{mylist.id}")}= mylist.title
-			%br
-			%a.user{href("/user/#{mylist.user_user_name}")}>= mylist.user_user_name
-			- unless mylist.comment.empty?
-				%span.summary= mylist.comment[0..50]
+-# required: fields, mylists
+%table.mylists
+	%thead
+		%tr
+			- if fields.include?(:title)
+				%th.title タイトル
+			- if fields.include?(:user_name)
+				%th.user-name 作成者
+			- if fields.include?(:updated_at)
+				%th.created-at 最終更新日時
+	%tbody
+		- mylists.each do |mylist|
+			%tr{"data-id" => mylist.id}<
+				- if fields.include?(:title)
+					%td.file-name<
+						%a.link{href("/mylists/#{mylist.id}")}= mylist.title
+				- if fields.include?(:user_name)
+					%td<
+						%a.user{href("/user/#{mylist.user_user_name}")}>= mylist.user.user_name
+				- if fields.include?(:updated_at)
+					%td<
+						%time= mylist.updated_at.strftime("%y/%m/%d %H:%m")

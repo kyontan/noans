@@ -1,6 +1,7 @@
 @charset "UTF-8";
 @import "common";
 @import "bootstrap-buttons";
+@import "partial/tables";
 
 .uploaded > section {
 	position: relative;
@@ -34,30 +35,34 @@ section.js-tab {
 	}
 }
 
-// jquery.herotabs
-.js-nav {
-	margin-top: .5em;
+// jquery.superSimpleTabs
+.tabs {
+	width: 100%;
 	display: flex;
-}
+	margin-bottom: 5px;
 
-.js-nav-item {
-	flex: 1;
-	margin: 0 5px;
-
-	.btn {
+	.item {
+		display: inline-block;
+		width: 48%;
+		flex: 1;
 		box-sizing: border-box;
-		-moz-box-sizing: border-box;
-		width: 100%;
-	}
+		margin: 0 5px;
 
-	&.tab-nav-current .btn {
-		background: #428bca;
-		cursor: default;
-		outline: none;
-		color: white;
-	}
+		.btn {
+			box-sizing: border-box;
+			-moz-box-sizing: border-box;
+			width: 100%;
 
-	&:not(.tab-nav-current) a:hover {
-		background-color: #F7F7F7;
+			&.selected {
+				background: #428bca;
+				cursor: default;
+				outline: none;
+				color: white;
+			}
+
+			&:not(.selected):hover {
+				background-color: #F7F7F7;
+			}
+		}
 	}
 }

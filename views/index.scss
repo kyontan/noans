@@ -1,15 +1,16 @@
 @charset "UTF-8";
 @import "common";
-$form-width: 400px;
+@import "partial/tables";
+
+$form-width: 512px;
 @import "form";
-@import "partial/lists";
 
 section {
 	&#search {
 		form {
 			input {
 				&[type=search] {
-					width: 320px;
+					width: 430px;
 					display: inline-block;
 					margin-bottom: 0;
 				}

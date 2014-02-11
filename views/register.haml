@@ -5,14 +5,13 @@
 	%form.cf{action("/register")}(method = "post" name = "register")
 		%label(for = "user-name")<
 			ユーザ名
-			%small> (半角英数字:4文字以上)
+			%small> (半角英数字: 4文字以上)
 		%input#user-name(type = "text" name = "user_name" value = "#{h params[:user_name]}" required)
 		- errors[:user_name].each do |e|
 			%span.warn= e
 
 		%label(for = "mail")<
-			メールアドレス
-			%small> (任意)
+			メールアドレス (任意)
 		%input#mail(type = "email" name = "mail" value = "#{h params[:mail]}")
 		- errors[:mail].each do |e|
 			%span.warn= e

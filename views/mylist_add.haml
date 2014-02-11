@@ -14,26 +14,16 @@
 		- files = user_data.uploaded_files.available - mylist.uploaded_files
 		- if mylist.public?
 			- files = files.all(public: true)
-		- if files.empty? && UploadedFile.count.zero?
+		- if files.empty? || UploadedFile.available.count.zero?
 			%span.center ファイルがありません
-			%a.btn.btn-primary.btn-block{href("/upload")}>
-				%i.fa.fa-upload
-				&nbsp;ファイルをアップロード
 		- else
 			- lists = {}
-			- lists["#{user_data.user_name} がアップロードしたファイル"] = files
-			- lists["他の人がアップロードした	ファイル"] = UploadedFile.public - files - mylist.uploaded_files
+			- lists["#{user_data.user_name} が投稿したファイル"] = files
+			- lists["他のユーザーが投稿したファイル"] = UploadedFile.public - files - mylist.uploaded_files
 			- lists.each do |list_title, list_files|
 				- next if list_files.empty?
 				%h3= list_title
-				%ul.files.cf
-					- list_files.each do |file|
-						%li.file
-							%span.file-name= file.orig_file_name
-							%span.checkbox
-								%input#file(type = "checkbox" name = "#{file.id.to_s}")
-								%span.unchecked.empty
-								%span.checked.fa.fa-check
+				= haml :"partial/files", locals: {files: list_files, fields: [:file_name, :user_name, :created_at, :checkbox_mylist_add]}
 
 			%input(type = "hidden" name = "_csrf" value = "#{Rack::Csrf.token(env)}")
 

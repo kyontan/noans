@@ -1,44 +1,31 @@
-
-%script{src("/js/jquery.herotabs.js")}
+%script{src("/js/jquery.superSimpleTabs.min.js")}
 
 :javascript
 	$(function(){
-		$('.tabs').herotabs();
+		$('#mypage').superSimpleTabs({ selected: 1});
 	});
 
 %section#mypage.border
-
 	%h2.title= user.user_name
 
 	%div.tabs
-		%div.js-nav
-			%span.js-nav-item
-				%a.btn.btn-default(href = "#files") ファイル
-			%span.js-nav-item
-				%a.btn.btn-default(href = "#mylists") マイリスト
+		%span.item
+			%a.btn.btn-default(href = "#files") ファイル
+		%span.item
+			%a.btn.btn-default(href = "#mylists") マイリスト
 
-		%section.js-tab#files
-			%h3 ファイル
-			- files = user.uploaded_files.all(public: true, deleted: false)
-			- if files.empty?
-				%span.center 公開されているファイルがありません
-			- else
-				%ul#files
-					- files.each do |file|
-						%li{"data-id" => file.id}<
-							%a{href("/files/#{file.id}/#{URI.escape file.orig_file_name}")}= file.orig_file_name
-							- if /\.(md|markdown)$/ === file.orig_file_name
-								%a{href("/preview/" + file.file_name)} プレビュー
-							-# %sub<= file.access_count
+	%section#files
+		%h3 ファイル
+		- files = user.uploaded_files.public
+		- if files.empty?
+			%span.center 公開されているファイルがありません
+		- else
+			= haml :"partial/files", locals: {files: files, fields: [:file_name, :created_at]}
 
-		%section.js-tab#mylists
-			%h3 マイリスト
-			- mylists = user.mylists.all(public: true, deleted: false)
-			- if mylists.empty?
-				%span.center 公開されているマイリストがありません
-			- else
-				%ul#mylists
-					- mylists.each do |mylist|
-						%li{"data-id" => mylist.id}<
-							%a{href("/mylists/#{mylist.id}")}= mylist.title
-							-# %sub<= mylist.access_count
+	%section#mylists
+		%h3 マイリスト
+		- mylists = user.mylists.public
+		- if mylists.empty?
+			%span.center 公開されているマイリストがありません
+		- else
+			= haml :"partial/mylists", locals: {mylists: mylists, fields: [:title, :updated_at]}

@@ -6,20 +6,20 @@
 			%input.btn.btn-primary(type = "submit" value = "検索")
 
 	%section.border#mylists
-		%h3 公開されているマイリスト
+		%h3 最近更新されたマイリスト
 		- if Mylist.public.count.zero?
 			%span.center 公開されているマイリストがありません
 		- else
-			- mylists = Mylist.public.all(limit: 100, order: [:created_at.desc])
-			= haml :"partial/mylists", locals: {mylists: mylists}
+			- mylists = Mylist.public.all(limit: 10, order: [:updated_at.desc])
+			= haml :"partial/mylists", locals: {mylists: mylists, fields: [:title, :user_name, :updated_at]}
 
 	%section.border#files
-		%h3 公開されているファイル
+		%h3 最近公開されたファイル
 		- if UploadedFile.public.count.zero?
 			%span.center 公開されているファイルがありません
 		- else
-			- files = UploadedFile.public.all(limit: 20, order: [:created_at.desc])
-			= haml :"partial/files", locals: {files: files}
+			- files = UploadedFile.public.all(limit: 10, order: [:created_at.desc])
+			= haml :"partial/files", locals: {files: files, fields: [:file_name, :user_name, :created_at]}
 - else
 	%section
 		%a{href("/register")} 登録

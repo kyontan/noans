@@ -1,14 +1,11 @@
 @charset "UTF-8";
 @import "common";
 @import "bootstrap-buttons";
-@import "partial/lists";
+@import "partial/tables";
 
 section {
 	.title {
-		max-width: 100%;
-		white-space: nowrap;
-		overflow: hidden;
-		text-overflow: ellipsis;
+		word-break: break-all;
 	}
 
 	.user {

@@ -1,13 +1,27 @@
-@import "mylist_add";
+@charset "UTF-8";
+@import "common";
+@import "partial/tables";
+
+$form-width: 92%;
+@import "form";
 
 form {
 	label {
 		float: left;
 		clear: left;
 	}
+
+	.checkbox#public {
+		float: right;
+		margin-right: 8px;
+	}
 }
 
 #success {
 	font-size: 1.2em;
 	font-weight: bold;
+}
+
+.center {
+	clear: both;
 }

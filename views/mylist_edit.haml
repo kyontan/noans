@@ -31,7 +31,7 @@
 		%label.label(for = "public")<
 			公開する
 			%small 変更できません
-		%span.checkbox
+		%span.checkbox#public
 			%input#public{checked: mylist.public}(type = "checkbox" name = "public" disabled)
 			%span.unchecked.empty
 			%span.checked.fa.fa-check
@@ -39,21 +39,13 @@
 		- errors[:public].each do |e|
 			%span.warn= e
 
-		%label.label<
-			ファイルを削除
-			%small (アップロードしたファイルは削除されません)
-		- mylists = mylist.uploaded_files
-		- if mylists.empty?
+		- files = mylist.uploaded_files
+		- if files.empty?
 			%span.center ファイルがありません
 		- else
-			%ul.files.cf
-				- mylists.each do |file|
-					%li.file{"data-id" => file.id}<
-						%a.file-name{href("/files/#{file.id}/#{URI.escape file.orig_file_name}")}= file.orig_file_name
-						%span.checkbox.trash
-							%input#file(type = "checkbox" name = "#{file.id.to_s}")
-							%span.unchecked.empty
-							%span.checked.fa.fa-trash-o
+			%label.label<
+				マイリストからファイルを削除
+				= haml :"partial/files", locals: {files: files, fields: [:file_name, :user_name, :checkbox_mylist_edit]}
 
 		%input(type = "hidden" name = "_csrf" value = "#{Rack::Csrf.token(env)}")
 

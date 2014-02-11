@@ -1,0 +1,76 @@
+@charset "UTF-8";
+@import "../variables";
+
+table {
+	thead {
+		th {
+			&.file-name {}
+			&.user-name {
+				width: 100px;
+			}
+
+			&.created-at {
+				width: 124px;
+			}
+
+			&.checkbox {
+				width: $checkbox-size + 6px + 8px;
+			}
+
+			&.checkboxes {
+				width: $checkbox-size * 2 + 6px * 2 + 4px;
+			}
+		}
+	}
+
+	tbody {
+		td {
+			&.file-name {
+				// display: inline-block;
+				vertical-align: middle;
+				word-break: break-all;
+			}
+
+			&:not(.file-name) {
+				text-align: center;
+			}
+
+			time {
+				font-size: .82em;
+			}
+
+			&.checkboxes, &.checkbox {
+				line-height: 0;
+				padding: 0;
+			}
+		}
+	}
+}
+
+.files, .mylists {
+	a.link {
+		// color: hsl(153, 100%, 14%);
+
+		&:visited {
+			color: hsl(153, 24%, 50%);
+		}
+
+		&:hover {
+			color: hsl(153, 100%, 24%);
+		}
+	}
+
+	a.user {
+		font-size: .88em;
+
+		color: hsl(228, 48%, 48%);
+
+		&:visited {
+			color: hsl(228, 32%, 64%);
+		}
+
+		&:hover {
+			color: hsl(228, 48%, 80%);
+		}
+	}
+}

@@ -1,7 +1,7 @@
 @charset "UTF-8";
 @import "common";
 
-$form-width: 400px;
+$form-width: 512px;
 @import "form";
 
 form {
@@ -26,8 +26,6 @@ form {
 	}
 
 	ul#files {
-		@include ellipsis;
-
 		margin: 10px 0;
 		padding: 0 0 0 10px;
 

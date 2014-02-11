@@ -1,8 +1,8 @@
-%script{src("/js/jquery.herotabs.js")}
+%script{src("/js/jquery.superSimpleTabs.min.js")}
 
 :javascript
 	$(function(){
-		$('.tabs').herotabs();
+		$('#mypage').superSimpleTabs({ selected: 1});
 	});
 
 %section#mypage.border
@@ -10,52 +10,34 @@
 	%h2.title マイページ
 
 	%div.tabs
-		%div.js-nav
-			%span.js-nav-item
-				%a.btn.btn-default(href = "#files") ファイル
-			%span.js-nav-item
-				%a.btn.btn-default(href = "#mylists") マイリスト
+		%span.item
+			%a.btn.btn-default(href = "#files") ファイル
+		%span.item
+			%a.btn.btn-default(href = "#mylists") マイリスト
 
-		%section.js-tab#files
-			%h3 ファイル
-			%span.right-top
-				%a{href("/files/manage")}<
-					%i.fa.fa-inbox>
-					ファイルの管理
-				%a{href("/upload")}<
-					%i.fa.fa-upload>
-					&nbsp;ファイルをアップロード
-			- files = user_data.uploaded_files.available
-			- if files.empty?
-				%span.center ファイルがありません
-				%a.btn.btn-primary.btn-block{href("/upload")}>
-					%i.fa.fa-upload
-					&nbsp;ファイルをアップロード
-			- else
-				%ul#files
-					- files.each do |file|
-						%li{"data-id" => file.id}<
-							- unless /\.(md|mdown|markdown)$/ === file.orig_file_name
-								%a{href("/files/#{file.id}/#{URI.escape file.orig_file_name}")}= file.orig_file_name
-							- else
-								%a{href("/files/preview/#{file.id}/#{URI.escape file.orig_file_name}")}= file.orig_file_name
-							-# %sub<= file.access_count
+	%section#files
+		%h3 ファイル
+		%span.right-top
+			%a{href("/files/manage")}<
+				%i.fa.fa-inbox>
+				ファイルの管理
+			%a{href("/upload")}<
+				%i.fa.fa-upload>
+				ファイルをアップロード
+		- files = user_data.uploaded_files.available
+		- if files.empty?
+			%span.center ファイルがありません
+		- else
+			= haml :"partial/files", locals: {files: files, fields: [:file_name, :created_at]}
 
-		%section.js-tab#mylists
-			%h3 マイリスト
-			%span.right-top
-				%a{href("/mylist/new")}<
-					%i.fa.fa-list
-					&nbsp;マイリストを作成
-			- mylists = user_data.mylists.available
-			- if mylists.empty?
-				%span.center マイリストがありません
-				%a.btn.btn-primary.btn-block{href("/mylist/new")}>
-					%i.fa.fa-list
-					&nbsp;マイリストを作成
-			- else
-				%ul#mylists
-					- mylists.each do |mylist|
-						%li{"data-id" => mylist.id}<
-							%a{href("/mylists/#{mylist.id}")}= mylist.title
-							-# %sub<= mylist.access_count
+	%section#mylists
+		%h3 マイリスト
+		%span.right-top
+			%a{href("/mylist/new")}<
+				%i.fa.fa-list>
+				マイリストを作成
+		- mylists = user_data.mylists.available
+		- if mylists.empty?
+			%span.center マイリストがありません
+		- else
+			= haml :"partial/mylists", locals: {mylists: mylists, fields: [:title, :updated_at]}
