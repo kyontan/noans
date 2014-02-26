@@ -7,7 +7,7 @@ before "/file/*" do
 	@file = UploadedFile.get(@id)
 
 	halt 404 if @file.nil?
-	halt 404 unless @file_name.nil? || @file.orig_file_name == URI.decode(@file_name)
+	halt 404 unless @file_name.nil? || @file.orig_file_name == URI.decode(@file_name).force_encoding("UTF-8")
 	halt 410 if @file.deleted
 	halt 403 unless @file.public || @file.user == user_data
 end
@@ -31,7 +31,7 @@ post "/files/manage/?" do
 
 	user_data.uploaded_files.available.each do |file|
 		id = file.id
-		halt 500 unless file.update(deleted: true) if keys[:remove].include?(id)
+		halt 500 unless file.update(deleted: true) if keys[:delete].include?(id)
 		halt 500 unless file.update(public: keys[:public].include?(id))
 	end
 
