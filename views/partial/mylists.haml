@@ -13,7 +13,7 @@
 			%tr{"data-id" => mylist.id}<
 				- if fields.include?(:title)
 					%td.file-name<
-						%a.link{href("/mylists/#{mylist.id}")}= mylist.title
+						%a.link{href("/mylist/#{mylist.id}")}= mylist.title
 				- if fields.include?(:user_name)
 					%td<
 						%a.user{href("/user/#{mylist.user_user_name}")}>= mylist.user.user_name

@@ -8,28 +8,27 @@ module Sinatra
 		def self.registered(app)
 			app.error 401 do
 				haml :default_error, layout: false,
-							locals: {code: 401, res: "Authorization Required"}
+							locals: {mes: "Authorization Required"}
 			end
 
 			app.error 403 do
 				haml :default_error, layout: false,
-							locals: {code: 403, res: "Forbidden"}
+							locals: {mes: "Forbidden"}
 			end
 
 			app.error 404 do
 				haml :default_error, layout: false,
-							locals: {code: 404, res: "Not Found"}
+							locals: {mes: "Not Found"}
+			end
+
+			app.error 410 do
+				haml :default_error, layout: false,
+							locals: {mes: "Gone"}
 			end
 
 			app.error 500 do
 				haml :default_error, layout: false,
-							locals: {code: 500, res: "Internal Server Error"}
-			end
-
-			app.error 418 do
-				haml :default_error, layout: false,
-							locals: {image: to("/img/teapot.png"), code: 418, res: "I'm a teapot",
-							mes: "I'm a teapot!"}
+							locals: {mes: "Internal Server Error"}
 			end
 
 			app.template :default_error do
@@ -37,8 +36,7 @@ module Sinatra
 !!!
 %html
 	%meta(charset = "utf-8")
-
-	%title #{code} #{res}
+	%title #{status} #{mes}
 
 	:scss
 		body {
@@ -68,7 +66,7 @@ module Sinatra
 			}
 		}
 
-		.response {
+		.mes {
 			font-family: "Source Code Pro", monospace;
 			font-size: 28px;
 			text-shadow: #eee 1px 1px 12px;
@@ -97,11 +95,11 @@ module Sinatra
 			color: #888;
 		}
 
-	%div.response #{code} #{res}
+	%div.mes #{status} #{mes}
 
 	%a(href = "javascript:history.back()") 戻る
 	%a#link-top{href(?/)} TOPへ
-	%div.footer CopyRight &copy; 2010- Kyontan Some rights reserved.
+	%div.footer noans © 2012- Created by kyontan
 EOF
 			end
 		end

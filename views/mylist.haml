@@ -1,24 +1,24 @@
 %section.border#mylist
 	%h2.title<
-		- unless mylist.public
+		- unless @mylist.public
 			%i.fa.fa-lock
-		= mylist.title
+		= @mylist.title
 
-	- if mylist.user == user_data
+	- if @mylist.user == user_data
 		%span.right-top
-			%a{href("/mylist/#{mylist.id}/edit")}>
+			%a{href("/mylist/#{@mylist.id}/edit")}>
 				%i.fa.fa-edit
 				マイリストを編集
 	%span.user.cf<
-		%a{href("/user/#{mylist.user.user_name}")}>= mylist.user.user_name
+		%a{href("/user/#{@mylist.user.user_name}")}>= @mylist.user.user_name
 
-	%section.comment.cf= mylist.comment
-	- files = mylist.uploaded_files
-	- files = files.all(public: true) if mylist.public
+	%section.comment.cf= @mylist.comment
+	- files = @mylist.uploaded_files
+	- files = files.all(public: true) if @mylist.public
 	- if files.empty?
 		%span.center ファイルがありません
-		- if mylist.user == user_data
-			%a.btn.btn-primary.btn-block.center{href("/mylist/#{mylist.id}/add")}>
+		- if @mylist.user == user_data
+			%a.btn.btn-primary.btn-block.center{href("/mylist/#{@mylist.id}/add")}>
 				%i.fa.fa-file-o
 				ファイルを追加する
 	- else
