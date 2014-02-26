@@ -4,10 +4,11 @@
 		font-size: 1.3em;
 	}
 
+
 %section.border#markdown-preview
-	%a#link{href("/files/#{file.id}/#{URI.escape file.orig_file_name}")}= file.orig_file_name
+	%a#link{href("/file/#{@file.id}/#{URI.escape @file.orig_file_name}")}= @file.orig_file_name
 	Uploaded at&nbsp;
-	%time>= file.created_at.strftime("%Y/%m/%d %H:%m")
+	%time>= @file.created_at.strftime("%Y/%m/%d %H:%m")
 	%hr
 	%div.markdown
-		= markdown File.read(Pathname(settings.root) + "uploads" + file.file_name)
+		= markdown File.read(Pathname(settings.root) + "uploads" + @file.file_name)

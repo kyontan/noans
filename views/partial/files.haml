@@ -21,7 +21,7 @@
 			%tr{"data-id" => file.id}<
 				- if fields.include?(:file_name)
 					%td.file-name<
-						- to  = "/files"
+						- to  = "/file"
 						- to += "/preview" if /\.(md|mdown|markdown)$/ === file.orig_file_name
 						- to += "/#{file.id}/#{URI.escape file.orig_file_name}"
 						%a.link{href(to)}= file.orig_file_name

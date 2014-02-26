@@ -4,27 +4,27 @@
 
 %section.form.border#mylist-edit
 	%h2.title
-		%a{href("/mylists/#{mylist.id}")}>= mylist.title
+		%a{href("/mylist/#{@mylist.id}")}>= @mylist.title
 		の編集
 
 	%span.right-top
-		%a{href("/mylist/#{mylist.id}/add")}>
+		%a{href("/mylist/#{@mylist.id}/add")}>
 			%i.fa.fa-file-o
 			ファイルを追加
 
 	- if succeed
 		%span.center#success 変更しました
 
-	%form.cf{action("/mylist/#{mylist.id}/edit")}(method = "post" name = "mylist-edit")
+	%form.cf{action("/mylist/#{@mylist.id}/edit")}(method = "post" name = "mylist-edit")
 		%label(for = "title")<
 			タイトル
-		%input#title(type = "text" name = "title" value = "#{h params[:title] || mylist.title}" required)
+		%input#title(type = "text" name = "title" value = "#{h params[:title] || @mylist.title}" required)
 		- errors[:title].each do |e|
 			%span.warn= e
 
 		%label(for = "comment")<
 			コメント
-		%textarea#comment(name = "comment")= h params[:comment] || mylist.comment
+		%textarea#comment(name = "comment")= h params[:comment] || @mylist.comment
 		- errors[:comment].each do |e|
 			%span.warn= e
 
@@ -32,14 +32,14 @@
 			公開する
 			%small 変更できません
 		%span.checkbox#public
-			%input#public{checked: mylist.public}(type = "checkbox" name = "public" disabled)
+			%input#public{checked: @mylist.public}(type = "checkbox" name = "public" disabled)
 			%span.unchecked.empty
 			%span.checked.fa.fa-check
 
 		- errors[:public].each do |e|
 			%span.warn= e
 
-		- files = mylist.uploaded_files
+		- files = @mylist.uploaded_files
 		- if files.empty?
 			%span.center ファイルがありません
 		- else
@@ -52,6 +52,6 @@
 		%input.btn.btn-warning.btn-block(type = "submit" value = "変更")
 
 	%span.right-bottom
-		%a{href("/mylist/#{mylist.id}/remove")}
+		%a{href("/mylist/#{@mylist.id}/remove")}
 			%i.fa.fa-trash-o
 			マイリストを削除

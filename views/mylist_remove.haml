@@ -6,9 +6,9 @@
 		%a.btn.btn-primary.btn-block{href("/my")} マイページへ
 
 	- else
-		%h2.title= "#{mylist.title} を削除"
+		%h2.title= "#{@mylist.title} を削除"
 		%span.center 本当に削除しますか?
-		%form{action("/mylist/#{mylist.id}/remove/")}(method = "post" name = "mylist-remove")
+		%form{action("/mylist/#{@mylist.id}/remove/")}(method = "post" name = "mylist-remove")
 
 
 			%input(type = "hidden" name = "_csrf" value = "#{Rack::Csrf.token(env)}")

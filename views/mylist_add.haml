@@ -4,22 +4,22 @@
 
 %section.form.border#mylist-add
 	%h2.title
-		%a{href("/mylists/#{mylist.id}")}=mylist.title
+		%a{href("/mylist/#{@mylist.id}")}=@mylist.title
 		へファイルを追加
 
 	- if succeed
 		%span.center ファイルを追加しました
 
-	%form.cf{action("/mylist/#{mylist.id}/add")}(method = "post" name = "mylist-add")
-		- files = user_data.uploaded_files.available - mylist.uploaded_files
-		- if mylist.public?
+	%form.cf{action("/mylist/#{@mylist.id}/add")}(method = "post" name = "mylist-add")
+		- files = user_data.uploaded_files.available - @mylist.uploaded_files
+		- if @mylist.public?
 			- files = files.all(public: true)
 		- if files.empty? || UploadedFile.available.count.zero?
 			%span.center ファイルがありません
 		- else
 			- lists = {}
 			- lists["#{user_data.user_name} が投稿したファイル"] = files
-			- lists["他のユーザーが投稿したファイル"] = UploadedFile.public - files - mylist.uploaded_files
+			- lists["他のユーザーが投稿したファイル"] = UploadedFile.public - files - @mylist.uploaded_files
 			- lists.each do |list_title, list_files|
 				- next if list_files.empty?
 				%h3= list_title

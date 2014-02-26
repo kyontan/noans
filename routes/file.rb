@@ -1,83 +1,58 @@
 # Coding: UTF-8
 
-before '/files*' do
+before "/file/*" do
 	require_login
+
+	_, @id, _, @file_name = request.path.match(%r{/file.*?/(\d+)(/?|/(.+))$}).to_a # /file(/...)/<1234>/(<komari.image>)
+	@file = UploadedFile.get(@id)
+
+	halt 404 if @file.nil?
+	halt 404 unless @file_name.nil? || @file.orig_file_name == URI.decode(@file_name)
+	halt 410 if @file.deleted
+	halt 403 unless @file.public || @file.user == user_data
 end
 
-get '/files/?' do
+get "/files/?" do
 	require_login(true)
 
 	UploadedFile.all.to_json
 end
 
-get '/files/manage/?' do
+get "/files/manage/?" do
 	haml :files_manage, locals: {path: "files_manage", title: "ファイル - 管理"}
 end
 
-post '/files/manage/?' do
-	succeed = false
-
-	def select_with_regexp(keys, reg)
-		keys.select{|k| reg === k }.map{|k| k.match(reg)[1].to_i }
+post "/files/manage/?" do
+	keys = params.keys.inject(Hash.new([])) do |hash, p|
+	 _, k, n = p.match(/(.+)-(\d+)/).to_a # <public>-<1>
+	 hash[k.to_sym] += [n.to_i] unless k.nil?
+	 hash
 	end
 
-	# mark public
-	public_keys = select_with_regexp(params.keys, /^public-(\d+)$/)
-	public_keys.each do |k|
-		file = UploadedFile.get(k)
-		halt 403 unless file || file.available || file.user == user_data
-
-		raise unless file.public || file.update(public: true)
-		succeed = true
+	user_data.uploaded_files.available.each do |file|
+		id = file.id
+		halt 500 unless file.update(deleted: true) if keys[:remove].include?(id)
+		halt 500 unless file.update(public: keys[:public].include?(id))
 	end
 
-	# mark un-pablic
-	(user_data.uploaded_files.available.map(&:id) - public_keys).each do |k|
-		file = UploadedFile.get(k)
-		halt 403 unless file || file.available || file.user == user_data
-
-		raise if file.public && !file.update(public: false)
-		succeed = true
-	end
-
-	# mark removed
-	select_with_regexp(params.keys, /^remove-(\d+)$/).each do |k|
-		file = UploadedFile.get(k)
-		halt 403 unless file || file.available || file.user == user_data
-
-		raise unless file.update(deleted: true)
-		succeed = true
-	end
-
-	haml :files_manage, locals: {path: "files_manage", title: "ファイル - 管理", succeed: succeed}
+	haml :files_manage, locals: {path: "files_manage", title: "ファイル - 管理", succeed: true}
 end
 
-get '/files/preview/:id/:file_name?' do
-	file_id = params[:id]
-	file_name = params[:file_name]
+get "/file/preview/:id/:file_name?" do
+	halt 415 unless %r{.(md|mdown|markdown)$} === @file.orig_file_name
 
-	halt 404 unless file = UploadedFile.get(file_id) and (!file_name || file.orig_file_name == file_name)
-	halt 403 unless file.public || file.user == user_data
-	halt 415 unless %r{.(md|mdown|markdown)$} === file.orig_file_name
-
-	if file_name
-		haml :markdown_preview, locals: {path: "markdown_preview", file: file, title: file.orig_file_name}
+	if @file_name
+		haml :markdown_preview, locals: {path: "markdown_preview", title: @file.orig_file_name}
 	else
-		redirect to("/files/preview/#{file_id}/#{file.orig_file_name}")
+		redirect to("/file/preview/#{@file.id}/#{@file.orig_file_name}")
 	end
 end
 
-get '/files/:id/:file_name?' do
-	file_id = params[:id]
-	file_name = params[:file_name]
-
-	halt 404 unless file = UploadedFile.get(file_id) and (!file_name || file.orig_file_name == file_name)
-	halt 403 unless file.public || file.user == user_data
-
-	if file_name
-		file.update(access_count: file.access_count+1)
-		send_file Pathname(settings.root) + "uploads" + file.file_name
+get "/file/:id/:file_name?" do
+	if @file_name
+		@file.update(access_count: @file.access_count+1)
+		send_file Pathname(settings.root) + "uploads" + @file.file_name
 	else
-		redirect to("/files/#{file_id}/#{file.orig_file_name}")
+		redirect to("/file/#{@file.id}/#{@file.orig_file_name}")
 	end
 end
