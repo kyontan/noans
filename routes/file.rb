@@ -44,7 +44,7 @@ get "/file/preview/:id/:file_name?" do
 	if @file_name
 		haml :markdown_preview, locals: {path: "markdown_preview", title: @file.orig_file_name}
 	else
-		redirect to("/file/preview/#{@file.id}/#{@file.orig_file_name}")
+		redirect to(URI.encode("/file/preview/#{@file.id}/#{@file.orig_file_name}"))
 	end
 end
 
@@ -53,6 +53,6 @@ get "/file/:id/:file_name?" do
 		@file.update(access_count: @file.access_count+1)
 		send_file Pathname(settings.root) + "uploads" + @file.file_name
 	else
-		redirect to("/file/#{@file.id}/#{@file.orig_file_name}")
+		redirect to(URI.encode("/file/#{@file.id}/#{@file.orig_file_name}"))
 	end
 end
