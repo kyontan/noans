@@ -1,14 +1,45 @@
-:scss
-	#link {
-		display: block;
-		font-size: 1.3em;
-	}
+%script(type = "text/x-mathjax-config")
+	:plain
+		MathJax.Hub.Config({
+			tex2jax:{
+				inlineMath: 	[["\\$","$"]],
+				displayMath:	[["\\[","]"]]
+			},
+			skipStartupTypeset: true,
+			extensions: ["tex2jax.js","Safe.js"]
+		});
+%script(src = "http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML&locale=ja")
 
+%script{src: to("/js/marked.js")}
+:javascript
+	marked.setOptions({
+		gfm: true,
+		tables: true,
+		breaks: false,
+		pedantic: false,
+		sanitize: false,
+		smartLists: true,
+		smartypants: false,
+		langPrefix: 'language-',
+		highlight: function(code, lang) { return code; }
+	});
+
+:javascript
+	$(function(){
+		var file = "#{to("/file/" + @file.id.to_s + ?/)}";
+		$.get(file, function(text){
+			var $markdown = $(".markdown");
+			$markdown.html(text);
+
+			MathJax.Hub.Queue(["Typeset", MathJax.Hub, "mathjax"], function(){
+				$markdown.html(marked($markdown.html()));
+			});
+		});
+	});
 
 %section.border#markdown-preview
 	%a#link{href("/file/#{@file.id}/#{URI.escape @file.orig_file_name}")}= @file.orig_file_name
 	Uploaded at&nbsp;
 	%time>= @file.created_at.strftime("%Y/%m/%d %H:%m")
 	%hr
-	%div.markdown
-		= markdown File.read(Pathname(settings.root) + "uploads" + @file.file_name)
+	%section.markdown#mathjax

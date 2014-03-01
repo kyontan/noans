@@ -3,7 +3,6 @@ source "https://rubygems.org"
 gem "sinatra"
 gem "haml"
 gem "sass"
-gem "rdiscount"
 
 # gem "hpricot"
 
@@ -16,10 +15,14 @@ gem "data_mapper"
 gem "dm-sqlite-adapter"
 gem 'dm-validations-i18n'
 
+gem "uuidtools"
+
+gem "kaminari", require: "kaminari/sinatra"
+gem "padrino-helpers"
+
 group :development do
-	gem "thin", require: false
 	gem "better_errors"
 	gem "binding_of_caller", require: false
-end
 
-gem "uuidtools"
+	gem "pry-rails"
+end

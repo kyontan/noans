@@ -90,7 +90,7 @@
 	  font-size: 14px;
 	}
 
-	p, blockquote, ul, ol, dl, /*li, */table, pre {
+	p, blockquote, ul, ol, dl, /*li, table */, pre {
 	  margin: 8px 0;
 	}
 
@@ -182,7 +182,10 @@
 	}
 
 	table {
+		margin: 0 auto;
 	  padding: 0;
+	  width: auto;
+
 	  tr {
 	    border-top: 1px solid #ccc;
 	    background-color: white;
@@ -215,6 +218,8 @@
 
 	img {
 	  max-width: 100%;
+	  display: block;
+	  margin: 0 auto;
 	}
 
 	span {
