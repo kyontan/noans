@@ -13,7 +13,7 @@ before '/mylist/*' do
 
 	pass if %r{/mylist/:id/?$} === request.path
 
-	halt 403 unless @mylist.user == user_data
+	halt 403 unless @mylist.public || @mylist.user == user_data
 end
 
 get '/mylists/?' do
