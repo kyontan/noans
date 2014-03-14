@@ -101,7 +101,7 @@ get '/mylist/:id/remove/?' do
 end
 
 post '/mylist/:id/remove/?' do
-	halt unless mylist.update(deleted: true)
+	halt unless @mylist.update(deleted: true)
 
 	haml :mylist_remove, locals: {path: "mylist_remove", title: "マイリスト - 削除", succeed: true}
 end
