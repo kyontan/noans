@@ -14,12 +14,17 @@ end
 
 get '/search/:keyword?' do
 	keyword = params[:keyword]
+	query = "%#{keyword}%"
 
-	files_result = UploadedFile.available.all(:orig_file_name.like => "%#{keyword}%")
-	files_result = files_result | user_data.uploaded_files.available.all(:orig_file_name.like => "%#{keyword}%")
+	files_result =
+		[UploadedFile.public, user_data.uploaded_files.available] \
+		.map {|selector| selector.all(:orig_file_name.like => query) } \
+		.inject{|a, b| a | b }
 
-	mylists_result = Mylist.available.all(:title.like => "%#{keyword}%")
-	mylists_result = mylists_result | user_data.mylists.available.all(:title.like => "%#{keyword}%")
+	mylists_result =
+		[Mylist.public, user_data.mylists.available] \
+		.map {|selector| selector.all(:title.like => query) } \
+		.inject{|a, b| a | b }
 
 	haml :search, locals: {
 		path: "search", title: "検索 - #{keyword}" ,

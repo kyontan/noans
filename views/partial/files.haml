@@ -38,7 +38,7 @@
 							%span.unchecked.fa.fa-lock
 							%span.checked.fa.fa-unlock
 						%span.checkbox.trash
-							%input#file{checked: file.deleted}(type = "checkbox" name = "remove-#{file.id.to_s}")
+							%input#file{checked: file.deleted}(type = "checkbox" name = "delete-#{file.id.to_s}")
 							%span.unchecked.empty
 							%span.checked.fa.fa-trash-o
 				- if fields.include?(:checkbox_mylist_add)
