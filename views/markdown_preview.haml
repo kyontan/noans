@@ -25,11 +25,26 @@
 	});
 
 :javascript
+	var escapeRules = {
+	  "&": "&amp;",
+	  '"': "&quot;",
+	  "<": "&lt;",
+	  ">": "&gt;"
+	};
+
+	function escapeHTML(s) {
+	  return s.replace(/[&"<>]/g, function(c){
+	    return escapeRules[c];
+	  });
+	}
+
 	$(function(){
 		var file = "#{to("/file/" + @file.id.to_s + ?/)}";
+
 		$.get(file, function(text){
+
 			var $markdown = $(".markdown");
-			$markdown.html(text);
+			$markdown.html(escapeHTML(text));
 
 			MathJax.Hub.Queue(["Typeset", MathJax.Hub, "mathjax"], function(){
 				$markdown.html(marked($markdown.html()));
