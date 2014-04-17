@@ -45,7 +45,7 @@
 		- else
 			%label.label<
 				マイリストからファイルを削除
-				= haml :"partial/files", locals: {files: files, fields: [:file_name, :user_name, :checkbox_mylist_edit]}
+			= haml :"partial/files", locals: {files: files, fields: [:file_name, :user_name, :checkbox_mylist_edit]}
 
 		%input(type = "hidden" name = "_csrf" value = "#{Rack::Csrf.token(env)}")
 
