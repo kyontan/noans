@@ -2,27 +2,6 @@
 @import "../variables";
 
 table {
-	thead {
-		th {
-			&.file-name {}
-			&.user-name {
-				width: 100px;
-			}
-
-			&.created-at {
-				width: 124px;
-			}
-
-			&.checkbox {
-				width: $checkbox-size + 6px + 8px;
-			}
-
-			&.checkboxes {
-				width: $checkbox-size * 2 + 6px * 2 + 4px;
-			}
-		}
-	}
-
 	tbody {
 		td {
 			&.file-name {
@@ -44,6 +23,23 @@ table {
 				padding: 0;
 			}
 		}
+	}
+
+	.file-name {}
+	.user-name {
+		width: 100px;
+	}
+
+	.created-at {
+		width: 124px;
+	}
+
+	.checkbox {
+		width: $checkbox-size + 6px + 8px;
+	}
+
+	.checkboxes {
+		width: $checkbox-size * 2 + 6px * 2 + 4px;
 	}
 }
 

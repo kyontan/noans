@@ -4,3 +4,32 @@
 
 $form-width: 92%;
 @import "form";
+
+thead, tbody {
+	display: table;
+	width: 100%;
+}
+
+thead tr {
+	display: table-row;
+}
+
+tbody {
+	display: block;
+	overflow: auto;
+	float: left;
+
+	// about 10 lines
+	max-height: calc((1.5em + 6px * 2 + 1px) * 8 + 2px);
+
+	width: 100%;
+
+	tr {
+		display: table;
+		width: 100%;
+	}
+}
+
+table + h3 {
+	margin-top: 1em;
+}

@@ -26,10 +26,10 @@
 						- to += "/#{file.id}/#{URI.escape file.orig_file_name}"
 						%a.link{href(to)}= file.orig_file_name
 				- if fields.include?(:user_name)
-					%td<
+					%td.user-name<
 						%a.user{href("/user/#{file.user_user_name}")}>= file.user.user_name
 				- if fields.include?(:created_at)
-					%td<
+					%td.created-at<
 						%time= file.created_at.strftime("%y/%m/%d %H:%m")
 				- if fields.include?(:checkbox_file_manage)
 					%td.checkboxes<

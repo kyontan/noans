@@ -14,16 +14,18 @@
 		- files = user_data.uploaded_files.available - @mylist.uploaded_files
 		- if @mylist.public?
 			- files = files.all(public: true)
+
 		- if files.empty? || UploadedFile.available.count.zero?
 			%span.center ファイルがありません
 		- else
-			- lists = {}
-			- lists["#{user_data.user_name} が投稿したファイル"] = files
-			- lists["他のユーザーが投稿したファイル"] = UploadedFile.public - files - @mylist.uploaded_files
-			- lists.each do |list_title, list_files|
-				- next if list_files.empty?
-				%h3= list_title
-				= haml :"partial/files", locals: {files: list_files, fields: [:file_name, :user_name, :created_at, :checkbox_mylist_add]}
+			- unless files.empty?
+				%h3= "#{user_data.user_name} が投稿したファイル"
+				= haml :"partial/files", locals: {files: files, fields: [:file_name, :created_at, :checkbox_mylist_add]}
+
+			- files_uploaded_by_others = UploadedFile.public - files - @mylist.uploaded_files
+			- unless files_uploaded_by_others.empty?
+				%h3= "他のユーザーが投稿したファイル"
+				= haml :"partial/files", locals: { files: files_uploaded_by_others, fields: [:file_name, :user_name, :created_at, :checkbox_mylist_add]}
 
 			%input(type = "hidden" name = "_csrf" value = "#{Rack::Csrf.token(env)}")
 

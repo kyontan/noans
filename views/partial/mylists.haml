@@ -15,8 +15,8 @@
 					%td.file-name<
 						%a.link{href("/mylist/#{mylist.id}")}= mylist.title
 				- if fields.include?(:user_name)
-					%td<
+					%td.user-name<
 						%a.user{href("/user/#{mylist.user_user_name}")}>= mylist.user.user_name
 				- if fields.include?(:updated_at)
-					%td<
+					%td.updated-at<
 						%time= mylist.updated_at.strftime("%y/%m/%d %H:%m")
