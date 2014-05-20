@@ -5,7 +5,7 @@ class User
 
 	include DataMapper::Resource
 
-	property :user_name,	Slug,			key: true
+	property :user_name,	String,			key: true
 	property :admin,			Boolean,	default: false
 
 	property :password,		BCryptHash
@@ -20,7 +20,7 @@ class User
 
 	validates_presence_of 	:user_name, :password
   validates_uniqueness_of :user_name, :mail, :uuid
-  validates_length_of 		:user_name, min: 4, max: 12
+  validates_length_of 		:user_name, min: 4, max: 24
   validates_format_of 		:user_name, with: /^[A-Za-z0-9_-]*$/
 
   validates_length_of 			:password_confirm, min: 6, if: :new?
